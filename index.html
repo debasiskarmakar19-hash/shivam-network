@@ -1,1 +1,219 @@
-<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shivam Network | Phone Accessories</title><link rel="stylesheet" href="/style.css"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script></head><body><header><div><b>SHIVAM NETWORK</b><small>ফুলবাড়িয়া, গড়বেতা</small></div><a href="tel:6294701353">6294701353</a></header><section class="hero"><small>PHONE ACCESSORIES STORE</small><h1>আপনার ফোনের সব অ্যাকসেসরিজ এক জায়গায়</h1><p>চার্জার, কেবল, ইয়ারফোন, কভার, গ্লাস এবং আরও অনেক কিছু।</p><a class="btn" href="#products">প্রোডাক্ট দেখুন</a></section><main><h2>আমাদের প্রোডাক্ট</h2><div id="products" class="grid">লোড হচ্ছে…</div><section class="panel"><h2>আপনার কার্ট (<span id="qty">0</span>)</h2><div id="cart">কার্ট খালি</div><h3>মোট ₹<span id="total">0</span></h3><form id="checkout"><input name="name" placeholder="আপনার নাম" required><input name="phone" placeholder="মোবাইল নম্বর" required><textarea name="address" placeholder="সম্পূর্ণ ঠিকানা" required></textarea><select name="paymentMethod"><option value="COD">Cash on Delivery</option><option value="ONLINE">Online payment (পেমেন্ট পরে নিশ্চিত হবে)</option></select><button>অর্ডার কনফার্ম করুন</button><p id="msg"></p></form></section><section class="panel"><details><summary>Admin Login / অ্যাডমিন প্যানেল</summary><p>Firebase Authentication Admin account দিয়ে লগইন করুন।</p><input id="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button type="button" id="login">Login</button><button type="button" id="logout">Logout</button><p id="adminmsg"></p><div id="admin" hidden><h3>নতুন প্রোডাক্ট</h3><form id="newproduct"><input name="name" placeholder="Product name" required><input name="category" placeholder="Category" required><input name="price" type="number" min="0" placeholder="Price" required><input name="stock" type="number" min="0" placeholder="Stock" required><input name="image" placeholder="Image URL"><textarea name="description" placeholder="Description"></textarea><button>Save Product</button></form><h3>Orders</h3><div id="orders"></div></div></details></section></main><footer>Shivam Network · Fulbaria, Garbeta · 6294701353</footer><script src="/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101d42">
+<title>শিবম নেটওয়ার্ক | Mobile & Computer Service</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fb;color:#17213b;font-family:Arial,sans-serif}
+header{background:#101d42;color:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:25px;font-weight:bold}
+.brand small{display:block;font-size:12px;font-weight:normal}
+.btn{display:inline-block;background:#ffad32;color:#211500;padding:11px 17px;border:0;border-radius:25px;text-decoration:none;font-weight:bold;cursor:pointer}
+.hero{padding:45px 6%;background:linear-gradient(120deg,#101d42,#315fd0);color:white}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px}
+.hero p{line-height:1.8;max-width:650px}
+.wrap{max-width:1100px;margin:auto;padding:24px 16px}
+input,textarea{width:100%;padding:13px;border:1px solid #d6deee;border-radius:12px;font-size:16px;margin:6px 0 12px}
+.filters{display:flex;gap:8px;overflow:auto;padding:12px 0}
+.filters button{white-space:nowrap;background:white;border:1px solid #d6deee;border-radius:22px;padding:10px 15px;cursor:pointer}
+.filters button.active,.blue{background:#2457d6;color:white}
+.grid,.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.card{background:white;padding:17px;border-radius:16px;border:1px solid #e3e8f2;box-shadow:0 4px 15px #00000008}
+.emoji{height:100px;border-radius:12px;background:#edf2ff;display:grid;place-items:center;font-size:48px}
+.card h3{margin:12px 0 6px}
+.muted{font-size:14px;color:#65708a;line-height:1.7}
+.card button{margin-top:12px;width:100%}
+.section{margin:28px 0 14px}
+.cart-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee;gap:10px}
+.cart-row button{width:auto;padding:5px 12px;margin:0}
+footer{background:#101d42;color:white;text-align:center;padding:25px}
+.float{position:fixed;right:15px;bottom:15px;background:#16a34a;color:white;padding:14px 18px;border-radius:30px;text-decoration:none;font-weight:bold;box-shadow:0 5px 20px #0003}
+@media(max-width:550px){.hero{padding:32px 20px}.wrap{padding:18px 13px}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="brand">শিবম নেটওয়ার্ক
+  <small>মোবাইল • অ্যাকসেসরিজ • কম্পিউটার সার্ভিস</small>
+ </div>
+ <a class="btn" href="https://wa.me/916294701353">WhatsApp করুন</a>
+</header>
+
+<section class="hero">
+ <h1>আপনার প্রযুক্তির নির্ভরযোগ্য ঠিকানা</h1>
+ <p>মোবাইল অ্যাকসেসরিজ, মোবাইল রিপেয়ারিং এবং কম্পিউটার সার্ভিসের জন্য যোগাযোগ করুন শিবম নেটওয়ার্কে। পণ্যের দাম ও স্টক WhatsApp-এ জেনে নিন।</p>
+ <a class="btn" href="#products">পণ্য দেখুন</a>
+</section>
+
+<main class="wrap">
+
+<input id="searchBox" placeholder="পণ্যের নাম লিখে খুঁজুন...">
+
+<div class="filters" id="filters">
+ <button class="active" data-cat="all">সব পণ্য</button>
+ <button data-cat="charging">চার্জিং</button>
+ <button data-cat="audio">অডিও</button>
+ <button data-cat="protection">প্রোটেকশন</button>
+ <button data-cat="power">পাওয়ার</button>
+ <button data-cat="other">অন্যান্য</button>
+</div>
+
+<h2 class="section" id="products">জনপ্রিয় পণ্য</h2>
+<div class="grid" id="productGrid"></div>
+
+<h2 class="section">🛒 আপনার শপিং কার্ট</h2>
+<section class="card">
+ <div id="cartItems">এখনও কোনো পণ্য যোগ করা হয়নি।</div>
+ <p>মোট পণ্য: <b id="cartCount">0</b></p>
+ <button class="btn blue" onclick="document.getElementById('checkout').scrollIntoView({behavior:'smooth'})">অর্ডার করুন</button>
+</section>
+
+<h2 class="section" id="checkout">WhatsApp অর্ডার</h2>
+<section class="card">
+ <label>আপনার নাম</label>
+ <input id="customerName" placeholder="আপনার নাম">
+ <label>মোবাইল নম্বর</label>
+ <input id="customerPhone" placeholder="আপনার মোবাইল নম্বর">
+ <label>ঠিকানা (ঐচ্ছিক)</label>
+ <textarea id="customerAddress" rows="2" placeholder="আপনার ঠিকানা"></textarea>
+ <button class="btn" onclick="sendOrder()">WhatsApp-এ অর্ডার পাঠান</button>
+ <p class="muted">এটি অর্ডারের অনুরোধ। দোকান থেকে দাম, স্টক, ডেলিভারি ও পেমেন্ট নিশ্চিত করা হবে।</p>
+</section>
+
+<h2 class="section">আমাদের পরিষেবা</h2>
+<div class="services">
+ <section class="card">
+  <h3>📱 মোবাইল রিপেয়ারিং</h3>
+  <p class="muted">ডিসপ্লে পরিবর্তন ও মোবাইল মেরামতির জন্য যোগাযোগ করুন।</p>
+ </section>
+ <section class="card">
+  <h3>💻 কম্পিউটার সার্ভিস</h3>
+  <p class="muted">কম্পিউটার সার্ভিসিং ও অনলাইন কাজের সহায়তা।</p>
+ </section>
+ <section class="card">
+  <h3>🎧 মোবাইল অ্যাকসেসরিজ</h3>
+  <p class="muted">চার্জার, কেবল, ইয়ারবাড, হেডফোন, কভারসহ বিভিন্ন পণ্য।</p>
+ </section>
+</div>
+
+<h2 class="section">যোগাযোগ ও দোকানের ঠিকানা</h2>
+<section class="card">
+ <h3>শিবম নেটওয়ার্ক</h3>
+ যোগাযোগ: দেবাশিস কর্মকার<br>
+ ঠিকানা: ফুলবাড়িয়া, গড়বেতা মেইন রোডের সামনে, গড়বেতা, পশ্চিম মেদিনীপুর, পশ্চিমবঙ্গ<br>
+ WhatsApp: 6294701353
+ <p><a href="https://wa.me/916294701353">WhatsApp-এ যোগাযোগ করুন</a></p>
+</section>
+
+</main>
+
+<footer>
+ © শিবম নেটওয়ার্ক • আপনার আপনজনের দোকান
+</footer>
+
+<a class="float" href="https://wa.me/916294701353">WhatsApp</a>
+
+<script>
+const products = [
+ ["মোবাইল চার্জার","charging","🔌","বিভিন্ন ধরনের চার্জার"],
+ ["ডেটা কেবল","charging","🔗","চার্জিং ও ডেটা কেবল"],
+ ["হেডফোন","audio","🎧","তারযুক্ত হেডফোন"],
+ ["ইয়ারবাডস","audio","🎵","ওয়্যারলেস অডিও"],
+ ["মোবাইল কভার","protection","📱","বিভিন্ন মডেলের কভার"],
+ ["টেম্পার্ড গ্লাস","protection","🛡️","স্ক্রিন প্রোটেকশন"],
+ ["পাওয়ার ব্যাংক","power","🔋","পোর্টেবল চার্জিং"],
+ ["ব্লুটুথ স্পিকার","audio","🔊","পোর্টেবল স্পিকার"],
+ ["অন্যান্য অ্যাকসেসরিজ","other","🛍️","আরও পণ্য জানতে যোগাযোগ করুন"]
+];
+
+let cart = {};
+let activeCategory = "all";
+
+function renderProducts(){
+ const query = document.getElementById("searchBox").value.toLowerCase();
+ const list = products.filter(p =>
+  (activeCategory === "all" || p[1] === activeCategory) &&
+  (p[0] + p[3]).toLowerCase().includes(query)
+ );
+
+ document.getElementById("productGrid").innerHTML =
+ list.map(p => `
+  <article class="card">
+   <div class="emoji">${p[2]}</div>
+   <h3>${p[0]}</h3>
+   <div class="muted">${p[3]}</div>
+   <button class="btn blue" onclick="addToCart('${p[0]}')">দাম জানতে / কার্টে যোগ করুন</button>
+  </article>
+ `).join("") || "<p>কোনো পণ্য পাওয়া যায়নি।</p>";
+ renderCart();
+}
+
+function addToCart(name){
+ cart[name] = (cart[name] || 0) + 1;
+ renderCart();
+}
+
+function changeQuantity(name, amount){
+ cart[name] += amount;
+ if(cart[name] <= 0) delete cart[name];
+ renderCart();
+}
+
+function renderCart(){
+ const entries = Object.entries(cart);
+ const total = entries.reduce((sum, item) => sum + item[1], 0);
+ document.getElementById("cartCount").textContent = total;
+
+ document.getElementById("cartItems").innerHTML =
+ entries.length
+ ? entries.map(([name, quantity]) => `
+  <div class="cart-row">
+   <span>${name} × ${quantity}</span>
+   <span>
+    <button onclick="changeQuantity('${name}',-1)">−</button>
+    <button onclick="changeQuantity('${name}',1)">+</button>
+   </span>
+  </div>
+ `).join("")
+ : "এখনও কোনো পণ্য যোগ করা হয়নি।";
+}
+
+function sendOrder(){
+ const items = Object.entries(cart)
+  .map(([name, quantity]) => name + " × " + quantity)
+  .join("\n") || "পণ্যের দাম ও তথ্য জানতে চাই";
+
+ const message =
+ "শিবম নেটওয়ার্কে অর্ডার/তথ্যের অনুরোধ\n" +
+ items +
+ "\nনাম: " + (document.getElementById("customerName").value || "জানানো হয়নি") +
+ "\nমোবাইল: " + (document.getElementById("customerPhone").value || "জানানো হয়নি") +
+ "\nঠিকানা: " + (document.getElementById("customerAddress").value || "জানানো হয়নি");
+
+ window.open(
+  "https://wa.me/916294701353?text=" + encodeURIComponent(message),
+  "_blank"
+ );
+}
+
+document.getElementById("searchBox").addEventListener("input",renderProducts);
+
+document.getElementById("filters").addEventListener("click",function(event){
+ if(event.target.dataset.cat){
+  activeCategory = event.target.dataset.cat;
+  document.querySelectorAll(".filters button").forEach(button =>
+   button.classList.toggle("active",button === event.target)
+  );
+  renderProducts();
+ }
+});
+
+renderProducts();
+</script>
+</body>
+</html>
+
