@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101d42"><title>Admin Panel | শিবম নেটওয়ার্ক</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#18233d;font-family:system-ui,"Noto Sans Bengali",Arial,sans-serif}.top{background:#101d42;color:#fff;padding:18px max(18px,calc((100% - 1000px)/2));font-weight:800;font-size:22px}.wrap{max-width:1000px;margin:24px auto;padding:0 16px}.panel{background:#fff;border:1px solid #e2e7f0;border-radius:16px;padding:20px;margin:16px 0}.field{display:block;width:100%;padding:12px;border:1px solid #dce2ed;border-radius:10px;margin:7px 0 13px;font:inherit}.btn{border:0;border-radius:10px;background:#2858d8;color:#fff;padding:11px 17px;font:inherit;font-weight:700;cursor:pointer}.btn.alt{background:#e9efff;color:#244bb5}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.muted{color:#68748c;font-size:13px}.item{border-top:1px solid #e8ebf2;padding:13px 0}.item select{padding:8px;border:1px solid #dce2ed;border-radius:8px}.hidden{display:none!important}h2{margin-top:0}a{color:#2858d8}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script></head>
+<body><header class="top">শিবম নেটওয়ার্ক — Admin Panel</header><main class="wrap">
+<section class="panel" id="loginPanel"><h2>অ্যাডমিন লগইন</h2><p class="muted">দোকানের অনুমোদিত Firebase Admin অ্যাকাউন্ট দিয়ে প্রবেশ করুন।</p>
+<label>ইমেল</label><input class="field" id="email" type="email" autocomplete="username">
+<label>পাসওয়ার্ড</label><input class="field" id="password" type="password" autocomplete="current-password">
+<button class="btn" id="login">লগইন</button><p id="loginMsg" class="muted" aria-live="polite"></p></section>
+<section id="dashboard" class="hidden">
+<div class="row"><h2>ড্যাশবোর্ড</h2><button class="btn alt" id="logout">লগআউট</button></div>
+<section class="panel"><h2>নতুন পণ্য যোগ করুন</h2><form id="productForm">
+<label>পণ্যের নাম</label><input class="field" name="name" maxlength="120" required>
+<div class="row"><div><label>বিভাগ</label><input class="field" name="category" maxlength="60" placeholder="যেমন: অডিও" required></div><div><label>দাম (₹)</label><input class="field" name="price" type="number" min="0" step="0.01" required></div><div><label>স্টক</label><input class="field" name="stock" type="number" min="0" step="1" required></div></div>
+<label>বিবরণ</label><textarea class="field" name="description" rows="2" maxlength="1000"></textarea><label>ছবির HTTPS URL (ঐচ্ছিক)</label><input class="field" name="image" type="url" maxlength="1000"><button class="btn" type="submit">পণ্য সেভ করুন</button></form><p id="productMsg" class="muted" aria-live="polite"></p></section>
+<section class="panel"><div class="row"><h2>পণ্যের তালিকা</h2><button class="btn alt" id="reloadProducts">রিফ্রেশ</button></div><div id="products"></div></section>
+<section class="panel"><div class="row"><h2>অর্ডার</h2><button class="btn alt" id="reloadOrders">রিফ্রেশ</button></div><div id="orders"></div></section>
+</section></main><script src="/admin.js"></script></body></html>
