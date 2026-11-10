@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101d42">
+<meta name="description" content="শিবম নেটওয়ার্ক — মোবাইল অ্যাকসেসরিজ, মোবাইল রিপেয়ারিং ও কম্পিউটার সার্ভিস, গড়বেতা।">
+<title>শিবম নেটওয়ার্ক | মোবাইল ও কম্পিউটার সার্ভিস</title>
+<style>
+:root{--navy:#101d42;--blue:#2858d8;--gold:#ffbd55;--ink:#18233d;--muted:#68748c;--bg:#f5f7fc;--line:#e4e9f2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Sans Bengali",Arial,sans-serif}a{color:inherit}button,input{font:inherit}.top{background:var(--navy);color:white;padding:14px max(18px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-size:23px;font-weight:850;letter-spacing:.2px}.brand small{display:block;font-size:12px;font-weight:500;color:#d8e1ff}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;padding:12px 19px;background:var(--gold);color:#261800;text-decoration:none;font-weight:800;cursor:pointer}.btn.blue{background:var(--blue);color:#fff}.btn.ghost{background:#edf2ff;color:var(--blue)}.hero{background:radial-gradient(circle at 80% 15%,#4778f5 0,transparent 30%),linear-gradient(125deg,#101d42,#1e3d83);color:#fff;padding:58px 18px}.hero-inner{max-width:1120px;margin:auto}.eyebrow{color:#ffcf7d;font-weight:800;font-size:13px;letter-spacing:1px}.hero h1{font-size:clamp(30px,5vw,51px);line-height:1.2;max-width:720px;margin:12px 0}.hero p{max-width:650px;color:#e1e8ff;line-height:1.85;font-size:16px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.hero .ghost{background:#ffffff1a;color:white;border:1px solid #ffffff55}.wrap{max-width:1120px;margin:auto;padding:28px 17px}.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:-20px;position:relative}.trust div{background:white;border:1px solid var(--line);border-radius:15px;padding:17px;text-align:center;box-shadow:0 8px 24px #14244b0a;font-weight:750}.trust span{display:block;color:var(--muted);font-size:12px;font-weight:500;margin-top:4px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:34px 0 15px}.section-head h2{margin:0;font-size:25px}.sub{color:var(--muted);font-size:14px;margin:6px 0 0}.search{width:min(100%,360px);border:1px solid var(--line);border-radius:12px;background:white;padding:12px 14px;outline:none}.search:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2858d81a}.filters{display:flex;gap:8px;overflow:auto;padding:5px 0 15px}.filter{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:9px 15px;color:#34415e;cursor:pointer}.filter.active{background:var(--navy);color:white;border-color:var(--navy)}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:white;border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:0 5px 20px #15234b08}.product-icon{height:112px;border-radius:13px;background:linear-gradient(135deg,#edf2ff,#f7f8ff);display:grid;place-items:center;font-size:49px}.tag{display:inline-block;background:#edf2ff;color:#3157ad;padding:4px 9px;border-radius:99px;font-size:11px;margin-top:12px}.card h3{font-size:17px;margin:8px 0 5px}.card p{font-size:13px;line-height:1.6;color:var(--muted);min-height:40px;margin:0}.card .btn{width:100%;margin-top:13px;padding:10px 12px;font-size:13px}.empty{grid-column:1/-1;background:white;padding:25px;text-align:center;border-radius:15px;color:var(--muted)}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:19px}.panel h3{margin:0 0 12px}.cart-line{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.qty{display:flex;align-items:center;gap:8px}.qty button{border:1px solid var(--line);background:#f7f8fc;border-radius:8px;padding:3px 9px;cursor:pointer}.field{display:block;width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;margin:7px 0 12px}.field:focus{outline:2px solid #2858d833;border-color:var(--blue)}.note{color:var(--muted);font-size:12px;line-height:1.7}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.service-icon{font-size:28px}.contact{background:var(--navy);color:white;border-radius:19px;padding:25px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}.contact p{color:#dce5ff;line-height:1.8;margin:8px 0}.footer{background:#0b1532;color:#c7d1ec;text-align:center;padding:22px 14px;font-size:13px;margin-top:35px}.float{position:fixed;right:17px;bottom:17px;background:#16a34a;color:white;border-radius:99px;padding:13px 17px;text-decoration:none;font-weight:800;box-shadow:0 6px 20px #0003;z-index:5}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}}@media(max-width:560px){.top{padding:13px 15px}.brand{font-size:20px}.hero{padding:42px 18px}.trust{grid-template-columns:1fr;gap:8px;margin-top:14px}.trust div{padding:12px}.section-head h2{font-size:22px}.services{grid-template-columns:1fr}.contact{padding:20px}.grid{gap:10px}.card{padding:11px}.product-icon{height:90px;font-size:40px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand">শিবম নেটওয়ার্ক <small>মোবাইল • অ্যাকসেসরিজ • কম্পিউটার সার্ভিস</small></div>
+ <a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp যোগাযোগ</a>
+</header>
+<section class="hero"><div class="hero-inner">
+ <div class="eyebrow">আপনার আপনজনের দোকান</div>
+ <h1>আপনার প্রযুক্তির নির্ভরযোগ্য ঠিকানা</h1>
+ <p>মোবাইল অ্যাকসেসরিজ, মোবাইল রিপেয়ারিং এবং কম্পিউটার সার্ভিসের জন্য চলে আসুন শিবম নেটওয়ার্কে। পণ্য বেছে নিয়ে WhatsApp-এ অর্ডারের অনুরোধ পাঠান।</p>
+ <div class="hero-actions"><a class="btn" href="#products">পণ্য দেখুন</a><a class="btn ghost" href="https://wa.me/916294701353" target="_blank" rel="noopener">দোকানে যোগাযোগ করুন</a></div>
+</div></section>
+<main class="wrap">
+ <section class="trust"><div>📱 মোবাইল অ্যাকসেসরিজ<span>দৈনন্দিন দরকারি পণ্য</span></div><div>🛠️ রিপেয়ারিং<span>মোবাইল ও কম্পিউটার সার্ভিস</span></div><div>💬 সহজ অর্ডার<span>WhatsApp-এ যোগাযোগ</span></div></section>
+ <section id="products">
+  <div class="section-head"><div><h2>আমাদের পণ্য</h2><p class="sub">পণ্য বেছে কার্টে যোগ করুন</p></div><input class="search" id="search" type="search" placeholder="পণ্যের নাম খুঁজুন…" aria-label="পণ্য খুঁজুন"></div>
+  <nav class="filters" id="filters" aria-label="পণ্যের বিভাগ"><button class="filter active" data-cat="all">সব পণ্য</button><button class="filter" data-cat="charging">চার্জার ও কেবল</button><button class="filter" data-cat="audio">অডিও</button><button class="filter" data-cat="protection">কভার ও প্রোটেকশন</button><button class="filter" data-cat="power">পাওয়ার</button><button class="filter" data-cat="other">অন্যান্য</button></nav>
+  <div class="grid" id="productGrid"></div>
+ </section>
+ <section class="section-head"><div><h2>আপনার অর্ডার</h2><p class="sub">কার্ট থেকে অর্ডারের অনুরোধ পাঠান</p></div></section>
+ <div class="columns">
+  <section class="panel"><h3>🛒 শপিং কার্ট (<span id="count">0</span>)</h3><div id="cart"><p class="note">এখনও কোনো পণ্য যোগ করা হয়নি।</p></div><p class="note">পণ্যের চূড়ান্ত দাম ও স্টক দোকান থেকে নিশ্চিত করা হবে।</p></section>
+  <section class="panel"><h3>আপনার তথ্য</h3><form id="orderForm"><label for="customer">আপনার নাম</label><input class="field" id="customer" maxlength="80" required placeholder="নাম লিখুন"><label for="phone">মোবাইল নম্বর</label><input class="field" id="phone" inputmode="tel" maxlength="20" required placeholder="মোবাইল নম্বর লিখুন"><label for="address">ঠিকানা</label><input class="field" id="address" maxlength="200" placeholder="এলাকা / ঠিকানা"><button class="btn blue" type="submit" style="width:100%">WhatsApp-এ অর্ডার পাঠান</button></form><p class="note">এটি অর্ডারের অনুরোধ। দোকান থেকে দাম, স্টক, ডেলিভারি ও পেমেন্ট নিশ্চিত না হওয়া পর্যন্ত কোনো পেমেন্ট করবেন না।</p></section>
+ </div>
+ <section><div class="section-head"><div><h2>আমাদের পরিষেবা</h2><p class="sub">আপনার প্রয়োজনীয় প্রযুক্তি সহায়তা</p></div></div><div class="services">
+  <article class="card"><div class="service-icon">📱</div><h3>মোবাইল রিপেয়ারিং</h3><p>ডিসপ্লে পরিবর্তন ও মোবাইল মেরামতির জন্য যোগাযোগ করুন।</p></article>
+  <article class="card"><div class="service-icon">💻</div><h3>কম্পিউটার সার্ভিস</h3><p>কম্পিউটার সার্ভিসিং ও অনলাইন কাজের সহায়তা।</p></article>
+  <article class="card"><div class="service-icon">🎧</div><h3>মোবাইল অ্যাকসেসরিজ</h3><p>চার্জার, ডেটা কেবল, ইয়ারবাড, হেডফোন, কভারসহ বিভিন্ন পণ্য।</p></article>
+ </div></section>
+ <section style="margin-top:28px" class="contact"><div><h2 style="margin:0">শিবম নেটওয়ার্ক</h2><p>যোগাযোগ: দেবাশিস কর্মকার<br>ঠিকানা: ফুলবাড়িয়া, গড়বেতা মেইন রোডের সামনে, গড়বেতা, পশ্চিম মেদিনীপুর, পশ্চিমবঙ্গ<br>WhatsApp: 6294701353</p></div><a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">এখনই যোগাযোগ করুন</a></section>
+</main>
+<footer class="footer">© শিবম নেটওয়ার্ক • আপনার আপনজনের দোকান</footer>
+<a class="float" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp</a>
+<script>
+"use strict";
+const products=[
+ {id:"charger",name:"মোবাইল চার্জার",cat:"charging",icon:"🔌",desc:"বিভিন্ন ধরনের মোবাইল চার্জার"},
+ {id:"cable",name:"ডেটা কেবল",cat:"charging",icon:"🔗",desc:"চার্জিং ও ডেটা কেবল"},
+ {id:"headphone",name:"হেডফোন",cat:"audio",icon:"🎧",desc:"তারযুক্ত হেডফোন"},
+ {id:"earbuds",name:"ইয়ারবাডস",cat:"audio",icon:"🎵",desc:"ওয়্যারলেস অডিও"},
+ {id:"cover",name:"মোবাইল কভার",cat:"protection",icon:"📱",desc:"বিভিন্ন মডেলের কভার"},
+ {id:"glass",name:"টেম্পার্ড গ্লাস",cat:"protection",icon:"🛡️",desc:"স্ক্রিন প্রোটেকশন"},
+ {id:"powerbank",name:"পাওয়ার ব্যাংক",cat:"power",icon:"🔋",desc:"পোর্টেবল চার্জিং"},
+ {id:"speaker",name:"ব্লুটুথ স্পিকার",cat:"audio",icon:"🔊",desc:"পোর্টেবল স্পিকার"},
+ {id:"accessory",name:"অন্যান্য অ্যাকসেসরিজ",cat:"other",icon:"🛍️",desc:"আরও পণ্যের জন্য যোগাযোগ করুন"}
+];
+const cart=new Map();let category="all";
+const grid=document.getElementById("productGrid");
+function render(){
+ const q=document.getElementById("search").value.trim().toLocaleLowerCase();
+ const list=products.filter(p=>(category==="all"||p.cat===category)&&(p.name+" "+p.desc).toLocaleLowerCase().includes(q));
+ grid.innerHTML=list.length?list.map(p=>'<article class="card"><div class="product-icon" aria-hidden="true">'+p.icon+'</div><span class="tag">'+({charging:"চার্জার ও কেবল",audio:"অডিও",protection:"কভার ও প্রোটেকশন",power:"পাওয়ার",other:"অন্যান্য"}[p.cat])+'</span><h3>'+p.name+'</h3><p>'+p.desc+'</p><button class="btn blue" data-add="'+p.id+'">কার্টে যোগ করুন</button></article>').join(""):'<div class="empty">কোনো পণ্য পাওয়া যায়নি। অন্য নামে খুঁজে দেখুন।</div>';
+ renderCart();
+}
+function renderCart(){
+ const entries=[...cart.entries()];document.getElementById("count").textContent=entries.reduce((n,x)=>n+x[1],0);
+ document.getElementById("cart").innerHTML=entries.length?entries.map(([id,n])=>{const p=products.find(x=>x.id===id);return '<div class="cart-line"><span>'+p.name+' × '+n+'</span><span class="qty"><button data-minus="'+id+'" aria-label="একটি কমান">−</button>'+n+'<button data-plus="'+id+'" aria-label="একটি বাড়ান">+</button></span></div>'}).join(""):'<p class="note">এখনও কোনো পণ্য যোগ করা হয়নি।</p>';
+}
+grid.addEventListener("click",e=>{const id=e.target.dataset.add;if(id){cart.set(id,(cart.get(id)||0)+1);renderCart()}});
+document.getElementById("cart").addEventListener("click",e=>{const plus=e.target.dataset.plus,minus=e.target.dataset.minus,id=plus||minus;if(!id)return;let n=(cart.get(id)||0)+(plus?1:-1);if(n<=0)cart.delete(id);else cart.set(id,n);renderCart()});
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-cat]");if(!b)return;category=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
+document.getElementById("orderForm").addEventListener("submit",e=>{e.preventDefault();if(!cart.size){alert("অর্ডার পাঠানোর আগে কার্টে অন্তত একটি পণ্য যোগ করুন।");return}const name=document.getElementById("customer").value.trim(),phone=document.getElementById("phone").value.trim(),address=document.getElementById("address").value.trim();const lines=[...cart].map(([id,n])=>products.find(p=>p.id===id).name+" × "+n).join("\n");const msg="শিবম নেটওয়ার্কে অর্ডারের অনুরোধ\n\nপণ্য:\n"+lines+"\n\nনাম: "+name+"\nমোবাইল: "+phone+"\nঠিকানা: "+(address||"জানানো হয়নি")+"\n\nদাম ও স্টক নিশ্চিত করে জানাবেন।";window.open("https://wa.me/916294701353?text="+encodeURIComponent(msg),"_blank","noopener")});
+render();
+</script>
+</body></html>
