@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express=require("express"),helmet=require("helmet"),rateLimit=require("express-rate-limit"),admin=require("firebase-admin"),path=require("path");
-const app=express(),PORT=process.env.PORT||10000,ADMINS=(process.env.ADMIN_UIDS||"").split(",").map(x=>x.trim()).filter(Boolean);
+const app=express();app.set("trust proxy",1);const PORT=process.env.PORT||10000,ADMINS=(process.env.ADMIN_UIDS||"").split(",").map(x=>x.trim()).filter(Boolean);
 let db=null, firebaseReady=false;
 try{if(process.env.FIREBASE_SERVICE_ACCOUNT){admin.initializeApp({credential:admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))});db=admin.firestore();firebaseReady=true;}}
 catch(e){console.error("Firebase initialization failed:",e.message);}
 const requireFirebase=(_q,r,next)=>{if(!firebaseReady)return r.status(503).json({error:"Firebase backend is not configured yet"});next()};
-app.use(helmet({contentSecurityPolicy:false}));app.use(express.json({limit:"1mb"}));app.use((req,res,next)=>{const origin=req.headers.origin,allowed=["https://shivam-network-0hnp.onrender.com","https://shivam-network-backend.onrender.com"];if(allowed.includes(origin)){res.setHeader("Access-Control-Allow-Origin",origin);res.setHeader("Vary","Origin");}res.setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");res.setHeader("Access-Control-Allow-Headers","Content-Type,Authorization");if(req.method==="OPTIONS")return res.sendStatus(204);next()});app.use("/api",rateLimit({windowMs:60000,limit:100}));app.use(express.static(path.join(__dirname,"public")));
+app.use(helmet({contentSecurityPolicy:false}));app.use(express.json({limit:"1mb"}));app.use((req,res,next)=>{const origin=req.headers.origin,allowed=["https://shivam-network-0hnp.onrender.com","https://shivam-network-backend.onrender.com"];if(allowed.includes(origin)){res.setHeader("Access-Control-Allow-Origin",origin);res.setHeader("Vary","Origin");}res.setHeader("Access-Control-Allow-Methods","GET,POST,PATCH,OPTIONS");res.setHeader("Access-Control-Allow-Headers","Content-Type,Authorization");if(req.method==="OPTIONS")return res.sendStatus(204);next()});app.use("/api",rateLimit({windowMs:60000,limit:100}));app.use(express.static(path.join(__dirname,"public")));
 const txt=(v,n=300)=>String(v??"").trim().slice(0,n);
 async function adminOnly(req,res,next){try{const h=req.headers.authorization||"",t=h.startsWith("Bearer ")?h.slice(7):"";if(!t)return res.status(401).json({error:"Admin login required"});const u=await admin.auth().verifyIdToken(t);if(!ADMINS.includes(u.uid))return res.status(403).json({error:"Not an authorized admin"});req.user=u;next()}catch{return res.status(401).json({error:"Invalid login"})}}
 app.get("/health",(_,r)=>r.status(200).json({ok:true,firebaseReady}));
