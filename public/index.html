@@ -46,34 +46,78 @@
 <a class="float" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp</a>
 <script>
 "use strict";
-const products=[
- {id:"charger",name:"মোবাইল চার্জার",cat:"charging",icon:"🔌",desc:"বিভিন্ন ধরনের মোবাইল চার্জার"},
- {id:"cable",name:"ডেটা কেবল",cat:"charging",icon:"🔗",desc:"চার্জিং ও ডেটা কেবল"},
- {id:"headphone",name:"হেডফোন",cat:"audio",icon:"🎧",desc:"তারযুক্ত হেডফোন"},
- {id:"earbuds",name:"ইয়ারবাডস",cat:"audio",icon:"🎵",desc:"ওয়্যারলেস অডিও"},
- {id:"cover",name:"মোবাইল কভার",cat:"protection",icon:"📱",desc:"বিভিন্ন মডেলের কভার"},
- {id:"glass",name:"টেম্পার্ড গ্লাস",cat:"protection",icon:"🛡️",desc:"স্ক্রিন প্রোটেকশন"},
- {id:"powerbank",name:"পাওয়ার ব্যাংক",cat:"power",icon:"🔋",desc:"পোর্টেবল চার্জিং"},
- {id:"speaker",name:"ব্লুটুথ স্পিকার",cat:"audio",icon:"🔊",desc:"পোর্টেবল স্পিকার"},
- {id:"accessory",name:"অন্যান্য অ্যাকসেসরিজ",cat:"other",icon:"🛍️",desc:"আরও পণ্যের জন্য যোগাযোগ করুন"}
-];
-const cart=new Map();let category="all";
+const API_BASE="https://shivam-network-backend.onrender.com";
+let products=[];
+const cart=new Map();
+let category="all";
 const grid=document.getElementById("productGrid");
+const categoryLabels={charging:"চার্জার ও কেবল",audio:"অডিও",protection:"কভার ও প্রোটেকশন",power:"পাওয়ার",other:"অন্যান্য"};
+function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function mapCategory(v){
+ const s=String(v||"").toLocaleLowerCase();
+ if(/charge|charger|cable|charging|চার্জ|কেবল/.test(s))return "charging";
+ if(/audio|ear|head|speaker|sound|অডিও|হেডফোন|ইয়ার|স্পিকার/.test(s))return "audio";
+ if(/cover|glass|case|protect|কভার|গ্লাস|প্রোটেকশন/.test(s))return "protection";
+ if(/power|battery|bank|পাওয়ার|ব্যাটারি/.test(s))return "power";
+ return "other";
+}
+function iconFor(cat){return ({charging:"🔌",audio:"🎧",protection:"📱",power:"🔋",other:"🛍️"})[cat]||"🛍️"}
 function render(){
  const q=document.getElementById("search").value.trim().toLocaleLowerCase();
- const list=products.filter(p=>(category==="all"||p.cat===category)&&(p.name+" "+p.desc).toLocaleLowerCase().includes(q));
- grid.innerHTML=list.length?list.map(p=>'<article class="card"><div class="product-icon" aria-hidden="true">'+p.icon+'</div><span class="tag">'+({charging:"চার্জার ও কেবল",audio:"অডিও",protection:"কভার ও প্রোটেকশন",power:"পাওয়ার",other:"অন্যান্য"}[p.cat])+'</span><h3>'+p.name+'</h3><p>'+p.desc+'</p><button class="btn blue" data-add="'+p.id+'">কার্টে যোগ করুন</button></article>').join(""):'<div class="empty">কোনো পণ্য পাওয়া যায়নি। অন্য নামে খুঁজে দেখুন।</div>';
+ const list=products.filter(p=>(category==="all"||p.cat===category)&&(p.name+" "+p.desc+" "+p.category).toLocaleLowerCase().includes(q));
+ grid.innerHTML=list.length?list.map(p=>{
+  const image=p.image&&/^https?:\/\//i.test(p.image)?'<img src="'+escapeHTML(p.image)+'" alt="'+escapeHTML(p.name)+'" loading="lazy" style="width:100%;height:112px;object-fit:contain;border-radius:13px;background:#f7f8ff">':'<div class="product-icon" aria-hidden="true">'+iconFor(p.cat)+'</div>';
+  const stockText=p.stock>0?'স্টক: '+p.stock:'স্টক নেই';
+  const disabled=p.stock<=0?'disabled':'';
+  return '<article class="card">'+image+'<span class="tag">'+escapeHTML(p.category||categoryLabels[p.cat])+'</span><h3>'+escapeHTML(p.name)+'</h3><p>'+escapeHTML(p.desc||"")+'</p><p style="margin-top:8px;color:#18233d;font-weight:800">₹'+Number(p.price||0).toLocaleString("en-IN")+'</p><p class="note">'+stockText+'</p><button class="btn blue" data-add="'+escapeHTML(p.id)+'" '+disabled+'>কার্টে যোগ করুন</button></article>';
+ }).join(""):'<div class="empty">এখনও কোনো পণ্য যোগ করা হয়নি, অথবা এই বিভাগে পণ্য নেই।</div>';
  renderCart();
 }
 function renderCart(){
- const entries=[...cart.entries()];document.getElementById("count").textContent=entries.reduce((n,x)=>n+x[1],0);
- document.getElementById("cart").innerHTML=entries.length?entries.map(([id,n])=>{const p=products.find(x=>x.id===id);return '<div class="cart-line"><span>'+p.name+' × '+n+'</span><span class="qty"><button data-minus="'+id+'" aria-label="একটি কমান">−</button>'+n+'<button data-plus="'+id+'" aria-label="একটি বাড়ান">+</button></span></div>'}).join(""):'<p class="note">এখনও কোনো পণ্য যোগ করা হয়নি।</p>';
+ const entries=[...cart.entries()];
+ document.getElementById("count").textContent=entries.reduce((n,x)=>n+x[1],0);
+ document.getElementById("cart").innerHTML=entries.length?entries.map(([id,n])=>{
+  const p=products.find(x=>x.id===id);if(!p)return "";
+  return '<div class="cart-line"><span>'+escapeHTML(p.name)+' × '+n+'</span><span class="qty"><button data-minus="'+escapeHTML(id)+'" aria-label="একটি কমান">−</button>'+n+'<button data-plus="'+escapeHTML(id)+'" aria-label="একটি বাড়ান">+</button></span></div>';
+ }).join(""):'<p class="note">এখনও কোনো পণ্য যোগ করা হয়নি।</p>';
 }
-grid.addEventListener("click",e=>{const id=e.target.dataset.add;if(id){cart.set(id,(cart.get(id)||0)+1);renderCart()}});
-document.getElementById("cart").addEventListener("click",e=>{const plus=e.target.dataset.plus,minus=e.target.dataset.minus,id=plus||minus;if(!id)return;let n=(cart.get(id)||0)+(plus?1:-1);if(n<=0)cart.delete(id);else cart.set(id,n);renderCart()});
+async function loadProducts(){
+ grid.innerHTML='<div class="empty">পণ্য লোড হচ্ছে…</div>';
+ try{
+  const response=await fetch(API_BASE+"/api/products",{headers:{"Accept":"application/json"}});
+  if(!response.ok)throw new Error("পণ্য লোড করা যায়নি ("+response.status+")");
+  const data=await response.json();
+  products=Array.isArray(data)?data.map(p=>({id:String(p.id),name:String(p.name||""),category:String(p.category||"অন্যান্য"),cat:mapCategory(p.category),desc:String(p.description||""),image:String(p.image||""),price:Number(p.price)||0,stock:Math.max(0,Number(p.stock)||0)})):[];
+  render();
+ }catch(error){
+  console.error(error);
+  grid.innerHTML='<div class="empty">পণ্য এখন লোড হচ্ছে না। একটু পরে আবার চেষ্টা করুন।</div>';
+ }
+}
+grid.addEventListener("click",e=>{
+ const id=e.target.dataset.add;if(!id)return;
+ const p=products.find(x=>x.id===id);if(!p||p.stock<=0)return;
+ const next=(cart.get(id)||0)+1;if(next>p.stock){alert("এই পণ্যের পর্যাপ্ত স্টক নেই।");return}
+ cart.set(id,next);renderCart();
+});
+document.getElementById("cart").addEventListener("click",e=>{
+ const plus=e.target.dataset.plus,minus=e.target.dataset.minus,id=plus||minus;if(!id)return;
+ const p=products.find(x=>x.id===id);let n=(cart.get(id)||0)+(plus?1:-1);
+ if(n<=0)cart.delete(id);else if(p&&n<=p.stock)cart.set(id,n);else alert("স্টকের বেশি যোগ করা যাবে না।");
+ renderCart();
+});
 document.getElementById("search").addEventListener("input",render);
-document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-cat]");if(!b)return;category=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
-document.getElementById("orderForm").addEventListener("submit",e=>{e.preventDefault();if(!cart.size){alert("অর্ডার পাঠানোর আগে কার্টে অন্তত একটি পণ্য যোগ করুন।");return}const name=document.getElementById("customer").value.trim(),phone=document.getElementById("phone").value.trim(),address=document.getElementById("address").value.trim();const lines=[...cart].map(([id,n])=>products.find(p=>p.id===id).name+" × "+n).join("\n");const msg="শিবম নেটওয়ার্কে অর্ডারের অনুরোধ\n\nপণ্য:\n"+lines+"\n\nনাম: "+name+"\nমোবাইল: "+phone+"\nঠিকানা: "+(address||"জানানো হয়নি")+"\n\nদাম ও স্টক নিশ্চিত করে জানাবেন।";window.open("https://wa.me/916294701353?text="+encodeURIComponent(msg),"_blank","noopener")});
-render();
+document.getElementById("filters").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-cat]");if(!b)return;
+ category=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render();
+});
+document.getElementById("orderForm").addEventListener("submit",e=>{
+ e.preventDefault();if(!cart.size){alert("অর্ডার পাঠানোর আগে কার্টে অন্তত একটি পণ্য যোগ করুন।");return}
+ const name=document.getElementById("customer").value.trim(),phone=document.getElementById("phone").value.trim(),address=document.getElementById("address").value.trim();
+ const lines=[...cart].map(([id,n])=>{const p=products.find(x=>x.id===id);return p?p.name+" × "+n+" — ₹"+(p.price*n):""}).filter(Boolean).join("\n");
+ const msg="শিবম নেটওয়ার্কে অর্ডারের অনুরোধ\n\nপণ্য:\n"+lines+"\n\nনাম: "+name+"\nমোবাইল: "+phone+"\nঠিকানা: "+(address||"জানানো হয়নি")+"\n\nদাম ও স্টক নিশ্চিত করে জানাবেন।";
+ window.open("https://wa.me/916294701353?text="+encodeURIComponent(msg),"_blank","noopener");
+});
+loadProducts();
 </script>
 </body></html>
