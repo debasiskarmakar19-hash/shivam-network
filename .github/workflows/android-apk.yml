@@ -1,0 +1,67 @@
+name: Build Shivam Network Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - android-app-starter
+    paths:
+      - "public/index.html"
+      - "public/sw.js"
+      - "public/manifest.webmanifest"
+      - "public/app-icon.svg"
+      - "mobile/**"
+      - ".github/workflows/android-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Capacitor dependencies
+        working-directory: mobile
+        run: npm install
+
+      - name: Copy customer website into app
+        working-directory: mobile
+        run: npm run copy:web
+
+      - name: Generate Android project
+        working-directory: mobile
+        run: npx cap add android
+
+      - name: Sync Capacitor Android project
+        working-directory: mobile
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: shivam-network-android-debug
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
