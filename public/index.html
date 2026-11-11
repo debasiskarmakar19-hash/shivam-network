@@ -92,6 +92,24 @@ body{background:#f1f3f6;color:#212121}
 @media(max-width:850px){.flip-head-inner{flex-wrap:wrap;gap:9px}.flip-header .brand{min-width:0;flex:1}.flip-header .menu-toggle{display:inline-flex}.flip-search{order:3;flex-basis:100%;max-width:none}.flip-actions{gap:12px}.flip-actions button#installApp{display:none}.site-layout{display:block}.site-sidebar{position:fixed}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){.flip-header{padding:10px 12px}.flip-header .brand{font-size:19px}.flip-header .brand small{font-size:10px}.flip-actions{gap:9px}.flip-actions a,.flip-actions button{font-size:11px}.flip-category-strip{justify-content:flex-start}.flip-category-strip a{padding:13px 12px;font-size:12px}.hero{padding:30px 17px}.hero:after{right:2%;top:6%;font-size:75px}.wrap{padding:15px 10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:9px}.card img,.card .product-icon{height:112px!important}.card h3{font-size:13px;min-height:36px}.card p{font-size:12px}.trust{grid-template-columns:repeat(3,1fr);gap:6px}.trust div{font-size:12px;padding:10px 5px}.trust span{font-size:10px}.account-panel{margin:12px 10px}.section-head h2{font-size:19px}}
 
+
+/* Separate Recharge & Bill Pay mini-app */
+.recharge-entry{background:#fff3df!important;color:#7a3e00!important;border:1px solid #ffd08a!important;font-weight:900!important}
+#rechargeHub{max-width:1120px;margin:18px auto;padding:18px;background:#f3f7ff;border-radius:18px;min-height:70vh}
+.recharge-top{background:linear-gradient(120deg,#092b65,#1769d2);color:white;border-radius:18px;padding:25px}
+.recharge-top h1{font-size:clamp(27px,4vw,40px);margin:0 0 8px}
+.recharge-top p{color:#e3edff;line-height:1.7;margin:0}
+.wallet-card{margin:16px 0;background:linear-gradient(115deg,#172337,#344f7d);color:#fff;border-radius:16px;padding:20px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.wallet-card small{color:#d8e5ff}.wallet-value{font-size:25px;font-weight:900}.wallet-pill{background:#ffffff20;padding:8px 12px;border-radius:99px;font-size:12px}
+.recharge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:18px 0}
+.recharge-tile{border:1px solid #dce5f5;background:white;border-radius:15px;padding:18px;text-align:left;cursor:pointer;min-height:125px;box-shadow:0 3px 12px #102b5710}
+.recharge-tile:hover,.recharge-tile.selected{border-color:#2874f0;box-shadow:0 0 0 2px #2874f022}
+.recharge-tile b{display:block;margin:8px 0 4px;color:#172337}.recharge-tile span{font-size:30px}.recharge-tile small{color:#68748c;line-height:1.5}
+.recharge-form{background:#fff;border:1px solid #e1e8f4;border-radius:16px;padding:20px;margin:16px 0}
+.recharge-form[hidden]{display:none}.recharge-note{padding:13px;background:#fff7e8;color:#6c4a14;border-radius:11px;font-size:13px;line-height:1.7}
+.recharge-back{border:0;background:#e7efff;color:#1d4da7;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}
+@media(max-width:650px){#rechargeHub{margin:10px;padding:11px}.recharge-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.recharge-tile{padding:13px;min-height:115px}.recharge-top{padding:20px}.wallet-card{padding:16px}}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script></head>
 <body>
@@ -109,7 +127,7 @@ body{background:#f1f3f6;color:#212121}
   </div>
  </div>
 </header>
-<nav class="shop-nav flip-category-strip"><a href="#products">🏷️ সব ক্যাটাগরি</a><a href="#products">📱 মোবাইল অ্যাকসেসরিজ</a><a href="#products">🎧 হেডফোন ও অডিও</a><a href="#products">🔌 চার্জার ও কেবল</a><a href="#services">🛠️ সার্ভিসিং</a><a href="#contact">📍 দোকানের ঠিকানা</a></nav>
+<nav class="shop-nav flip-category-strip"><a href="#products">🏷️ শপিং</a><a class="recharge-entry" href="#recharge" data-open-recharge>📱 রিচার্জ ও বিল পে</a><a href="#products">📱 মোবাইল অ্যাকসেসরিজ</a><a href="#products">🎧 হেডফোন ও অডিও</a><a href="#products">🔌 চার্জার ও কেবল</a><a href="#services">🛠️ সার্ভিসিং</a><a href="#contact">📍 দোকানের ঠিকানা</a></nav>
 <section class="hero" id="home"><div class="hero-inner">
  <div class="eyebrow">আপনার আপনজনের দোকান</div>
  <h1>আপনার প্রযুক্তির নির্ভরযোগ্য ঠিকানা</h1>
@@ -117,7 +135,7 @@ body{background:#f1f3f6;color:#212121}
  <div class="hero-actions"><a class="btn" href="#products">পণ্য দেখুন</a><a class="btn ghost" href="https://wa.me/916294701353" target="_blank" rel="noopener">দোকানে যোগাযোগ করুন</a></div>
 </div></section>
 <section class="panel account-panel" id="accountPanel"><h2>👤 আমার অ্যাকাউন্ট</h2><p class="note">মোবাইল নম্বরে OTP দিয়ে লগইন করুন। তারপর আপনার নাম ও ঠিকানা একবার সেভ করুন—পরের অর্ডারে আবার লিখতে হবে না।</p><div id="accountLogin"><label for="phone">মোবাইল নম্বর</label><input class="field" id="phone" inputmode="tel" maxlength="10" pattern="[6-9][0-9]{9}" placeholder="১০ সংখ্যার মোবাইল নম্বর"><button class="btn blue" id="sendOtp" type="button">OTP পাঠান</button><div id="recaptcha-container"></div><div id="otpVerifyArea" hidden><label for="otpCode">SMS-এ পাওয়া OTP</label><input class="field" id="otpCode" inputmode="numeric" maxlength="6" placeholder="৬ সংখ্যার OTP"><button class="btn blue" id="verifyOtp" type="button">OTP যাচাই করুন</button></div><p class="otp-status" id="otpStatus" aria-live="polite"></p></div><div id="profileArea" hidden><p class="status" id="accountStatus">মোবাইল নম্বর যাচাই হয়েছে</p><form id="profileForm"><label for="profileName">আপনার নাম</label><input class="field" id="profileName" maxlength="100" required placeholder="পুরো নাম"><label for="profileAddress">বাড়ি/রাস্তা/এলাকার ঠিকানা</label><textarea class="field" id="profileAddress" maxlength="500" required placeholder="বাড়ি, রাস্তা, এলাকা"></textarea><label for="profilePin">পিন কোড (পশ্চিমবঙ্গ)</label><input class="field" id="profilePin" inputmode="numeric" maxlength="6" required placeholder="৬ সংখ্যার PIN"><p class="note" id="profilePhone"></p><button class="btn blue" type="submit">ঠিকানা সেভ করুন</button><button class="btn ghost" id="customerLogout" type="button">লগআউট</button><p class="otp-status" id="profileStatus" aria-live="polite"></p></form></div></section>
-<main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><a href="#home">🏠 হোম</a><a href="#products">🛍️ সব পণ্য</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#services">🛠️ আমাদের পরিষেবা</a><a href="#contact">📍 যোগাযোগ</a><a href="https://shivam-network-backend.onrender.com/admin.html">🔐 অ্যাডমিন প্যানেল</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
+<main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><a href="#home">🏠 হোম</a><a href="#products">🛍️ শপিং / সব পণ্য</a><a href="#recharge" class="recharge-entry" data-open-recharge>📱 রিচার্জ ও বিল পে</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#services">🛠️ আমাদের পরিষেবা</a><a href="#contact">📍 যোগাযোগ</a><a href="https://shivam-network-backend.onrender.com/admin.html">🔐 অ্যাডমিন প্যানেল</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
  <section class="trust"><div>📱 মোবাইল অ্যাকসেসরিজ<span>দৈনন্দিন দরকারি পণ্য</span></div><div>🛠️ রিপেয়ারিং<span>মোবাইল ও কম্পিউটার সার্ভিস</span></div><div>💬 সহজ অর্ডার<span>WhatsApp-এ যোগাযোগ</span></div></section>
  <section id="products">
   <div class="section-head"><div><h2>সব পণ্য / ক্যাটাগরি অনুযায়ী</h2><p class="sub">ক্যাটাগরি বেছে পণ্য দেখুন, তারপর কার্টে যোগ করুন</p></div></div>
@@ -136,6 +154,40 @@ body{background:#f1f3f6;color:#212121}
  </div></section>
  <section id="contact" style="margin-top:28px" class="contact"><div><h2 style="margin:0">শিবম নেটওয়ার্ক</h2><p>যোগাযোগ: দেবাশিস কর্মকার<br>ঠিকানা: ফুলবাড়িয়া, জাদবগঞ্জ, গড়বেতা, পশ্চিম মেদিনীপুর, পশ্চিমবঙ্গ – 721127<br>WhatsApp: 6294701353</p></div><a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">এখনই যোগাযোগ করুন</a></section>
 </div></div></main>
+
+<section id="rechargeHub" hidden aria-label="রিচার্জ ও বিল পেমেন্ট">
+ <div class="recharge-top">
+  <button class="recharge-back" type="button" data-back-shop>← শপিং-এ ফিরে যান</button>
+  <p style="margin-top:17px;font-weight:800;color:#ffdc8b">SHIVAM NETWORK • RECHARGE ZONE</p>
+  <h1>📱 রিচার্জ ও বিল পেমেন্ট</h1>
+  <p>মোবাইল, DTH এবং বিভিন্ন বিল পেমেন্টের জন্য আলাদা পরিষেবা বিভাগ। শপিং পণ্যের কার্ট ও অর্ডার থেকে সম্পূর্ণ আলাদা।</p>
+ </div>
+ <div class="wallet-card"><div><small>আমার রিওয়ার্ড ওয়ালেট</small><div class="wallet-value">₹ — —</div><small>ওয়ালেট চালু হলে ব্যালেন্স এখানে দেখা যাবে</small></div><span class="wallet-pill">এখনও সক্রিয় নয়</span></div>
+ <div class="section-head"><div><h2>কী রিচার্জ করবেন?</h2><p class="sub">একটি পরিষেবা বেছে নিন</p></div></div>
+ <div class="recharge-grid">
+  <button class="recharge-tile" data-service="মোবাইল রিচার্জ" data-kind="mobile"><span>📱</span><b>মোবাইল রিচার্জ</b><small>Prepaid / Postpaid</small></button>
+  <button class="recharge-tile" data-service="DTH রিচার্জ" data-kind="dth"><span>📺</span><b>DTH রিচার্জ</b><small>টিভি সেট-টপ বক্স</small></button>
+  <button class="recharge-tile" data-service="বিদ্যুৎ বিল" data-kind="electricity"><span>💡</span><b>বিদ্যুৎ বিল</b><small>Electricity payment</small></button>
+  <button class="recharge-tile" data-service="পানির বিল" data-kind="water"><span>💧</span><b>পানির বিল</b><small>Water bill payment</small></button>
+  <button class="recharge-tile" data-service="গ্যাস বিল" data-kind="gas"><span>🔥</span><b>গ্যাস বিল</b><small>LPG / Gas bill</small></button>
+  <button class="recharge-tile" data-service="ব্রডব্যান্ড / ল্যান্ডলাইন" data-kind="broadband"><span>🌐</span><b>ব্রডব্যান্ড / ল্যান্ডলাইন</b><small>Internet & landline bills</small></button>
+ </div>
+ <section class="recharge-form" id="rechargeForm" hidden>
+  <h2 id="rechargeFormTitle">মোবাইল রিচার্জ</h2>
+  <form id="rechargeRequestForm">
+   <label for="rechargeNumber">মোবাইল / কনজিউমার / অ্যাকাউন্ট নম্বর</label>
+   <input class="field" id="rechargeNumber" inputmode="numeric" maxlength="20" required placeholder="নম্বর লিখুন">
+   <label for="rechargeOperator">অপারেটর / পরিষেবা প্রদানকারী</label>
+   <select class="field" id="rechargeOperator" required><option value="">প্রথমে পরিষেবা বেছে নিন</option></select>
+   <label for="rechargeAmount">টাকার পরিমাণ (₹)</label>
+   <input class="field" id="rechargeAmount" type="number" min="1" max="50000" step="1" required placeholder="যেমন 199">
+   <div class="recharge-note">ডেমো প্রিভিউ: অনুমোদিত Recharge/BBPS ও পেমেন্ট পার্টনার সংযুক্ত না হওয়া পর্যন্ত এখানে কোনো টাকা কাটা হবে না এবং রিচার্জ/বিল পেমেন্ট জমা হবে না।</div>
+   <button class="btn blue" type="submit" style="width:100%;margin-top:14px">পরবর্তী ধাপ (এখনও চালু নয়)</button>
+  </form>
+ </section>
+ <div class="panel"><h3>🎁 Cashback & Rewards</h3><p class="note">যোগ্য ও সফল লেনদেনের পর পার্টনারের নিয়ম অনুযায়ী ক্যাশব্যাক/রিওয়ার্ড দেখানো হবে। বর্তমানে কোনো ক্যাশব্যাক বা ওয়ালেট ব্যালেন্স প্রতিশ্রুত নয়।</p></div>
+</section>
+
 <footer class="footer">© শিবম নেটওয়ার্ক • আপনার আপনজনের দোকান</footer>
 <a class="float" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp</a>
 <script>
@@ -276,6 +328,50 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
 });
 applyLanguage();
 loadProducts();
+
+
+/* Recharge zone: separate navigation and safe preview only; no money movement */
+const rechargeHub=document.getElementById("rechargeHub");
+const shopMain=document.querySelector("main.wrap");
+const shopHero=document.querySelector(".hero");
+const accountPanel=document.getElementById("accountPanel");
+const shopFooter=document.querySelector(".footer");
+const floatingWhatsApp=document.querySelector(".float");
+function showRecharge(show){
+ rechargeHub.hidden=!show;
+ shopMain.hidden=show;
+ shopHero.hidden=show;
+ accountPanel.hidden=show;
+ shopFooter.hidden=show;
+ floatingWhatsApp.hidden=show;
+ if(show){history.replaceState(null,"",location.pathname+"#recharge");window.scrollTo({top:0,behavior:"smooth"});}
+ else{history.replaceState(null,"",location.pathname+"#home");window.scrollTo({top:0,behavior:"smooth"});}
+}
+document.querySelectorAll("[data-open-recharge]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showRecharge(true);setMenu(false)}));
+document.querySelectorAll("[data-back-shop]").forEach(b=>b.addEventListener("click",()=>showRecharge(false)));
+const serviceOptions={
+ mobile:["Jio","Airtel","Vi","BSNL"],
+ dth:["Tata Play","Airtel Digital TV","Dish TV","d2h","Sun Direct"],
+ electricity:["বিদ্যুৎ সরবরাহকারী নির্বাচন করুন"],
+ water:["পানীয় জল সরবরাহকারী নির্বাচন করুন"],
+ gas:["Indane","Bharat Gas","HP Gas"],
+ broadband:["Broadband provider","Landline provider"]
+};
+let selectedRechargeKind="mobile";
+document.querySelectorAll(".recharge-tile").forEach(tile=>tile.addEventListener("click",()=>{
+ selectedRechargeKind=tile.dataset.kind;
+ document.querySelectorAll(".recharge-tile").forEach(t=>t.classList.toggle("selected",t===tile));
+ document.getElementById("rechargeFormTitle").textContent=tile.dataset.service;
+ const select=document.getElementById("rechargeOperator");
+ select.innerHTML='<option value="">পরিষেবা প্রদানকারী বেছে নিন</option>'+serviceOptions[selectedRechargeKind].map(x=>'<option>'+x+'</option>').join("");
+ document.getElementById("rechargeForm").hidden=false;
+ document.getElementById("rechargeForm").scrollIntoView({behavior:"smooth",block:"start"});
+}));
+document.getElementById("rechargeRequestForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ alert("রিচার্জ ও বিল পেমেন্টের সংযোগ এখনও চালু করা হয়নি। কোনো টাকা কাটা হয়নি এবং কোনো লেনদেন জমা হয়নি। অনুমোদিত পরিষেবা সংযোগের পর এই ধাপ চালু হবে।");
+});
+if(location.hash==="#recharge")showRecharge(true);
 
 const sidebar=document.getElementById("siteSidebar");
 const menuToggle=document.getElementById("menuToggle");
