@@ -43,14 +43,73 @@
 }
 @media(min-width:851px){#closeMenu{display:none}.menu-toggle{display:none}}
 @media(max-width:560px){.location-strip{gap:6px;flex-direction:column;text-align:center}.top{gap:8px}.top .brand{width:100%}}
+
+/* Flipkart-inspired storefront refresh — existing checkout/auth logic retained */
+:root{--navy:#172337;--blue:#2874f0;--gold:#ffdf00;--bg:#f1f3f6;--line:#e5e7eb}
+body{background:#f1f3f6;color:#212121}
+.flip-header{background:#2874f0;padding:12px 18px;color:#fff;box-shadow:0 2px 8px #0002}
+.flip-head-inner{max-width:1280px;margin:auto;display:flex;align-items:center;gap:20px}
+.flip-header .brand{display:block;min-width:155px;color:#fff;text-decoration:none;font-size:22px;line-height:1.1}
+.flip-header .brand span{color:#ffdf00}
+.flip-header .brand small{font-size:11px;color:#e8f0ff;margin-top:4px}
+.flip-search{height:42px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:3px;padding:0 12px;flex:1;max-width:560px;color:#2874f0}
+.flip-search>span{font-size:25px;line-height:1}
+.flip-search .search{border:0;box-shadow:none;width:100%;padding:8px 2px;border-radius:0}
+.flip-search .search:focus{outline:0;box-shadow:none}
+.flip-actions{display:flex;align-items:center;gap:16px;margin-left:auto}
+.flip-actions a,.flip-actions button{color:#fff;text-decoration:none;font-size:13px;font-weight:750;white-space:nowrap;background:transparent;border:0;cursor:pointer}
+.flip-actions b{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:50%;background:#ffdf00;color:#172337;font-size:11px}
+.flip-category-strip{position:static;justify-content:center;gap:0;padding:0 12px;background:#fff;border:0;border-bottom:1px solid #ddd;box-shadow:0 2px 5px #0000000a;overflow-x:auto}
+.flip-category-strip a{border-radius:0;background:#fff;color:#212121;padding:15px 18px;font-size:13px;border-right:1px solid #f0f0f0}
+.flip-category-strip a:hover{color:#2874f0;background:#f8fbff}
+.hero{padding:34px 22px;background:linear-gradient(110deg,#172337 0%,#1649a5 58%,#2874f0 100%);position:relative;overflow:hidden}
+.hero:after{content:"🛍️";position:absolute;right:9%;top:12%;font-size:clamp(70px,13vw,150px);opacity:.16}
+.hero-inner{max-width:1280px;position:relative;z-index:1}
+.hero h1{font-size:clamp(27px,4vw,44px);max-width:680px}
+.hero p{max-width:620px}
+.wrap{max-width:1280px;padding:22px 14px}
+.site-layout{grid-template-columns:230px minmax(0,1fr);gap:16px}
+.site-sidebar{border-radius:4px;box-shadow:0 1px 3px #00000012;top:10px}
+.site-sidebar .site-main-nav a,.site-sidebar .site-category-nav button{border-radius:3px}
+.trust{margin:0 0 18px;gap:10px}
+.trust div{border-radius:4px;box-shadow:0 1px 3px #0000000c;border:0;border-bottom:2px solid #2874f0}
+.section-head{margin:22px 0 14px}
+.section-head h2{font-size:22px}
+.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card{border-radius:4px;padding:12px;border:1px solid #eee;box-shadow:0 1px 3px #00000012;transition:box-shadow .18s,transform .18s}
+.card:hover{box-shadow:0 5px 18px #0002;transform:translateY(-2px)}
+.card img,.card .product-icon{height:155px!important;border-radius:2px!important}
+.card h3{font-size:15px;line-height:1.4;min-height:40px}
+.card .tag{border-radius:2px;background:#eef4ff;color:#2874f0}
+.card .btn{border-radius:3px;padding:10px;font-size:13px}
+.card .btn.blue{background:#ff9f00;color:#fff}
+.card .buy-now{background:#fb641b;color:#fff}
+.panel{border-radius:4px;box-shadow:0 1px 3px #00000012}
+.account-panel{margin:18px auto;max-width:1280px}
+.contact{border-radius:4px}
+.footer{background:#172337}
+@media(max-width:1000px){.flip-head-inner{gap:12px}.flip-actions{gap:10px}.flip-actions a span{display:none}.site-layout{grid-template-columns:205px minmax(0,1fr)}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:850px){.flip-head-inner{flex-wrap:wrap;gap:9px}.flip-header .brand{min-width:0;flex:1}.flip-header .menu-toggle{display:inline-flex}.flip-search{order:3;flex-basis:100%;max-width:none}.flip-actions{gap:12px}.flip-actions button#installApp{display:none}.site-layout{display:block}.site-sidebar{position:fixed}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.flip-header{padding:10px 12px}.flip-header .brand{font-size:19px}.flip-header .brand small{font-size:10px}.flip-actions{gap:9px}.flip-actions a,.flip-actions button{font-size:11px}.flip-category-strip{justify-content:flex-start}.flip-category-strip a{padding:13px 12px;font-size:12px}.hero{padding:30px 17px}.hero:after{right:2%;top:6%;font-size:75px}.wrap{padding:15px 10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:9px}.card img,.card .product-icon{height:112px!important}.card h3{font-size:13px;min-height:36px}.card p{font-size:12px}.trust{grid-template-columns:repeat(3,1fr);gap:6px}.trust div{font-size:12px;padding:10px 5px}.trust span{font-size:10px}.account-panel{margin:12px 10px}.section-head h2{font-size:19px}}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script></head>
 <body>
-<header class="top">
- <div class="brand">শিবম নেটওয়ার্ক <small>মোবাইল • অ্যাকসেসরিজ • কম্পিউটার সার্ভিস</small></div>
- <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteSidebar">☰ <span data-bn="মেনু" data-en="Menu">মেনু</span></button><button class="btn ghost" id="languageToggle" type="button" aria-label="Switch language">English</button><a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp যোগাযোগ</a><a class="btn ghost" href="https://shivam-network-backend.onrender.com/admin.html" target="_blank" rel="noopener">Admin Login</a><button class="btn" id="installApp" type="button">অ্যাপ ইনস্টল</button>
+<header class="top flip-header">
+ <div class="flip-head-inner">
+  <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteSidebar">☰</button>
+  <a class="brand" href="#home">শিবম <span>নেটওয়ার্ক</span><small>আপনার আপনজনের দোকান</small></a>
+  <label class="flip-search"><span>⌕</span><input class="search" id="search" type="search" placeholder="মোবাইল, চার্জার, হেডফোন খুঁজুন…" aria-label="পণ্য খুঁজুন"></label>
+  <div class="flip-actions">
+   <a href="#accountPanel">👤 <span>অ্যাকাউন্ট</span></a>
+   <a href="#cartPanel">🛒 <span>কার্ট</span> <b id="navCartCount">0</b></a>
+   <a href="https://wa.me/916294701353" target="_blank" rel="noopener">💬 <span>যোগাযোগ</span></a>
+   <button id="languageToggle" type="button">English</button>
+   <button id="installApp" type="button">অ্যাপ ইনস্টল</button>
+  </div>
+ </div>
 </header>
-<nav class="shop-nav"><a href="#accountPanel">👤 আমার অ্যাকাউন্ট</a><a href="#products">🗂️ ক্যাটাগরি</a><a href="#cartPanel">🛒 কার্ট <b id="navCartCount">0</b></a><a href="#checkoutPanel">🧾 অর্ডার</a><a href="#contact">📍 যোগাযোগ</a></nav>
+<nav class="shop-nav flip-category-strip"><a href="#products">🏷️ সব ক্যাটাগরি</a><a href="#products">📱 মোবাইল অ্যাকসেসরিজ</a><a href="#products">🎧 হেডফোন ও অডিও</a><a href="#products">🔌 চার্জার ও কেবল</a><a href="#services">🛠️ সার্ভিসিং</a><a href="#contact">📍 দোকানের ঠিকানা</a></nav>
 <section class="hero" id="home"><div class="hero-inner">
  <div class="eyebrow">আপনার আপনজনের দোকান</div>
  <h1>আপনার প্রযুক্তির নির্ভরযোগ্য ঠিকানা</h1>
@@ -61,7 +120,7 @@
 <main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><a href="#home">🏠 হোম</a><a href="#products">🛍️ সব পণ্য</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#services">🛠️ আমাদের পরিষেবা</a><a href="#contact">📍 যোগাযোগ</a><a href="https://shivam-network-backend.onrender.com/admin.html">🔐 অ্যাডমিন প্যানেল</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
  <section class="trust"><div>📱 মোবাইল অ্যাকসেসরিজ<span>দৈনন্দিন দরকারি পণ্য</span></div><div>🛠️ রিপেয়ারিং<span>মোবাইল ও কম্পিউটার সার্ভিস</span></div><div>💬 সহজ অর্ডার<span>WhatsApp-এ যোগাযোগ</span></div></section>
  <section id="products">
-  <div class="section-head"><div><h2>সব পণ্য / ক্যাটাগরি অনুযায়ী</h2><p class="sub">ক্যাটাগরি বেছে পণ্য দেখুন, তারপর কার্টে যোগ করুন</p></div><input class="search" id="search" type="search" placeholder="পণ্যের নাম খুঁজুন…" aria-label="পণ্য খুঁজুন"></div>
+  <div class="section-head"><div><h2>সব পণ্য / ক্যাটাগরি অনুযায়ী</h2><p class="sub">ক্যাটাগরি বেছে পণ্য দেখুন, তারপর কার্টে যোগ করুন</p></div></div>
   <div class="grid" id="productGrid"></div>
  </section>
  <section class="section-head"><div><h2>আপনার অর্ডার</h2><p class="sub">কার্ট থেকে অর্ডারের অনুরোধ পাঠান</p></div></section>
