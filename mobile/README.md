@@ -40,3 +40,7 @@ cd android
 - The first APK is a development build for testing, not a Play Store release.
 - Before public release, configure the final app icon, signing, privacy information, store listing, and test the complete purchase/order flow.
 - Do not put Firebase Admin credentials or other server secrets in this app.
+
+## Automated build
+
+Pushing changes to the `android-app-starter` branch that touch `mobile/` or the customer web assets triggers the GitHub Actions APK workflow. The resulting debug APK is uploaded as a workflow artifact for testing.
