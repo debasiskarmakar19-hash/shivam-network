@@ -1,0 +1,43 @@
+{
+  "id": "/",
+  "name": "শিবম নেটওয়ার্ক",
+  "short_name": "শিবম নেটওয়ার্ক",
+  "description": "শিবম নেটওয়ার্কের পণ্য দেখুন ও Cash on Delivery অর্ডার করুন।",
+  "lang": "bn-IN",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#f5f7fc",
+  "theme_color": "#101d42",
+  "categories": [
+    "shopping",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "অ্যাডমিন প্যানেল",
+      "short_name": "Admin",
+      "url": "https://shivam-network-backend.onrender.com/admin.html",
+      "icons": [
+        {
+          "src": "/app-icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}
