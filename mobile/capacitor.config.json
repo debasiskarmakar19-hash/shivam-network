@@ -1,0 +1,8 @@
+{
+  "appId": "com.shivamnetwork.store",
+  "appName": "Shivam Network",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#f5f7fc"
+  }
+}
