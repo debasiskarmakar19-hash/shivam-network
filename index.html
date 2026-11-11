@@ -107,7 +107,7 @@ const categoryLabels={};
 function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function mapCategory(v){return String(v||"অন্যান্য").trim()||"অন্যান্য"}
 function iconFor(cat){const s=String(cat).toLowerCase();if(/charge|cable|চার্জ|কেবল/.test(s))return "🔌";if(/audio|ear|head|অডিও|হেডফোন|ইয়ার/.test(s))return "🎧";if(/cover|glass|কভার|গ্লাস/.test(s))return "📱";if(/power|battery|পাওয়ার|ব্যাটারি/.test(s))return "🔋";if(/repair|সার্ভিস/.test(s))return "🛠️";return "🛍️"}
-function renderCategories(){const counts={};products.forEach(p=>counts[p.category]=(counts[p.category]||0)+1);const names=Object.keys(counts).sort((a,b)=>a.localeCompare(b,"bn"));document.getElementById("allCount").textContent=products.length;document.getElementById("filters").innerHTML='<button class="'+(category==="all"?"active":"")+'" data-cat="all">🏠 সব পণ্য <span class="cat-count">'+products.length+'</span></button>'+names.map(n=>'<button class="'+(category===n?"active":"")+'" data-cat="'+escapeHTML(n)+'">'+iconFor(n)+' '+escapeHTML(n)+' <span class="cat-count">'+counts[n]+'</span></button>').join("")}
+function renderCategories(){const counts={};products.forEach(p=>counts[p.category]=(counts[p.category]||0)+1);const names=Object.keys(counts).sort((a,b)=>a.localeCompare(b,"bn"));document.getElementById("allCount").textContent=products.length;document.getElementById("filters").innerHTML='<button class="'+(category==="all"?"active":"")+'" data-cat="all">🏠 '+tr("সব পণ্য")+' <span class="cat-count">'+products.length+'</span></button>'+names.map(n=>'<button class="'+(category===n?"active":"")+'" data-cat="'+escapeHTML(n)+'">'+iconFor(n)+' '+escapeHTML(n)+' <span class="cat-count">'+counts[n]+'</span></button>').join("")}
 function render(){
  const q=document.getElementById("search").value.trim().toLocaleLowerCase();
  const list=products.filter(p=>(category==="all"||p.category===category)&&(p.name+" "+p.desc+" "+p.category).toLocaleLowerCase().includes(q));
@@ -125,7 +125,7 @@ function renderCart(){
  document.getElementById("count").textContent=entries.reduce((n,x)=>n+x[1],0);
  document.getElementById("cart").innerHTML=entries.length?entries.map(([id,n])=>{
   const p=products.find(x=>x.id===id);if(!p)return "";
-  return '<div class="cart-line"><span>'+escapeHTML(p.name)+' × '+n+'</span><span class="qty"><button data-minus="'+escapeHTML(id)+'" aria-label="একটি কমান">−</button>'+n+'<button data-plus="'+escapeHTML(id)+'" aria-label="একটি বাড়ান">+</button></span></div>';
+  return '<div class="cart-line"><span>'+escapeHTML(p.name)+' × '+n+'</span><span class="qty"><button data-minus="'+escapeHTML(id)+'" aria-label="'+tr("একটি কমান")+'">−</button>'+n+'<button data-plus="'+escapeHTML(id)+'" aria-label="একটি বাড়ান">+</button></span></div>';
  }).join(""):'<p class="note">'+tr('এখনও কোনো পণ্য যোগ করা হয়নি।')+'</p>';
 }
 async function loadProducts(){
@@ -168,7 +168,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
  const items=[...cart].map(([productId,quantity])=>({productId,quantity}));
  const lines=[...cart].map(([id,n])=>{const p=products.find(x=>x.id===id);return p?p.name+" × "+n+" — ₹"+(p.price*n):""}).filter(Boolean).join("\n");
  const originalLabel=button?button.textContent:"";
- if(button){button.disabled=true;button.textContent="অর্ডার জমা হচ্ছে…"}
+ if(button){button.disabled=true;button.textContent=tr("অর্ডার জমা হচ্ছে…")}
  const waWindow=window.open("about:blank","_blank");
  try{
   const response=await fetch(API_BASE+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({name,phone,address,pincode,state:"West Bengal",paymentMethod,items})});
@@ -189,7 +189,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
   alert(tr("অর্ডার সফলভাবে জমা হয়েছে। অর্ডার ID: ")+result.orderId+tr("। Admin Panel-এ অর্ডারটি দেখা যাবে।"));
  }catch(error){
   if(waWindow)waWindow.close();
-  alert(error.message||"অর্ডার জমা হয়নি।");
+  alert(error.message||tr("অর্ডার জমা হয়নি।"));
  }finally{
   if(button){button.disabled=false;button.textContent=originalLabel}
  }
