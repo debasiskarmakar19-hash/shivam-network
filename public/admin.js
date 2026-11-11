@@ -1,5 +1,5 @@
 "use strict";
-const firebaseConfig={apiKey:"AIzaSyCzZletuSiNTTJL35Du0wuQUEAWDUwjd5M",authDomain:"shivam-network.firebaseapp.com",projectId:"shivam-network",storageBucket:"shivam-network.firebasestorage.app",messagingSenderId:"473012818153",appId:"1:6f62a44ddff48c84b36078"};
+const firebaseConfig={apiKey:"AIzaSyCzZletuSiNTTJL35Du0wuQUEAWDUwjd5M",authDomain:"shivam-network.firebaseapp.com",projectId:"shivam-network",storageBucket:"shivam-network.firebasestorage.app",messagingSenderId:"473012818153",appId:"1:473012818153:web:6f62a44ddff48c84b36078"};
 firebase.initializeApp(firebaseConfig);const auth=firebase.auth();let token="",productsCache=[],ordersCache=[];
 const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
