@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101d42">
+<meta name="application-name" content="শিবম নেটওয়ার্ক">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/app-icon.svg" type="image/svg+xml">
 <meta name="description" content="শিবম নেটওয়ার্ক — মোবাইল অ্যাকসেসরিজ, মোবাইল রিপেয়ারিং ও কম্পিউটার সার্ভিস, গড়বেতা।">
 <title>শিবম নেটওয়ার্ক | মোবাইল ও কম্পিউটার সার্ভিস</title>
 <style>
@@ -15,7 +20,7 @@
 <body>
 <header class="top">
  <div class="brand">শিবম নেটওয়ার্ক <small>মোবাইল • অ্যাকসেসরিজ • কম্পিউটার সার্ভিস</small></div>
- <a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp যোগাযোগ</a><a class="btn ghost" href="https://shivam-network-backend.onrender.com/admin.html" target="_blank" rel="noopener">Admin Login</a>
+ <a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp যোগাযোগ</a><a class="btn ghost" href="https://shivam-network-backend.onrender.com/admin.html" target="_blank" rel="noopener">Admin Login</a><button class="btn" id="installApp" type="button" hidden>অ্যাপ ইনস্টল</button>
 </header>
 <section class="hero"><div class="hero-inner">
  <div class="eyebrow">আপনার আপনজনের দোকান</div>
@@ -149,5 +154,11 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
  }
 });
 loadProducts();
+let installPrompt=null;
+const installButton=document.getElementById("installApp");
+window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;installButton.hidden=false;});
+installButton.addEventListener("click",async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true;});
+window.addEventListener("appinstalled",()=>{installButton.hidden=true;installPrompt=null;});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(error=>console.warn("App offline setup failed",error)));}
 </script>
 </body></html>
