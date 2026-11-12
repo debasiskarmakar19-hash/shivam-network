@@ -48,9 +48,9 @@ function scan(root){
 }
 function apply(lang){
  state.lang=lang==="en"?"en":"bn";
- document.documentElement.lang=state.lang;
+ document.documentElement.lang=state.lang==="bn"?"bn-IN":"en-IN";
  scan(document.body);
- const btn=document.getElementById("shivamLanguageToggle");if(btn)btn.textContent=state.lang==="en"?"বাংলা":"English";
+ const btn=document.getElementById("shivamLanguageToggle");if(btn)btn.textContent=state.lang==="en"?"বাংলা (ভারত)":"English";
 }
 function init(){
  let saved="bn";try{saved=localStorage.getItem("shivam-language")==="en"?"en":"bn"}catch(e){}
