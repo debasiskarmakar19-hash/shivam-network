@@ -16,7 +16,7 @@ import android.webkit.WebResourceError;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    private static final String HOME = "https://shivam-network-0hnp.onrender.com/";
+    private static final String HOME = "https://shivam-network-0hnp.onrender.com/?app=1";
     private WebView webView;
     private ValueCallback<Uri[]> fileCallback;
     private static final int FILE_CHOOSER_REQUEST = 4102;
