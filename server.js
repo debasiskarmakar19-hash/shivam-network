@@ -24,14 +24,17 @@ app.get("/api/admin/service-requests",requireFirebase,adminOnly,async(_,r)=>{try
 app.patch("/api/admin/service-requests/:id",requireFirebase,adminOnly,async(q,r)=>{const status=txt(q.body.status,20);if(!["NEW","CONTACTED","IN_PROGRESS","READY","COMPLETED","CANCELLED"].includes(status))return r.status(400).json({error:"Invalid service status"});try{await db.collection("serviceRequests").doc(q.params.id).update({status,updatedAt:admin.firestore.FieldValue.serverTimestamp(),updatedBy:q.user.uid});r.json({success:true});}catch(e){r.status(400).json({error:"Service request update failed"});}});
 
 const adminSmsTestLimit=rateLimit({windowMs:60*60*1000,limit:2,standardHeaders:true,legacyHeaders:false});
-function adminSmsConfig(){
- const apiKey=String(process.env.FAST2SMS_API_KEY||"").trim();
- const phone=String(process.env.ADMIN_NOTIFY_PHONE||"").replace(/\D/g,"");
- return {apiKey,phone,ready:!!apiKey&&/^[6-9][0-9]{9}$/.test(phone)};
+const adminSmsSaveLimit=rateLimit({windowMs:60*60*1000,limit:10,standardHeaders:true,legacyHeaders:false});
+const adminSmsSettingsRef=()=>db.collection("systemSettings").doc("adminNotifications");
+async function adminSmsConfig(){
+ const snap=await adminSmsSettingsRef().get(),saved=snap.exists?snap.data():{};
+ const apiKey=String(saved.apiKey||process.env.FAST2SMS_API_KEY||"").trim();
+ const phone=String(saved.phone||process.env.ADMIN_NOTIFY_PHONE||"").replace(/\D/g,"");
+ return {apiKey,phone,ready:!!apiKey&&/^[6-9][0-9]{9}$/.test(phone),hasKey:!!apiKey,source:snap.exists?"admin-panel":"environment"};
 }
 function maskPhone(phone){return phone?phone.slice(0,2)+"******"+phone.slice(-2):""}
 async function sendAdminSms(message,reference){
- const config=adminSmsConfig();
+ const config=await adminSmsConfig();
  if(!config.ready)return {status:"NOT_CONFIGURED"};
  const response=await fetch("https://www.fast2sms.com/dev/bulkV2",{
   method:"POST",
@@ -44,12 +47,26 @@ async function sendAdminSms(message,reference){
  return {status:"SENT",requestId:txt(data.request_id,80)};
 }
 app.get("/api/admin/notifications/status",requireFirebase,adminOnly,async(_,r)=>{
- const config=adminSmsConfig();
- r.json({provider:"Fast2SMS",enabled:config.ready,phoneMasked:maskPhone(config.phone),route:"Quick SMS",message:config.ready?"অর্ডার এলে অ্যাডমিন নম্বরে SMS পাঠানোর সেটিং প্রস্তুত।":"SMS চালু করতে Render-এর Environment-এ FAST2SMS_API_KEY ও ADMIN_NOTIFY_PHONE সেট করতে হবে।"});
+ try{const config=await adminSmsConfig();
+ r.json({provider:"Fast2SMS",enabled:config.ready,hasKey:config.hasKey,phoneMasked:maskPhone(config.phone),route:"Quick SMS",message:config.ready?"SMS সেটিং সেভ করা আছে। টেস্ট SMS পাঠিয়ে যাচাই করুন।":"নিচে API Key ও দোকানের মোবাইল নম্বর লিখে সেভ করুন।"});}
+ catch(e){console.error("Admin SMS settings read failed:",e.message);r.status(500).json({error:"SMS সেটিং লোড করা যায়নি।"});}
+});
+app.post("/api/admin/notifications/settings",adminSmsSaveLimit,requireFirebase,adminOnly,async(q,r)=>{
+ try{
+  const apiKey=String(q.body.apiKey||"").trim();
+  const phone=String(q.body.phone||"").replace(/\D/g,"");
+  if(!/^[6-9][0-9]{9}$/.test(phone))return r.status(400).json({error:"ভারতের সঠিক ১০ সংখ্যার মোবাইল নম্বর লিখুন।"});
+  if(apiKey.length>256||(/[\r\n]/.test(apiKey)))return r.status(400).json({error:"API Key সঠিকভাবে লিখুন।"});
+  const ref=adminSmsSettingsRef(),existing=await ref.get(),current=existing.exists?existing.data():{};
+  const chosenKey=apiKey||String(current.apiKey||process.env.FAST2SMS_API_KEY||"").trim();
+  if(!chosenKey)return r.status(400).json({error:"SMS API Key লিখে সেভ করুন।"});
+  await ref.set({apiKey:chosenKey,phone,provider:"Fast2SMS",route:"q",updatedAt:admin.firestore.FieldValue.serverTimestamp(),updatedBy:q.user.uid},{merge:true});
+  r.json({success:true,message:"SMS সেটিং সেভ হয়েছে। API Key নিরাপত্তার জন্য আবার দেখানো হবে না।",phoneMasked:maskPhone(phone),hasKey:true});
+ }catch(e){console.error("Admin SMS settings save failed:",e.message);r.status(500).json({error:"SMS সেটিং সেভ করা যায়নি। Backend/Firebase লগ পরীক্ষা করুন।"});}
 });
 app.post("/api/admin/notifications/test",adminSmsTestLimit,requireFirebase,adminOnly,async(q,r)=>{
- const config=adminSmsConfig();
- if(!config.ready)return r.status(400).json({error:"SMS এখনো সেট করা হয়নি। Render Environment-এ FAST2SMS_API_KEY এবং ADMIN_NOTIFY_PHONE যোগ করুন।"});
+ const config=await adminSmsConfig();
+ if(!config.ready)return r.status(400).json({error:"আগে Admin Panel থেকে SMS API Key ও মোবাইল নম্বর সেভ করুন।"});
  try{
   const sent=await sendAdminSms("Shivam Network: This is a test order notification. Admin SMS is connected.", "admin-test");
   r.json({success:true,requestId:sent.requestId||"",message:"টেস্ট SMS provider-এর কাছে পাঠানো হয়েছে।"});
