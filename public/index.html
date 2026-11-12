@@ -245,14 +245,14 @@ const translations={
 };
 function tr(value){return siteLanguage==="en"?(translations[value]||value):value;}
 function applyLanguage(){
- document.documentElement.lang=siteLanguage;
+ document.documentElement.lang=siteLanguage==="bn"?"bn-IN":"en-IN";
  document.querySelectorAll("[data-bn][data-en]").forEach(el=>{el.textContent=siteLanguage==="en"?el.dataset.en:el.dataset.bn;});
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
  nodes.forEach(node=>{const raw=node.nodeValue,trimmed=raw.trim();if(!trimmed)return;const translated=siteLanguage==="en"?(translations[trimmed]||trimmed):(Object.keys(translations).find(k=>translations[k]===trimmed)||trimmed);if(translated!==trimmed)node.nodeValue=raw.replace(trimmed,translated);});
  const search=document.getElementById("search");if(search){search.placeholder=siteLanguage==="en"?"Search products…":"পণ্যের নাম খুঁজুন…";search.setAttribute("aria-label",siteLanguage==="en"?"Search products":"পণ্য খুঁজুন");}
  const close=document.getElementById("closeMenu");if(close)close.setAttribute("aria-label",siteLanguage==="en"?"Close menu":"মেনু বন্ধ করুন");
- const toggle=document.getElementById("languageToggle");if(toggle)toggle.textContent=siteLanguage==="en"?"বাংলা":"English";
+ const toggle=document.getElementById("languageToggle");if(toggle)toggle.textContent=siteLanguage==="en"?"বাংলা (ভারত)":"English";
  window.ShivamI18n?.apply(siteLanguage);
  render();
 }
