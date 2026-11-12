@@ -253,6 +253,7 @@ function applyLanguage(){
  const search=document.getElementById("search");if(search){search.placeholder=siteLanguage==="en"?"Search products…":"পণ্যের নাম খুঁজুন…";search.setAttribute("aria-label",siteLanguage==="en"?"Search products":"পণ্য খুঁজুন");}
  const close=document.getElementById("closeMenu");if(close)close.setAttribute("aria-label",siteLanguage==="en"?"Close menu":"মেনু বন্ধ করুন");
  const toggle=document.getElementById("languageToggle");if(toggle)toggle.textContent=siteLanguage==="en"?"বাংলা":"English";
+ window.ShivamI18n?.apply(siteLanguage);
  render();
 }
 const languageButton=document.getElementById("languageToggle");
