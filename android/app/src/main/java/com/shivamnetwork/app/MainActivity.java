@@ -88,6 +88,12 @@ public class MainActivity extends Activity {
         String scheme = uri.getScheme() == null ? "" : uri.getScheme().toLowerCase();
         String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase();
 
+        if ("https".equals(scheme) && host.equals("shivam-network-backend.onrender.com") &&
+            uri.getPath() != null && uri.getPath().startsWith("/admin")) {
+            Toast.makeText(this, "Admin Panel গ্রাহক অ্যাপে খোলা যাবে না।", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
         if ("https".equals(scheme) &&
             (host.equals("shivam-network-0hnp.onrender.com") ||
              host.equals("shivam-network-backend.onrender.com"))) {
