@@ -298,7 +298,32 @@ async function loadProducts(){
   grid.innerHTML='<div class="empty">'+tr('পণ্য এখন লোড হচ্ছে না। একটু পরে আবার চেষ্টা করুন।')+'</div>';
  }
 }
+
+function openProductDetails(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ const box=document.getElementById("productDetailsContent");
+ const gallery=[p.image,...p.gallery].filter((x,i,a)=>x&&a.indexOf(x)===i),first=gallery[0];
+ const image=first?'<img id="productDetailImage" class="product-details-main-image" src="'+escapeHTML(first)+'" alt="'+escapeHTML(p.name)+'">':'<div class="product-details-main-image" style="display:grid;place-items:center;font-size:70px">'+iconFor(p.category)+'</div>';
+ const thumbs=gallery.length>1?'<div class="product-gallery-thumbs">'+gallery.map((x,i)=>'<img data-gallery-index="'+i+'" src="'+escapeHTML(x)+'" alt="পণ্যের ছবি '+(i+1)+'">').join("")+'</div>':"";
+ const highlights=(p.highlights||[]).map(x=>'<li>'+escapeHTML(x)+'</li>').join("");
+ const specs=Object.entries(p.specifications||{});
+ const specHtml=specs.length?'<div class="product-detail-section"><h3>স্পেসিফিকেশন</h3><div class="product-detail-specs">'+specs.map(([k,v])=>'<div><b>'+escapeHTML(k)+'</b><br>'+escapeHTML(v)+'</div>').join("")+'</div></div>':"";
+ const details=[["ব্র্যান্ড",p.brand],["মডেল",p.model],["SKU",p.sku],["রং",p.color],["ওয়ারেন্টি",p.warranty],["সামঞ্জস্য",p.compatibility],["ভ্যারিয়েন্ট",p.variantInfo],["রিটার্ন / রিপ্লেসমেন্ট",p.returnPolicy],["ডেলিভারি",p.deliveryInfo]].filter(x=>x[1]);
+ box.innerHTML='<div class="product-details-layout"><div>'+image+thumbs+'</div><div><span class="tag">'+escapeHTML(p.category)+'</span><h2>'+escapeHTML(p.name)+'</h2>'+(p.shopVerified?'<p style="color:#167345;font-weight:750">✓ দোকান থেকে পণ্যের তথ্য যাচাই করা হয়েছে</p>':'')+'<p class="product-detail-price">₹'+Number(p.price).toLocaleString("en-IN")+(p.mrp>p.price?'<span class="product-detail-mrp">₹'+Number(p.mrp).toLocaleString("en-IN")+'</span>':"")+'</p><p class="note">'+(p.stock>0?'স্টকে আছে: '+p.stock+'টি':'এই মুহূর্তে স্টক নেই')+'</p><p>'+escapeHTML(p.desc)+'</p>'+(highlights?'<div class="product-detail-section"><h3>প্রধান বৈশিষ্ট্য</h3><ul>'+highlights+'</ul></div>':"")+specHtml+(details.length?'<div class="product-detail-section"><h3>আরও তথ্য</h3>'+details.map(([k,v])=>'<p><b>'+k+':</b> '+escapeHTML(v)+'</p>').join("")+'</div>':"")+'<div class="product-detail-actions"><button class="btn blue" data-modal-add="'+escapeHTML(p.id)+'" '+(p.stock<=0?'disabled':'')+'>কার্টে যোগ করুন</button><button class="btn" data-modal-buy="'+escapeHTML(p.id)+'" '+(p.stock<=0?'disabled':'')+'>এখনই কিনুন</button></div></div></div>';
+ document.getElementById("productDetails").hidden=false;document.body.style.overflow="hidden";
+}
+function closeProductDetails(){document.getElementById("productDetails").hidden=true;document.body.style.overflow="";}
+document.getElementById("closeProductDetails").addEventListener("click",closeProductDetails);
+document.getElementById("productDetails").addEventListener("click",e=>{
+ if(e.target.id==="productDetails")closeProductDetails();
+ const thumb=e.target.closest("[data-gallery-index]");
+ if(thumb){const id=document.querySelector("[data-modal-add]")?.dataset.modalAdd,p=products.find(x=>x.id===id),images=[p?.image,...(p?.gallery||[])].filter((x,i,a)=>x&&a.indexOf(x)===i),src=images[Number(thumb.dataset.galleryIndex)],main=document.getElementById("productDetailImage");if(main&&src)main.src=src;}
+ const add=e.target.dataset.modalAdd,buy=e.target.dataset.modalBuy;
+ if(add||buy){const id=add||buy,p=products.find(x=>x.id===id);if(!p||p.stock<=0)return;if(buy)cart.set(id,1);else{const n=(cart.get(id)||0)+1;if(n>p.stock){alert("এই পণ্যের পর্যাপ্ত স্টক নেই।");return}cart.set(id,n)}closeProductDetails();renderCart();if(buy)document.getElementById("checkoutPanel").scrollIntoView({behavior:"smooth",block:"center"});}
+});
+
 grid.addEventListener("click",e=>{
+ const detailId=e.target.dataset.details;if(detailId){openProductDetails(detailId);return;}
  const buyId=e.target.dataset.buy;if(buyId){const p=products.find(x=>x.id===buyId);if(!p||p.stock<=0)return;cart.set(buyId,1);renderCart();document.getElementById("checkoutPanel").scrollIntoView({behavior:"smooth",block:"center"});return;}
  const id=e.target.dataset.add;if(!id)return;
  const p=products.find(x=>x.id===id);if(!p||p.stock<=0)return;
