@@ -43,6 +43,32 @@ const pairs = {
 "\nমোবাইল: ":"\nMobile: ",
 "\nঠিকানা: ":"\nAddress: ",
 "\n\nদাম ও ডেলিভারি নিশ্চিত করে জানাবেন।":"\n\nPlease confirm the price and delivery details.",
+"আমার প্রোফাইল":"My Profile",
+"আমার অর্ডার":"My Orders",
+"আপনার অ্যাকাউন্ট থেকে করা সব অর্ডারের তালিকা ও বর্তমান অবস্থা":"All orders placed from your account and their current status",
+"রিফ্রেশ":"Refresh",
+"লগইন করলে আপনার অর্ডার এখানে দেখা যাবে।":"Your orders will appear here after you log in.",
+"অর্ডার দেখতে লগইন করুন।":"Log in to view your orders.",
+"আপনার অর্ডার লোড হচ্ছে…":"Loading your orders…",
+"অর্ডার লোড করা যায়নি।":"Could not load orders.",
+"আপনি এখনও কোনো অর্ডার করেননি। পণ্য বেছে অর্ডার করলে এখানে দেখা যাবে।":"You have not placed any orders yet. Your orders will appear here after you shop.",
+"অপেক্ষমাণ":"Pending",
+"নিশ্চিত":"Confirmed",
+"পাঠানো হয়েছে":"Shipped",
+"ডেলিভারি সম্পন্ন":"Delivered",
+"বাতিল":"Cancelled",
+"তারিখ: ":"Date: ",
+"পেমেন্ট: ":"Payment: ",
+"অবস্থা: ":"Payment status: ",
+"পরিশোধিত":"Paid",
+"অপরিশোধিত":"Unpaid",
+"ডেলিভারির সময় UPI":"UPI on Delivery",
+"অর্ডার #":"Order #",
+"পণ্যের বিবরণ নেই":"No item details",
+"মোট: ₹":"Total: ₹",
+"অর্ডারের তালিকা লোড করা যায়নি।":"Could not load your order history.",
+"কাস্টমার অ্যাকাউন্ট মেনু":"Customer account menu"
+
 };
 const enToBn=Object.fromEntries(Object.entries(pairs).map(([bn,en])=>[en,bn]));
 const state={lang:"bn",observer:null};
