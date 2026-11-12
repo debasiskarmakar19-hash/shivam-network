@@ -35,7 +35,14 @@ const pairs = {
 "OTP পাঠানো হচ্ছে…":"Sending OTP…","OTP আপনার ফোনের SMS-এ পাঠানো হয়েছে। নিরাপত্তার জন্য কোডটি ওয়েবসাইটে দেখানো হয় না।":"The OTP has been sent by SMS to your phone. For security, the code is not displayed on the website.","OTP পাঠানো যায়নি: ":"Could not send OTP: ","৬ সংখ্যার OTP লিখুন।":"Enter the 6-digit OTP.","লগইন সফল হয়েছে। এখন শপিং করতে পারবেন।":"Login successful. You can now shop.","মোবাইল নম্বর যাচাই হয়েছে। এবার পাসওয়ার্ড তৈরি করুন।":"Mobile number verified. Now create a password.","কমপক্ষে ৮ অক্ষরের পাসওয়ার্ড দিন।":"Enter a password with at least 8 characters.","আগে OTP যাচাই করুন।":"Verify OTP first.","পাসওয়ার্ড সেভ হচ্ছে…":"Saving password…","পাসওয়ার্ড সেভ হয়েছে। এখন থেকে মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করতে পারবেন।":"Password saved. You can now log in using your mobile number and password.","Firebase Console-এ Email/Password sign-in চালু করতে হবে।":"Enable Email/Password sign-in in Firebase Console.","ঠিকানা সেভ হয়নি।":"Address could not be saved.","আপনার তথ্য ও ঠিকানা সেভ হয়েছে।":"Your details and address have been saved.","আগে আমার অ্যাকাউন্টে মোবাইল নম্বরে OTP দিয়ে লগইন করে ঠিকানা সেভ করুন।":"First log in with mobile OTP in My Account and save your address.",
 "জমা হচ্ছে…":"Submitting…","অনুরোধ জমা হয়নি।":"Request could not be submitted.","সফল! আপনার অনুরোধ নম্বর: ":"Success! Your request number: ","। দোকান থেকে যোগাযোগ করা হবে।":". The shop will contact you.","সার্ভিস অনুরোধ পাঠান":"Submit Service Request","আপনার মোবাইল নম্বর লিখে OTP পাঠান। OTP যাচাই হলেই অ্যাপের সম্পূর্ণ শপিং বিভাগ খুলবে।":"Enter your mobile number and request an OTP. The full shopping section of the app will open after OTP verification.",
 "বিদ্যুৎ সরবরাহকারী নির্বাচন করুন":"Select Electricity Provider","পানীয় জল সরবরাহকারী নির্বাচন করুন":"Select Drinking Water Provider","রিচার্জ ও বিল পেমেন্টের সংযোগ এখনও চালু করা হয়নি। কোনো টাকা কাটা হয়নি এবং কোনো লেনদেন জমা হয়নি। অনুমোদিত পরিষেবা সংযোগের পর এই ধাপ চালু হবে।":"Recharge and bill payment integration is not active yet. No money has been deducted and no transaction has been submitted. This step will be enabled after an authorized service integration.",
-"Chrome-এর উপরের ডানদিকে ⋮ চাপুন, তারপর Install app অথবা Add to Home screen নির্বাচন করুন।":"Tap ⋮ at the top-right of Chrome, then select Install app or Add to Home screen.",
+"Chrome-এর উপরের ডানদিকে ⋮ চাপুন, তারপর Install app অথবা Add to Home screen নির্বাচন করুন।":"Tap ⋮ at the top-right of Chrome, then select Install app or Add to Home screen.","স্টক: ":"Stock: ",
+"শিবম নেটওয়ার্কে অর্ডারের অনুরোধ\nঅর্ডার ID: ":"Order request at Shivam Network\nOrder ID: ",
+"\nপেমেন্ট: ":"\nPayment: ",
+"\n\nপণ্য:\n":"\n\nProducts:\n",
+"\n\nনাম: ":"\n\nName: ",
+"\nমোবাইল: ":"\nMobile: ",
+"\nঠিকানা: ":"\nAddress: ",
+"\n\nদাম ও ডেলিভারি নিশ্চিত করে জানাবেন।":"\n\nPlease confirm the price and delivery details.",
 };
 const enToBn=Object.fromEntries(Object.entries(pairs).map(([bn,en])=>[en,bn]));
 const state={lang:"bn",observer:null};
