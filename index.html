@@ -10,7 +10,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/app-icon.svg" type="image/svg+xml">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="/i18n.js"></script>
-<meta name="description" content="শিবম নেটওয়ার্ক — মোবাইল ফোন, মোবাইল অ্যাকসেসরিজ ও মোবাইল রিপেয়ারিং, ফুলবাড়িয়া গড়বেতা।">
+<meta name="description" content="শিবম নেটওয়ার্ক — মোবাইল অ্যাকসেসরিজের অনলাইন ক্যাটালগ, অর্ডার অনুরোধ, ফুলবাড়িয়া ও গড়বেতায় লোকাল ডেলিভারি এবং মোবাইল/কম্পিউটার সার্ভিস।">
 <title>শিবম নেটওয়ার্ক | মোবাইল শপ ও রিপেয়ারিং</title>
 <style>
 :root{--navy:#101d42;--blue:#2858d8;--gold:#ffbd55;--ink:#18233d;--muted:#68748c;--bg:#f5f7fc;--line:#e4e9f2}
@@ -115,7 +115,7 @@ body{background:#f1f3f6;color:#212121}
 .customer-order-total{font-size:17px;font-weight:900;margin-top:10px}
 .customer-order-timeline{margin:10px 0;padding:10px 12px;background:#f7f9fc;border-radius:9px;font-size:13px;line-height:1.8}.customer-order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script></head>
+</head>
 <body>
 <header class="top flip-header">
  <div class="flip-head-inner">
@@ -161,15 +161,27 @@ body{background:#f1f3f6;color:#212121}
   <section class="panel" id="checkoutPanel" hidden><h3>অর্ডার কনফার্ম করুন</h3><p class="checkout-help">আপনার সেভ করা ঠিকানা ও পেমেন্ট পদ্ধতি দেখে অর্ডার নিশ্চিত করুন।</p><div id="checkoutAccountStatus" class="note"></div><div class="checkout-help"><b>ডেলিভারির ঠিকানা</b><p id="checkoutAddress">প্রথমে আমার অ্যাকাউন্টে লগইন করে ঠিকানা সেভ করুন।</p><a href="#accountPanel">ঠিকানা পরিবর্তন / সেভ করুন</a></div><form id="orderForm"><label>পেমেন্ট পদ্ধতি</label><label style="display:flex;gap:9px;align-items:center;margin:9px 0"><input type="radio" name="paymentMethod" value="COD" checked> Cash on Delivery (COD)</label><label style="display:flex;gap:9px;align-items:center;margin:9px 0"><input type="radio" name="paymentMethod" value="UPI_ON_DELIVERY"> ডেলিভারির সময় UPI QR স্ক্যান করে পেমেন্ট</label><p class="note">UPI পেমেন্ট ডেলিভারির সময় দোকানের কর্মীর সামনে করবেন।</p><button class="btn blue" id="placeOrderButton" type="submit" style="width:100%" disabled>অর্ডার কনফার্ম করুন</button></form><p class="note">আপনার অর্ডার প্রথমে Pending থাকবে। দোকান থেকে Accept করার পর অর্ডার নিশ্চিত হবে।</p></section>
  </div>
  <section id="upiPaymentResult" class="panel" hidden style="margin-top:16px;text-align:center"><h3>Google Pay / UPI পেমেন্ট</h3><p class="note">ডেলিভারির সময় এই QR স্ক্যান করুন অথবা UPI ID ব্যবহার করুন। টাকা পাঠানোর আগে দোকানের কর্মীর সঙ্গে অর্ডার ও পরিমাণ মিলিয়ে নিন।</p><img id="upiQrImage" alt="শিবম নেটওয়ার্ক UPI QR কোড" width="220" height="220" style="max-width:100%;height:auto;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff"><p><strong>UPI ID: 6294701353@okbizaxis</strong></p><a id="upiPayLink" class="btn blue" href="#" rel="nofollow">UPI অ্যাপে পেমেন্ট খুলুন</a><p class="note">পেমেন্ট সম্পন্ন হলে দোকান থেকে যাচাই করিয়ে নিন। শুধু স্ক্রিনশট দেখে পেমেন্ট নিশ্চিত ধরা হবে না।</p></section>
- <section id="services"><div class="section-head"><div><h2>মোবাইল রিপেয়ারিং সার্ভিস</h2><p class="sub">আপনার মোবাইলের সমস্যা লিখে অনলাইনে সার্ভিস অনুরোধ পাঠান</p></div></div><div class="services">
+ <section id="services"><div class="section-head"><div><h2>মোবাইল ও কম্পিউটার সার্ভিস</h2><p class="sub">আপনার মোবাইল বা কম্পিউটারের সমস্যা লিখে অনলাইনে সার্ভিস অনুরোধ পাঠান</p></div></div><div class="services>
   <article class="card"><div class="service-icon">📱</div><h3>ডিসপ্লে ও টাচ সমস্যা</h3><p>মোবাইল ডিসপ্লে, টাচ ও স্ক্রিন সংক্রান্ত সমস্যার জন্য অনুরোধ পাঠান।</p></article>
   <article class="card"><div class="service-icon">🔋</div><h3>ব্যাটারি ও চার্জিং</h3><p>ব্যাটারি, চার্জিং পোর্ট ও পাওয়ার সংক্রান্ত সমস্যার পরিষেবা।</p></article>
   <article class="card"><div class="service-icon">🔧</div><h3>অন্যান্য মোবাইল সমস্যা</h3><p>স্পিকার, মাইক, সফটওয়্যার ও অন্যান্য সমস্যার বিবরণ দিন।</p><a class="btn blue" href="#serviceRequestForm">সার্ভিস বুক করুন</a></article>
- </div><div class="panel" style="margin-top:16px"><h3>মোবাইল রিপেয়ারিং অনুরোধ</h3><form id="serviceRequestForm" class="service-request-form"><label for="serviceName">আপনার নাম</label><input class="field" id="serviceName" maxlength="100" required><label for="servicePhone">মোবাইল নম্বর</label><input class="field" id="servicePhone" inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}" required placeholder="১০ সংখ্যার নম্বর"><label for="serviceType">কোন পরিষেবা লাগবে?</label><select class="field" id="serviceType" required><option value="">পরিষেবা বেছে নিন</option><option value="MOBILE_REPAIR">মোবাইল রিপেয়ারিং</option></select><label for="serviceDevice">ডিভাইস / মডেল</label><input class="field" id="serviceDevice" maxlength="120" required placeholder="যেমন: Samsung Galaxy / Redmi Note"><label for="serviceIssue">সমস্যার বিবরণ</label><textarea class="field" id="serviceIssue" rows="3" maxlength="1000" required placeholder="কী সমস্যা হচ্ছে সংক্ষেপে লিখুন"></textarea><button class="btn blue" type="submit" id="serviceSubmit">সার্ভিস অনুরোধ পাঠান</button></form><p class="note" id="serviceRequestStatus" aria-live="polite">অনুরোধ জমা হলে দোকান থেকে আপনার নম্বরে যোগাযোগ করা হবে।</p></div></section>
- <section id="contact" style="margin-top:28px" class="contact"><div><h2 style="margin:0">শিবম নেটওয়ার্ক</h2><p>যোগাযোগ: দেবাশিস কর্মকার<br>ঠিকানা: ফুলবাড়িয়া, জাদবগঞ্জ, গড়বেতা, পশ্চিম মেদিনীপুর, পশ্চিমবঙ্গ – 721127<br>WhatsApp: 6294701353</p></div><a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">এখনই যোগাযোগ করুন</a></section>
+  <article class="card"><div class="service-icon">💻</div><h3>কম্পিউটার সার্ভিসিং</h3><p>কম্পিউটার, ল্যাপটপ ও সফটওয়্যার সংক্রান্ত সমস্যার জন্য অনুরোধ পাঠান।</p><a class="btn blue" href="#serviceRequestForm">সার্ভিস অনুরোধ</a></article>
+ </div><div class="panel" style="margin-top:16px"><h3>মোবাইল / কম্পিউটার সার্ভিস অনুরোধ</h3><form id="serviceRequestForm" class="service-request-form"><label for="serviceName">আপনার নাম</label><input class="field" id="serviceName" maxlength="100" required><label for="servicePhone">মোবাইল নম্বর</label><input class="field" id="servicePhone" inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}" required placeholder="১০ সংখ্যার নম্বর"><label for="serviceType">কোন পরিষেবা লাগবে?</label><select class="field" id="serviceType" required><option value="">পরিষেবা বেছে নিন</option><option value="MOBILE_REPAIR">মোবাইল রিপেয়ারিং</option><option value="COMPUTER_SERVICE">কম্পিউটার সার্ভিসিং</option></select><label for="serviceDevice">ডিভাইস / মডেল</label><input class="field" id="serviceDevice" maxlength="120" required placeholder="যেমন: Samsung Galaxy / Redmi Note"><label for="serviceIssue">সমস্যার বিবরণ</label><textarea class="field" id="serviceIssue" rows="3" maxlength="1000" required placeholder="কী সমস্যা হচ্ছে সংক্ষেপে লিখুন"></textarea><button class="btn blue" type="submit" id="serviceSubmit">সার্ভিস অনুরোধ পাঠান</button></form><p class="note" id="serviceRequestStatus" aria-live="polite">অনুরোধ জমা হলে দোকান থেকে আপনার নম্বরে যোগাযোগ করা হবে।</p></div></section>
+ <section class="panel" id="shoppingPolicies" aria-labelledby="shoppingPoliciesTitle" style="margin-top:28px">
+ <h2 id="shoppingPoliciesTitle">শপিং, ডেলিভারি ও গোপনীয়তা নীতি</h2>
+ <div class="grid2">
+  <div><h3>অর্ডার নিশ্চিতকরণ</h3><p class="sub">ওয়েবসাইটে অর্ডার পাঠানো একটি অর্ডার অনুরোধ। দোকান ফোন বা WhatsApp-এ পণ্যের স্টক, দাম, ডেলিভারি চার্জ ও সময় নিশ্চিত করার পর অর্ডার গ্রহণ করা হবে।</p></div>
+  <div><h3>পেমেন্ট</h3><p class="sub">এই সাইটে এখন Razorpay বা অনলাইন প্রিপেমেন্ট চালু নেই। Cash on Delivery অথবা ডেলিভারির সময় দোকানের কর্মীর সামনে UPI পেমেন্ট বেছে নিন। টাকা পাঠানোর আগে অর্ডার ও পরিমাণ দোকানের সঙ্গে মিলিয়ে নিন।</p></div>
+  <div><h3>লোকাল ডেলিভারি</h3><p class="sub">ফুলবাড়িয়া ও গড়বেতায় ডেলিভারি পাওয়া যাবে কি না, চার্জ কত এবং কখন পৌঁছাবে—অর্ডার নিশ্চিত করার আগে WhatsApp-এ জেনে নিন।</p></div>
+  <div><h3>রিটার্ন ও রিফান্ড</h3><p class="sub">পণ্যের বিবরণে দেওয়া রিটার্ন/রিপ্লেসমেন্ট নীতি প্রযোজ্য। অর্ডারের আগে শর্ত জেনে নিন। রিটার্ন যাচাই ও দোকানের অনুমোদনের পর প্রযোজ্য রিফান্ডের ব্যবস্থা জানানো হবে।</p></div>
+  <div><h3>গ্রাহকের তথ্য</h3><p class="sub">আপনার নাম, যাচাইকৃত মোবাইল নম্বর ও ঠিকানা অর্ডার, ডেলিভারি এবং সার্ভিস অনুরোধ পরিচালনার জন্য ব্যবহৃত হয়। লগইন OTP বা পাসওয়ার্ড কাউকে দেবেন না।</p></div>
+  <div><h3>সহায়তা</h3><p class="sub">অর্ডার, ডেলিভারি, পণ্যের ওয়ারেন্টি বা রিটার্ন নিয়ে প্রশ্ন থাকলে দোকানে WhatsApp-এ যোগাযোগ করুন।</p></div>
+ </div>
+</section>
+<section id="contact" style="margin-top:28px" class="contact"><div><h2 style="margin:0">শিবম নেটওয়ার্ক</h2><p>যোগাযোগ: দেবাশিস কর্মকার<br>ঠিকানা: ফুলবাড়িয়া, জাদবগঞ্জ, গড়বেতা, পশ্চিম মেদিনীপুর, পশ্চিমবঙ্গ – 721127<br>WhatsApp: 6294701353</p></div><a class="btn" href="https://wa.me/916294701353" target="_blank" rel="noopener">এখনই যোগাযোগ করুন</a></section>
 </div></div></main>
 
-<footer class="footer">© শিবম নেটওয়ার্ক • আপনার আপনজনের দোকান</footer>
+<footer class="footer">© শিবম নেটওয়ার্ক • আপনার আপনজনের দোকান · <a href="#shoppingPolicies">শপিং ও গোপনীয়তা নীতি</a></footer>
 <a class="float" href="https://wa.me/916294701353" target="_blank" rel="noopener">WhatsApp</a>
 <script>
 "use strict";

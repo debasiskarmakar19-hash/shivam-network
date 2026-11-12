@@ -1,31 +1,51 @@
-# Shivam Network — নতুন Phone Accessories Store
+# Shivam Network — Website ও Admin Guide
 
-এই নতুন প্রজেক্টে শুধু Phone Accessories আছে; Computer Accessories নেই।
+## Live links
+- Customer website: https://shivam-network-0hnp.onrender.com
+- Backend health: https://shivam-network-backend.onrender.com/health
+- Admin panel: https://shivam-network-backend.onrender.com/admin.html
 
-## নতুন Firebase Database তৈরি
-1. https://console.firebase.google.com/ খুলে Add project করুন।
-2. Firestore Database → Create database নির্বাচন করুন।
-3. Authentication → Sign-in method → Email/Password চালু করুন।
-4. Authentication → Users → Add user দিয়ে Admin email/password তৈরি করুন।
-5. Project settings → General → Your apps → Web app তৈরি করে config কপি করুন।
-6. `public/app.js`-এর `firebaseConfig`-এ apiKey, authDomain, projectId, appId বসান।
-7. Authentication Users থেকে Admin UID কপি করুন।
+## Website structure
+- Root `index.html`: Render Static Site-এর customer website।
+- `public/index.html`: Backend host-এর customer website copy। দুই ফাইল একই রাখতে হবে।
+- `server.js`: Express API, Firebase Admin authentication, orders, inventory, service requests, returns, reviews এবং admin endpoints।
+- `public/admin.html` ও `public/admin.js`: Firebase Email/Password login-সহ Admin Panel।
+- Recharge ও Bill Payment customer-facing website থেকে সরানো হয়েছে।
+- Website-এ Razorpay/online prepayment integration নেই। অর্ডার request হিসেবে জমা হয়; COD অথবা delivery-তে UPI বেছে নেওয়া যায়। পেমেন্ট যাচাই দোকানের দায়িত্বপ্রাপ্ত প্রাপ্তবয়স্ক ব্যক্তিকে করতে হবে।
 
-## Server credential
-Firebase Project settings → Service accounts → Generate new private key। JSON ফাইলের সম্পূর্ণ content Render Environment-এ `FIREBASE_SERVICE_ACCOUNT` নামে রাখুন। `ADMIN_UIDS`-এ Admin UID বসান। Service account JSON GitHub-এ দেবেন না।
+## Render configuration
+Backend service-এ secret environment variables:
+- `FIREBASE_SERVICE_ACCOUNT`: Firebase service-account JSON; GitHub-এ কখনো রাখবেন না।
+- `ADMIN_UIDS`: অনুমোদিত Admin Firebase UID-গুলো comma-separated আকারে।
 
-## Render
-GitHub-এ ZIP extract করে ফাইলগুলি নতুন repository-তে upload করুন। Render Web Service:
-- Build: `npm install`
-- Start: `npm start`
-- Health Check Path: `/health`
-- Environment: `FIREBASE_SERVICE_ACCOUNT`, `ADMIN_UIDS`
+Render Dashboard-এ secret value দেখানো বা chat-এ পাঠানোর দরকার নেই। Firebase Console-এ Customer Phone sign-in এবং Admin Email/Password sign-in provider চালু থাকতে হবে। Render-এর frontend ও backend domain Firebase Authentication-এর authorized domains-এ যোগ করা আছে কি না যাচাই করুন।
 
-Deploy success হলে `/health` থেকে `{"ok":true}` আসবে।
+## Admin Panel ব্যবহার
+1. Admin URL খুলুন এবং অনুমোদিত Firebase Admin account দিয়ে লগইন করুন।
+2. প্রথমে সঠিক নাম, category, দাম, stock, ছবি, warranty ও product-specific return/delivery তথ্য দিয়ে পণ্য যোগ করুন।
+3. Inventory-তে পণ্যের দাম, stock ও active status পরীক্ষা করুন।
+4. Orders-এ নতুন order request দেখে stock ও delivery charge/time নিশ্চিত করে status আপডেট করুন।
+5. Customer-এর কাছ থেকে টাকা পাওয়া যাচাই না করে payment status PAID করবেন না।
+6. Returns, service requests ও customer reviews আলাদা বিভাগে পরিচালনা করুন।
 
-## গুরুত্বপূর্ণ সীমাবদ্ধতা
-- Online Payment অপশনটি এখন শুধু পেমেন্ট পছন্দ হিসেবে অর্ডারে সেভ করে; বাস্তব টাকা নেওয়ার জন্য Razorpay বা অন্য gateway, webhook এবং যাচাই যুক্ত করতে হবে।
-- Product image এখন HTTPS URL দিয়ে দিতে হবে; image upload/storage এখনো নেই।
-- Collections: `products`, `orders`।
-- অর্ডারের সময় Firestore transaction-এ stock যাচাই ও কমানো হয়।
-- Customer order endpoint-এ production-এর আগে OTP/CAPTCHA যোগ করা উচিত।
+## Customer order flow
+- Customer mobile OTP দিয়ে লগইন করে নাম ও পশ্চিমবঙ্গের ঠিকানা/PIN সেভ করে।
+- Product catalog থেকে cart-এ পণ্য যোগ করে order request পাঠায়।
+- Backend server-side price ও stock যাচাই করে order তৈরি করে।
+- দোকান order, availability, delivery charge এবং delivery time নিশ্চিত করে WhatsApp/phone-এ জানায়।
+- এই site-এ বর্তমানে Razorpay checkout নেই; online prepayment নেওয়া হয় না।
+
+## Tests
+Run locally:
+```bash
+npm test
+```
+এটি storefront copies, HTML IDs, inline JavaScript syntax, admin JavaScript, backend syntax, policy sections, service options এবং order validation-এর static checks চালায়।
+
+## Launch checklist
+- Admin login এবং customer OTP sign-in real device-এ পরীক্ষা করুন।
+- Firebase authorized domains এবং Render environment variable presence প্রাপ্তবয়স্ক account owner দিয়ে যাচাই করান।
+- Admin Panel-এ আসল product catalogue, সঠিক দাম, stock, ছবি ও product policy যোগ করুন।
+- Test order দিয়ে Admin Panel-এ order status, stock change, cancellation, return এবং SMS configuration পরীক্ষা করুন।
+- Razorpay approval পাওয়ার আগে বা secure payment integration না হওয়া পর্যন্ত website-এ online payment চালু বলে প্রচার করবেন না।
+- Website live থাকা মানেই customer journey end-to-end tested বা Razorpay approved—এমন নয়।
