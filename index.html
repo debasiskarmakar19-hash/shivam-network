@@ -246,7 +246,7 @@ function renderCart(){
  document.getElementById("cartTotal").textContent="₹"+total.toLocaleString("en-IN");
  document.getElementById("navCartCount").textContent=entries.reduce((sum,x)=>sum+x[1],0);
  document.getElementById("checkoutPanel").hidden=!entries.length;
- document.getElementById("placeOrderButton").disabled=!otpVerified;
+ updateCheckout();
 }
 
 async function loadProducts(){
