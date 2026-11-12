@@ -26,7 +26,7 @@ app.patch("/api/admin/service-requests/:id",requireFirebase,adminOnly,async(q,r)
 const adminSmsTestLimit=rateLimit({windowMs:60*60*1000,limit:2,standardHeaders:true,legacyHeaders:false});
 function adminSmsConfig(){
  const apiKey=String(process.env.FAST2SMS_API_KEY||"").trim();
- const phone=String(process.env.ADMIN_NOTIFY_PHONE||"").replace(/\\D/g,"");
+ const phone=String(process.env.ADMIN_NOTIFY_PHONE||"").replace(/\D/g,"");
  return {apiKey,phone,ready:!!apiKey&&/^[6-9][0-9]{9}$/.test(phone)};
 }
 function maskPhone(phone){return phone?phone.slice(0,2)+"******"+phone.slice(-2):""}
