@@ -35,7 +35,7 @@ async function adminSmsConfig(){
  const snap=await adminSmsSettingsRef().get(),saved=snap.exists?snap.data():{};
  const apiKey=String(saved.apiKey||process.env.FAST2SMS_API_KEY||"").trim();
  const phone=String(saved.phone||process.env.ADMIN_NOTIFY_PHONE||"").replace(/\D/g,"");
- return {apiKey,phone,ready:!!apiKey&&/^[6-9][0-9]{9}$/.test(phone),hasKey:!!apiKey,source:snap.exists?"admin-panel":"environment"};
+ const apiKeyAscii=apiKey.length>0&&/^[\x21-\x7E]+$/.test(apiKey); return {apiKey,phone,ready:apiKeyAscii&&/^[6-9][0-9]{9}$/.test(phone),hasKey:!!apiKey,invalidKeyEncoding:!!apiKey&&!apiKeyAscii,source:snap.exists?"admin-panel":"environment"};
 }
 function maskPhone(phone){return phone?phone.slice(0,2)+"******"+phone.slice(-2):""}
 async function sendAdminSms(message,reference){
@@ -61,7 +61,7 @@ app.post("/api/admin/notifications/settings",adminSmsSaveLimit,requireFirebase,a
   const apiKey=String(q.body.apiKey||"").trim();
   const phone=String(q.body.phone||"").replace(/\D/g,"");
   if(!/^[6-9][0-9]{9}$/.test(phone))return r.status(400).json({error:"ভারতের সঠিক ১০ সংখ্যার মোবাইল নম্বর লিখুন।"});
-  if(apiKey.length>256||(/[\r\n]/.test(apiKey)))return r.status(400).json({error:"API Key সঠিকভাবে লিখুন।"});
+  if(apiKey.length>256||(/[\r\n]/.test(apiKey))||(/[^\x21-\x7E]/.test(apiKey)))return r.status(400).json({error:"SMS API Key-এ শুধু ইংরেজি অক্ষর, সংখ্যা ও সাধারণ চিহ্ন থাকতে হবে। সঠিক Key আবার লিখুন।"});
   const ref=adminSmsSettingsRef(),existing=await ref.get(),current=existing.exists?existing.data():{};
   const chosenKey=apiKey||String(current.apiKey||process.env.FAST2SMS_API_KEY||"").trim();
   if(!chosenKey)return r.status(400).json({error:"SMS API Key লিখে সেভ করুন।"});
@@ -71,6 +71,7 @@ app.post("/api/admin/notifications/settings",adminSmsSaveLimit,requireFirebase,a
 });
 app.post("/api/admin/notifications/test",adminSmsTestLimit,requireFirebase,adminOnly,async(q,r)=>{
  const config=await adminSmsConfig();
+  if(config.invalidKeyEncoding)return r.status(400).json({error:"সেভ করা SMS API Key-তে বাংলা বা অন্য অ-ইংরেজি অক্ষর আছে। Admin Panel-এ সঠিক Key আবার সেভ করুন।"});
  if(!config.ready)return r.status(400).json({error:"আগে Admin Panel থেকে SMS API Key ও মোবাইল নম্বর সেভ করুন।"});
  try{
   const sent=await sendAdminSms("Shivam Network: This is a test order notification. Admin SMS is connected.", "admin-test");
