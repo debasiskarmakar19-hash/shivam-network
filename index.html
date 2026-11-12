@@ -110,7 +110,8 @@ body{background:#f1f3f6;color:#212121}
 .recharge-back{border:0;background:#e7efff;color:#1d4da7;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}
 @media(max-width:650px){#rechargeHub{margin:10px;padding:11px}.recharge-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.recharge-tile{padding:13px;min-height:115px}.recharge-top{padding:20px}.wallet-card{padding:16px}}
 
-\n/* Clear home-page entry point for the combined recharge and shopping experience */\n.home-recharge-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:linear-gradient(115deg,#fff7e8,#fff);border:1px solid #ffd28b;border-left:5px solid #ff9f00;border-radius:8px;padding:20px;margin:16px 0 22px;box-shadow:0 2px 8px #0000000a}.home-recharge-card h2{margin:5px 0;font-size:22px;color:#172337}.home-recharge-card p{margin:0;color:#58647a;font-size:14px;line-height:1.65}.home-recharge-kicker{font-size:11px;font-weight:900;letter-spacing:.8px;color:#9a5700}.home-recharge-card a{display:inline-flex;background:#ff9f00;color:white;text-decoration:none;padding:12px 17px;border-radius:4px;font-weight:850;white-space:nowrap}@media(max-width:560px){.home-recharge-card{padding:15px}.home-recharge-card h2{font-size:19px}.home-recharge-card a{width:100%;justify-content:center}}\n</style>
+\n/* Clear home-page entry point for the combined recharge and shopping experience */\n.home-recharge-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:linear-gradient(115deg,#fff7e8,#fff);border:1px solid #ffd28b;border-left:5px solid #ff9f00;border-radius:8px;padding:20px;margin:16px 0 22px;box-shadow:0 2px 8px #0000000a}.home-recharge-card h2{margin:5px 0;font-size:22px;color:#172337}.home-recharge-card p{margin:0;color:#58647a;font-size:14px;line-height:1.65}.home-recharge-kicker{font-size:11px;font-weight:900;letter-spacing:.8px;color:#9a5700}.home-recharge-card a{display:inline-flex;background:#ff9f00;color:white;text-decoration:none;padding:12px 17px;border-radius:4px;font-weight:850;white-space:nowrap}@media(max-width:560px){.home-recharge-card{padding:15px}.home-recharge-card h2{font-size:19px}.home-recharge-card a{width:100%;justify-content:center}}\n .product-pagination{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0}.product-pagination button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 13px;font-weight:750;cursor:pointer}.product-pagination button.active{background:var(--navy);color:#fff;border-color:var(--navy)}.product-pagination button:disabled{opacity:.4;cursor:not-allowed}.product-page-info{font-size:13px;color:var(--muted);padding:0 7px}
+</style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script></head>
 <body>
 <header class="top flip-header">
@@ -143,7 +144,7 @@ body{background:#f1f3f6;color:#212121}
  </section>
  <section id="products">
   <div class="section-head"><div><h2>সব পণ্য / ক্যাটাগরি অনুযায়ী</h2><p class="sub">ক্যাটাগরি বেছে পণ্য দেখুন, তারপর কার্টে যোগ করুন</p></div></div>
-  <div class="grid" id="productGrid"></div>
+  <div class="grid" id="productGrid"></div><nav id="productPagination" class="product-pagination" aria-label="পণ্যের পৃষ্ঠা"></nav>
  </section>
  <section class="section-head"><div><h2>আপনার অর্ডার</h2><p class="sub">কার্ট থেকে অর্ডারের অনুরোধ পাঠান</p></div></section>
  <div class="columns">
@@ -219,6 +220,7 @@ languageButton?.addEventListener("click",()=>{siteLanguage=siteLanguage==="bn"?"
 const API_BASE="https://shivam-network-backend.onrender.com";
 let products=[];
 const cart=new Map();
+const PAGE_SIZE=24;let currentPage=1;
 let category="all";
 const grid=document.getElementById("productGrid");
 const categoryLabels={};
@@ -226,15 +228,18 @@ function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;",
 function mapCategory(v){return String(v||"অন্যান্য").trim()||"অন্যান্য"}
 function iconFor(cat){const s=String(cat).toLowerCase();if(/charge|cable|চার্জ|কেবল/.test(s))return "🔌";if(/audio|ear|head|অডিও|হেডফোন|ইয়ার/.test(s))return "🎧";if(/cover|glass|কভার|গ্লাস/.test(s))return "📱";if(/power|battery|পাওয়ার|ব্যাটারি/.test(s))return "🔋";if(/repair|সার্ভিস/.test(s))return "🛠️";return "🛍️"}
 function renderCategories(){const counts={};products.forEach(p=>counts[p.category]=(counts[p.category]||0)+1);const names=Object.keys(counts).sort((a,b)=>a.localeCompare(b,"bn"));document.getElementById("allCount").textContent=products.length;document.getElementById("filters").innerHTML='<button class="'+(category==="all"?"active":"")+'" data-cat="all">🏠 '+tr("সব পণ্য")+' <span class="cat-count">'+products.length+'</span></button>'+names.map(n=>'<button class="'+(category===n?"active":"")+'" data-cat="'+escapeHTML(n)+'">'+iconFor(n)+' '+escapeHTML(n)+' <span class="cat-count">'+counts[n]+'</span></button>').join("")}
+function renderPagination(total,totalPages){const nav=document.getElementById("productPagination");if(!nav)return;if(total<=PAGE_SIZE){nav.innerHTML=total?'<span class="product-page-info">মোট '+total+'টি পণ্য</span>':"";return;}let html='<button type="button" data-page="prev" '+(currentPage===1?"disabled":"")+'>আগের</button>';const start=Math.max(1,currentPage-2),end=Math.min(totalPages,currentPage+2);for(let p=start;p<=end;p++)html+='<button type="button" data-page="'+p+'" class="'+(p===currentPage?"active":"")+'">'+p+'</button>';html+='<button type="button" data-page="next" '+(currentPage===totalPages?"disabled":"")+'>পরের</button><span class="product-page-info">'+total+'টি পণ্য · পৃষ্ঠা '+currentPage+'/'+totalPages+'</span>';nav.innerHTML=html;}
 function render(){
  const q=document.getElementById("search").value.trim().toLocaleLowerCase();
  const list=products.filter(p=>(category==="all"||p.category===category)&&(p.name+" "+p.desc+" "+p.category).toLocaleLowerCase().includes(q));
- grid.innerHTML=list.length?list.map(p=>{
+ const totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));if(currentPage>totalPages)currentPage=totalPages;const pageItems=list.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);
+ grid.innerHTML=pageItems.length?pageItems.map(p=>{
   const image=p.image&&/^https?:\/\//i.test(p.image)?'<img src="'+escapeHTML(p.image)+'" alt="'+escapeHTML(p.name)+'" loading="lazy" style="width:100%;height:112px;object-fit:contain;border-radius:13px;background:#f7f8ff">':'<div class="product-icon" aria-hidden="true">'+iconFor(p.cat)+'</div>';
   const stockText=p.stock>0?tr('স্টক: ')+p.stock:tr('স্টক নেই');
   const disabled=p.stock<=0?'disabled':'';
   return '<article class="card">'+image+'<span class="tag">'+escapeHTML(p.category||categoryLabels[p.cat])+'</span><h3>'+escapeHTML(p.name)+'</h3><p>'+escapeHTML(p.desc||"")+'</p><p style="margin-top:8px;color:#18233d;font-weight:800">₹'+Number(p.price||0).toLocaleString("en-IN")+'</p><p class="note">'+stockText+'</p><button class="btn blue" data-add="'+escapeHTML(p.id)+'" '+disabled+'>'+tr('কার্টে যোগ করুন')+'</button><button class="btn buy-now" data-buy="'+escapeHTML(p.id)+'" '+disabled+'>এখনই কিনুন</button></article>';
- }).join(""):'<div class="empty">'+tr('এখনও কোনো পণ্য যোগ করা হয়নি।')+'</div>';
+ }).join(""):'<div class="empty">'+(list.length?"এই পাতায় পণ্য নেই।":tr('এখনও কোনো পণ্য যোগ করা হয়নি।'))+'</div>';
+ renderPagination(list.length,totalPages);
  renderCart();
  renderCategories();
 }
@@ -275,10 +280,11 @@ document.getElementById("cart").addEventListener("click",e=>{
  if(n<=0)cart.delete(id);else if(p&&n<=p.stock)cart.set(id,n);else alert(tr("স্টকের বেশি যোগ করা যাবে না।"));
  renderCart();
 });
-document.getElementById("search").addEventListener("input",render);
+document.getElementById("search").addEventListener("input",()=>{currentPage=1;render()});
+document.getElementById("productPagination").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(!b)return;const q=document.getElementById("search").value.trim().toLocaleLowerCase(),filtered=products.filter(p=>(category==="all"||p.category===category)&&(p.name+" "+p.desc+" "+p.category).toLocaleLowerCase().includes(q)),pages=Math.max(1,Math.ceil(filtered.length/PAGE_SIZE));const v=b.dataset.page;currentPage=v==="prev"?Math.max(1,currentPage-1):v==="next"?Math.min(pages,currentPage+1):Math.max(1,Math.min(pages,Number(v)||1));render();document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"})});
 document.getElementById("filters").addEventListener("click",e=>{
  const b=e.target.closest("button[data-cat]");if(!b)return;
- category=b.dataset.cat;render();
+ category=b.dataset.cat;currentPage=1;render();
 });
 
 const customerFirebaseConfig={apiKey:"AIzaSyCzZletuSiNTTJL35Du0wuQUEAWDUwjd5M",authDomain:"shivam-network.firebaseapp.com",projectId:"shivam-network",storageBucket:"shivam-network.firebasestorage.app",messagingSenderId:"473012818153",appId:"1:473012818153:web:6f62a44ddff48c84b36078"};
