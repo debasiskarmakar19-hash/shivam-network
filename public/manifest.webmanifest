@@ -25,19 +25,5 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "অ্যাডমিন প্যানেল",
-      "short_name": "Admin",
-      "url": "https://shivam-network-backend.onrender.com/admin.html",
-      "icons": [
-        {
-          "src": "/app-icon.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
-        }
-      ]
-    }
   ]
 }
