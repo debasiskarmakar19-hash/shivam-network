@@ -194,7 +194,22 @@ body.app-mode #loginPassword,body.app-mode label[for="loginPassword"],body.app-m
   <h1>📱 রিচার্জ ও বিল পেমেন্ট</h1>
   <p>মোবাইল, DTH এবং বিভিন্ন বিল পেমেন্টের জন্য আলাদা পরিষেবা বিভাগ। শপিং পণ্যের কার্ট ও অর্ডার থেকে সম্পূর্ণ আলাদা।</p>
  </div>
- <div class="wallet-card"><div><small>আমার রিওয়ার্ড ওয়ালেট</small><div class="wallet-value">₹ — —</div><small>ওয়ালেট চালু হলে ব্যালেন্স এখানে দেখা যাবে</small></div><span class="wallet-pill">এখনও সক্রিয় নয়</span></div>
+ <div class="wallet-card"><div><small>আমার Shivam Network Wallet</small><div class="wallet-value" id="walletBalance">₹0.00</div><small id="walletLoginHint">Wallet দেখতে আগে OTP লগইন করুন</small></div><span class="wallet-pill" id="walletState">নিরাপদ Wallet</span></div>
+ <section class="recharge-form" id="walletPanel">
+  <h2>💳 Wallet-এ টাকা যোগ করুন</h2>
+  <p class="sub">প্রথমে পরিমাণ লিখে UPI অ্যাপে পেমেন্ট করুন। পেমেন্টের UTR / Reference নম্বর জমা দিলে দোকানের অনুমোদিত ব্যক্তি যাচাই করবেন। যাচাই না হওয়া পর্যন্ত ব্যালেন্স বাড়বে না।</p>
+  <label for="walletAmount">টাকার পরিমাণ (₹10–₹10,000)</label>
+  <input class="field" id="walletAmount" type="number" min="10" max="10000" step="0.01" placeholder="যেমন 100">
+  <a class="btn blue" id="walletPayLink" href="#" rel="nofollow">UPI অ্যাপ দিয়ে পেমেন্ট করুন</a>
+  <p class="recharge-note">UPI ID: <b>6294701353@okbizaxis</b> · পেমেন্ট করার আগে প্রাপকের নাম ও পরিমাণ মিলিয়ে নিন। এই বোতাম পেমেন্ট নিশ্চিত করে না।</p>
+  <form id="walletTopupForm">
+   <label for="walletReference">পেমেন্টের UTR / Reference নম্বর</label>
+   <input class="field" id="walletReference" maxlength="40" autocomplete="off" required placeholder="পেমেন্টের রসিদে থাকা Reference নম্বর">
+   <button class="btn" type="submit">পেমেন্ট যাচাইয়ের অনুরোধ পাঠান</button>
+  </form>
+  <p id="walletMessage" class="muted" aria-live="polite">টপ-আপের অনুরোধ জমা দিলে যাচাইয়ের অপেক্ষায় থাকবে।</p>
+  <h3>Wallet লেনদেনের ইতিহাস</h3><div id="walletHistory" class="muted">লগইন করলে লেনদেন দেখা যাবে।</div>
+ </section>
  <div class="section-head"><div><h2>কী রিচার্জ করবেন?</h2><p class="sub">একটি পরিষেবা বেছে নিন</p></div></div>
  <div class="recharge-grid">
   <button class="recharge-tile" data-service="মোবাইল রিচার্জ" data-kind="mobile"><span>📱</span><b>মোবাইল রিচার্জ</b><small>Prepaid / Postpaid</small></button>
@@ -478,4 +493,18 @@ installButton.addEventListener("click",async()=>{if(!installPrompt){alert("Chrom
 window.addEventListener("appinstalled",()=>{installButton.hidden=true;installPrompt=null;});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(error=>console.warn("App offline setup failed",error)));}
 </script>
-</body></html>
+<script>
+(function(){
+ const amountEl=document.getElementById("walletAmount"),payLink=document.getElementById("walletPayLink"),form=document.getElementById("walletTopupForm"),message=document.getElementById("walletMessage");
+ if(!amountEl||!payLink||!form)return;
+ const money=n=>(Number(n||0)/100).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function updatePayLink(){const amount=Number(amountEl.value);if(Number.isFinite(amount)&&amount>=10&&amount<=10000){const q=new URLSearchParams({pa:"6294701353@okbizaxis",pn:"Shivam Network",cu:"INR",am:amount.toFixed(2),tn:"Shivam Network Wallet"});payLink.href="upi://pay?"+q.toString();payLink.setAttribute("aria-disabled","false")}else{payLink.href="#";payLink.setAttribute("aria-disabled","true")}}
+ amountEl.addEventListener("input",updatePayLink);updatePayLink();
+ async function refreshWallet(){if(!window.customerAuth?.currentUser){document.getElementById("walletLoginHint").textContent="Wallet দেখতে আগে OTP লগইন করুন";document.getElementById("walletHistory").textContent="লগইন করলে লেনদেন দেখা যাবে।";return}try{const token=await customerAuth.currentUser.getIdToken(),res=await fetch(API_BASE+"/api/wallet",{headers:{Authorization:"Bearer "+token}}),data=await res.json();if(!res.ok)throw Error(data.error||"Wallet লোড হয়নি");document.getElementById("walletBalance").textContent="₹"+money(data.balancePaise);document.getElementById("walletLoginHint").textContent="আপনার বর্তমান Wallet ব্যালেন্স";document.getElementById("walletState").textContent="সক্রিয়";document.getElementById("walletHistory").innerHTML=(data.transactions||[]).length?(data.transactions||[]).map(x=>'<p><b>'+(x.type==="CREDIT"?"টাকা জমা":"লেনদেন")+'</b> · ₹'+money(x.amountPaise)+' · '+esc(x.description)+' · '+esc(x.createdAt?new Date(x.createdAt).toLocaleString("bn-IN"):"")+'</p>').join(""):"এখনও কোনো Wallet লেনদেন নেই।"}catch(e){message.textContent=e.message}}
+ form.addEventListener("submit",async e=>{e.preventDefault();if(!customerAuth?.currentUser){message.textContent="আগে OTP লগইন করুন।";return}const amount=Number(amountEl.value),reference=document.getElementById("walletReference").value.trim();if(!Number.isFinite(amount)||amount<10||amount>10000||Math.round(amount*100)!==amount*100){message.textContent="₹10 থেকে ₹10,000-এর মধ্যে সঠিক পরিমাণ লিখুন।";return}try{const token=await customerAuth.currentUser.getIdToken(),res=await fetch(API_BASE+"/api/wallet/topups",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({amount,paymentReference:reference})}),data=await res.json();if(!res.ok)throw Error(data.error||"অনুরোধ জমা হয়নি");message.textContent=data.message;form.reset();amountEl.value="";updatePayLink();}catch(err){message.textContent=err.message}});
+ if(window.customerAuth){customerAuth.onAuthStateChanged(()=>refreshWallet())}
+ document.querySelectorAll("[data-open-recharge]").forEach(x=>x.addEventListener("click",()=>refreshWallet()));
+ if(location.hash==="#recharge")refreshWallet();
+})();
+</script></body></html>
