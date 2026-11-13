@@ -7,6 +7,6 @@ This Android WebView app opens the live Shivam Network storefront and keeps the 
 - Build: `gradle assembleDebug`
 - APK output: `app/build/outputs/apk/debug/app-debug.apk`
 
-The GitHub Actions workflow builds a debug-signed installable APK and publishes it as the `ShivamNetwork.apk` asset in GitHub Release `v1.0.0`.
+The GitHub Actions workflow builds a debug-signed installable APK and publishes it as the `ShivamNetwork.apk` asset in GitHub Release `v1.0.2`.
 
 This debug APK is suitable for direct Android installation/testing, not Google Play publishing. A Play Store release requires a separately managed production signing key.
