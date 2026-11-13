@@ -426,9 +426,10 @@ const accountPanel=document.getElementById("accountPanel");
 let appProfileOpen=false;
 function lockAppGate(){if(!APP_MODE||!accountPanel)return;appProfileOpen=false;document.body.classList.add("app-mode","app-locked");accountPanel.classList.add("app-login-gate");accountPanel.hidden=false;}
 function releaseAppGate(){if(!APP_MODE||!accountPanel)return;document.body.classList.remove("app-locked");accountPanel.classList.remove("app-login-gate");accountPanel.hidden=!appProfileOpen;window.scrollTo({top:0,behavior:"instant"});}
+function openCustomerAccount(){if(!APP_MODE)return;if(!customerAuth?.currentUser){lockAppGate();return;}appProfileOpen=true;accountPanel.hidden=false;accountPanel.scrollIntoView({behavior:"smooth",block:"start"});}
 const appAccountLink=document.querySelector('.flip-actions a[href="#accountPanel"]');
-appAccountLink?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();if(!customerAuth?.currentUser){lockAppGate();return;}appProfileOpen=!appProfileOpen;accountPanel.hidden=!appProfileOpen;if(appProfileOpen)accountPanel.scrollIntoView({behavior:"smooth",block:"start"});else window.scrollTo({top:0,behavior:"smooth"});});
-document.getElementById("sidebarAccountLink")?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();setMenu(false);appAccountLink?.click()});
+appAccountLink?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();if(appProfileOpen){appProfileOpen=false;accountPanel.hidden=true;window.scrollTo({top:0,behavior:"smooth"});}else openCustomerAccount();});
+document.getElementById("sidebarAccountLink")?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();setMenu(false);openCustomerAccount();});
 if(APP_MODE){const note=document.querySelector("#accountLogin > .note");if(note)note.textContent="ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন, অথবা নতুন অ্যাকাউন্ট খুলুন।";lockAppGate();}
 const sidebar=document.getElementById("siteSidebar");
 const menuToggle=document.getElementById("menuToggle");
@@ -461,7 +462,7 @@ if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.se
 </nav>
 <script>
 document.querySelectorAll(".app-nav-item[href]").forEach(a=>a.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));a.classList.add("active")}));
-document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");document.querySelector('.flip-actions a[href="#accountPanel"]')?.click()});
+document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");openCustomerAccount()});
 </script>
 <script src="/customer-auth.js"></script>
 </body></html>
