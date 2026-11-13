@@ -36,6 +36,7 @@ async function sendLinkOtp(){
  const phone=phoneE164($("verifyPhoneNumber").value);
  if(!phone)throw Error("সঠিক ১০ সংখ্যার ভারতীয় মোবাইল নম্বর লিখুন।");
  if(!customerAuth.currentUser)throw Error("আগে Email ও Password দিয়ে লগইন করুন।");
+ if(customerAuth.currentUser.phoneNumber===phone){$("phoneOtpStatus").textContent="✓ এই মোবাইল নম্বরটি আগে থেকেই যাচাই করা আছে।";return}
  flowConfirmation=await customerAuth.currentUser.linkWithPhoneNumber(phone,await getVerifier());
  $("phoneOtpConfirmArea").hidden=false;
  $("phoneOtpStatus").textContent="OTP পাঠানো হয়েছে। SMS-এর ৬ সংখ্যার কোড লিখুন।";
@@ -105,6 +106,7 @@ function bind(){
   }catch(err){status(err.message||"পাসওয়ার্ড বদলানো যায়নি।")}
  });
 }
+customerAuth?.onAuthStateChanged(user=>{if(!user||!$("verifyPhoneNumber"))return;if(user.phoneNumber){$("verifyPhoneNumber").value=user.phoneNumber.replace(/^\+91/,"");$("phoneOtpStatus").textContent="✓ মোবাইল নম্বর Firebase-এ যাচাই করা আছে।"}});
 function init(){buildUI();bind()}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
