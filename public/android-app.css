@@ -1,0 +1,102 @@
+/* Shivam Network — dedicated Android phone layout.
+   Loaded for app-mode only; the public desktop storefront remains unchanged. */
+html.app-mode{min-width:320px;scroll-padding-top:12px}
+html.app-mode body{min-width:320px;width:100%;overflow-x:hidden;background:#f1f3f6;padding-bottom:env(safe-area-inset-bottom);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.app-mode button,html.app-mode a,html.app-mode input,html.app-mode textarea,html.app-mode select{-webkit-tap-highlight-color:transparent}
+html.app-mode button,html.app-mode .btn{min-height:42px}
+html.app-mode .flip-header{position:relative;z-index:70;padding:10px 12px;background:#1768d5}
+html.app-mode .flip-head-inner{width:100%;display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:8px 10px;align-items:center}
+html.app-mode .flip-header .menu-toggle{grid-column:1;grid-row:1;width:36px;height:40px;justify-content:center;padding:0}
+html.app-mode .flip-header .brand{grid-column:2;grid-row:1;min-width:0;font-size:18px;line-height:1.25}
+html.app-mode .flip-header .brand small{font-size:10px;margin-top:2px}
+html.app-mode .flip-search{grid-column:1/-1;grid-row:2;width:100%;max-width:none;height:44px;margin:0;border-radius:10px}
+html.app-mode .flip-search .search{min-width:0;width:100%;font-size:14px}
+html.app-mode .flip-actions{grid-column:3;grid-row:1;gap:8px;margin:0}
+html.app-mode .flip-actions a,html.app-mode .flip-actions button{font-size:18px;line-height:1;padding:6px 2px}
+html.app-mode .flip-actions a span{display:none}
+html.app-mode .flip-actions button#installApp{display:none!important}
+html.app-mode .flip-actions #languageToggle{font-size:11px;padding:7px 8px;border-radius:8px;background:#ffffff20}
+html.app-mode .shop-nav.flip-category-strip{position:relative;top:auto;z-index:10;display:flex;justify-content:flex-start;flex-wrap:nowrap;gap:0;overflow-x:auto;overscroll-behavior-x:contain;padding:0 8px;background:#fff;border-bottom:1px solid #e1e6ef;scrollbar-width:none}
+html.app-mode .shop-nav.flip-category-strip::-webkit-scrollbar{display:none}
+html.app-mode .shop-nav.flip-category-strip a{flex:0 0 auto;min-height:44px;display:flex;align-items:center;padding:10px 12px;font-size:12px;white-space:nowrap}
+html.app-mode .hero{padding:25px 16px;background:linear-gradient(120deg,#172337,#1649a5 65%,#2874f0)}
+html.app-mode .hero h1{font-size:clamp(23px,6vw,30px);line-height:1.28;margin:9px 0}
+html.app-mode .hero p{font-size:13px;line-height:1.65;margin:8px 0}
+html.app-mode .hero:after{font-size:64px;right:2%;top:5%}
+html.app-mode .hero-actions{gap:8px;margin-top:14px}
+html.app-mode .hero-actions .btn{flex:1 1 140px;min-height:44px;padding:10px 12px;font-size:13px}
+html.app-mode .offer-ribbon{margin:9px 10px;padding:12px;border-radius:10px;gap:8px}
+html.app-mode .offer-ribbon strong{font-size:14px}
+html.app-mode .offer-ribbon span{font-size:12px}
+html.app-mode .offer-ribbon a{width:100%;text-align:center}
+html.app-mode .wrap{width:100%;max-width:none;padding:12px 10px}
+html.app-mode .site-layout{display:block;width:100%;min-width:0}
+html.app-mode .site-content{width:100%;min-width:0}
+html.app-mode .site-sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);height:100dvh;max-height:none;z-index:120;overflow-y:auto;transform:translateX(-105%);transition:transform .22s ease;border-radius:0 16px 16px 0;padding:16px;background:#fff}
+html.app-mode .site-sidebar.open{transform:translateX(0)}
+html.app-mode .site-sidebar .site-main-nav,html.app-mode .site-sidebar .site-category-nav{display:grid;overflow:visible;gap:5px}
+html.app-mode .site-sidebar .site-main-nav a,html.app-mode .site-sidebar .site-category-nav button{width:100%;min-height:44px;white-space:normal;text-align:left}
+html.app-mode body.menu-open:after{content:"";position:fixed;inset:0;background:#07152b88;z-index:110}
+html.app-mode .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 16px}
+html.app-mode .trust div{min-width:0;padding:10px 5px;font-size:11px;line-height:1.35;border-radius:9px}
+html.app-mode .trust span{font-size:10px;line-height:1.35}
+html.app-mode .section-head{align-items:flex-start;margin:18px 0 10px;gap:8px}
+html.app-mode .section-head h2{font-size:19px;line-height:1.35}
+html.app-mode .section-head .sub{font-size:12px;line-height:1.5}
+html.app-mode .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%}
+html.app-mode .card{min-width:0;padding:9px;border-radius:11px;overflow:hidden}
+html.app-mode .card img,html.app-mode .card .product-icon{width:100%;height:clamp(104px,34vw,138px)!important;object-fit:contain;border-radius:8px!important}
+html.app-mode .card h3{font-size:13px;line-height:1.4;min-height:36px;margin:7px 0 4px;overflow-wrap:anywhere}
+html.app-mode .card p{font-size:11px;line-height:1.45;min-height:32px}
+html.app-mode .card .tag{font-size:10px;margin-top:7px}
+html.app-mode .card .btn{min-height:40px;margin-top:9px;padding:8px 5px;font-size:12px;white-space:normal}
+html.app-mode .feature-catalog{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 16px}
+html.app-mode .feature-catalog a{min-width:0;min-height:100px;padding:12px;border-radius:10px;gap:5px}
+html.app-mode .feature-catalog span{font-size:25px}
+html.app-mode .feature-catalog b{font-size:14px;overflow-wrap:anywhere}
+html.app-mode .feature-catalog small{font-size:11px;line-height:1.4}
+html.app-mode .columns{grid-template-columns:minmax(0,1fr);gap:10px;margin-top:10px}
+html.app-mode .panel{min-width:0;padding:14px;border-radius:12px}
+html.app-mode .panel h3{font-size:16px;line-height:1.4}
+html.app-mode .field,html.app-mode input.field,html.app-mode textarea.field,html.app-mode select.field{width:100%;min-height:46px;padding:12px;font-size:16px;border-radius:10px}
+html.app-mode textarea.field{min-height:90px}
+html.app-mode .btn{min-height:44px}
+html.app-mode .account-panel{width:100%;max-width:none;margin:12px 0;padding:16px}
+html.app-mode .customer-account-nav{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding-bottom:9px;scrollbar-width:thin}
+html.app-mode .customer-account-nav button{flex:0 0 auto;min-height:42px;padding:9px 12px;font-size:12px}
+html.app-mode .customer-order-card{padding:12px;border-radius:10px}
+html.app-mode .cart-line{align-items:center;flex-wrap:wrap;font-size:13px}
+html.app-mode .qty button{min-width:36px;min-height:36px}
+html.app-mode .product-details-backdrop{padding:0;align-items:end}
+html.app-mode .product-details-box{width:100%;max-height:92dvh;border-radius:18px 18px 0 0;padding:16px;overflow-y:auto}
+html.app-mode .product-details-layout{grid-template-columns:minmax(0,1fr);gap:12px;padding-top:28px}
+html.app-mode .product-details-main-image{height:220px}
+html.app-mode .product-detail-actions{display:grid;grid-template-columns:1fr 1fr}
+html.app-mode .services{grid-template-columns:1fr;gap:9px}
+html.app-mode .contact{padding:16px;border-radius:12px}
+html.app-mode .float{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));padding:11px 14px;font-size:13px}
+html.app-mode .footer{padding:18px 12px;font-size:12px}
+html.app-mode [id]{scroll-margin-top:12px}
+/* The Android app opens directly on a proper OTP sign-in sheet until the customer is verified. */
+html.app-mode body.app-locked:before{content:"";position:fixed;inset:0;background:linear-gradient(145deg,#10234b,#1768d5);z-index:200}
+html.app-mode body.app-locked #accountPanel.app-login-gate{display:block!important;visibility:visible!important;position:fixed!important;inset:16px 12px auto!important;width:auto!important;max-width:520px!important;max-height:calc(100dvh - 32px)!important;overflow-y:auto!important;margin:auto!important;padding:22px 18px!important;border:0!important;border-radius:18px!important;z-index:201!important;box-shadow:0 18px 55px #06133166!important;background:#fff!important}
+html.app-mode body.app-locked #accountPanel.app-login-gate h2{font-size:22px;margin:0 0 10px;color:#172337}
+html.app-mode body.app-locked #accountPanel.app-login-gate .note{font-size:13px;line-height:1.65}
+html.app-mode body.app-locked #accountPanel.app-login-gate #sendOtp,html.app-mode body.app-locked #accountPanel.app-login-gate #verifyOtp{width:100%;margin-top:8px}
+html.app-mode body.app-locked #accountPanel.app-login-gate .field{min-height:50px;font-size:17px}
+html.app-mode body.app-locked #accountPanel.app-login-gate #recaptcha-container{min-height:1px}
+@media(max-width:360px){
+ html.app-mode .flip-header .brand{font-size:16px}
+ html.app-mode .flip-actions{gap:5px}
+ html.app-mode .flip-actions a,html.app-mode .flip-actions button{font-size:16px}
+ html.app-mode .flip-actions #languageToggle{font-size:10px;padding:6px}
+ html.app-mode .wrap{padding-left:8px;padding-right:8px}
+ html.app-mode .grid{gap:7px}
+ html.app-mode .card{padding:7px}
+}
+@media(min-width:700px){
+ html.app-mode .wrap{max-width:900px;margin:0 auto;padding:18px}
+ html.app-mode .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+ html.app-mode .feature-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}
+ html.app-mode .columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
