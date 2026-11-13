@@ -25,5 +25,9 @@ assert.ok(site.includes('id="shoppingPolicies"'), "Shopping policy section is mi
 assert.ok(site.includes("ফুলবাড়িয়া ও গড়বেতায় লোকাল ডেলিভারি"), "Local delivery offer is missing.");
 assert.ok(!/রিচার্জ|বিল পে|bill payment|Recharge Zone|rechargeHub|data-open-recharge/i.test(site), "Recharge or bill-payment UI remains in the storefront.");
 assert.ok(serverJs.includes("const orderRequestLimit="), "Order rate limit is missing.");
+assert.ok(site.includes('id="guestCheckoutFields"'), "Public website guest checkout fields are missing.");
+assert.ok(site.includes("html:not(.app-mode) .account-panel"), "Customer account must be hidden on the public website.");
+assert.ok(!site.includes('id="loginPassword"') && !site.includes('id="setPasswordArea"'), "Customer login must use OTP only.");
+assert.ok(serverJs.includes('orderSource:user?"ANDROID_APP":"PUBLIC_WEBSITE"'), "Orders must record their source.");
 assert.ok(serverJs.includes("const quantities=new Map()"), "Duplicate cart items are not normalized before stock reservation.");
 console.log("Shivam Network checks passed: storefront sync, DOM references, JavaScript syntax, policy, local delivery, service options and order validation.");
