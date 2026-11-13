@@ -252,7 +252,7 @@ function renderCart(){
  document.getElementById("cart").innerHTML=entries.length?entries.map(([id,n])=>{const p=products.find(x=>x.id===id);if(!p)return "";return '<div class="cart-line"><span>'+escapeHTML(p.name)+' × '+n+'</span><span class="qty"><button data-minus="'+escapeHTML(id)+'" aria-label="'+tr("একটি কমান")+'">−</button>'+n+'<button data-plus="'+escapeHTML(id)+'" aria-label="একটি বাড়ান">+</button></span></div>'}).join(""):'<p class="note">'+tr('এখনও কোনো পণ্য যোগ করা হয়নি।')+'</p>';
  const total=entries.reduce((sum,[id,n])=>{const p=products.find(x=>x.id===id);return sum+(p?p.price*n:0)},0);
  document.getElementById("cartTotal").textContent="₹"+total.toLocaleString("en-IN");
- document.getElementById("navCartCount").textContent=entries.reduce((sum,x)=>sum+x[1],0);
+ const cartQuantity=entries.reduce((sum,x)=>sum+x[1],0);document.getElementById("navCartCount").textContent=cartQuantity;const appCartCount=document.getElementById("appCartCount");if(appCartCount)appCartCount.textContent=cartQuantity;
  document.getElementById("checkoutPanel").hidden=!entries.length;
  updateCheckout();
 }
@@ -420,4 +420,8 @@ if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.se
  <a class="app-nav-item" href="#services" data-app-nav="services"><span aria-hidden="true">🛠️</span><small>সার্ভিস</small></a>
  <button class="app-nav-item" id="appAccountNav" type="button"><span aria-hidden="true">👤</span><small>অ্যাকাউন্ট</small></button>
 </nav>
+<script>
+document.querySelectorAll(".app-nav-item[href]").forEach(a=>a.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));a.classList.add("active")}));
+document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");document.querySelector('.flip-actions a[href="#accountPanel"]')?.click()});
+</script>
 </body></html>
