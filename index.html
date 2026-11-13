@@ -412,4 +412,12 @@ installButton.addEventListener("click",async()=>{if(!installPrompt){alert("Chrom
 window.addEventListener("appinstalled",()=>{installButton.hidden=true;installPrompt=null;});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(error=>console.warn("App offline setup failed",error)));}
 </script>
+
+<nav class="app-bottom-nav" aria-label="অ্যাপ নেভিগেশন">
+ <a class="app-nav-item active" href="#home" data-app-nav="home"><span aria-hidden="true">⌂</span><small>হোম</small></a>
+ <a class="app-nav-item" href="#products" data-app-nav="shop"><span aria-hidden="true">▦</span><small>শপ</small></a>
+ <a class="app-nav-item app-cart-nav" href="#cartPanel" data-app-nav="cart"><span aria-hidden="true">🛒</span><small>কার্ট</small><b id="appCartCount">0</b></a>
+ <a class="app-nav-item" href="#services" data-app-nav="services"><span aria-hidden="true">🛠️</span><small>সার্ভিস</small></a>
+ <button class="app-nav-item" id="appAccountNav" type="button"><span aria-hidden="true">👤</span><small>অ্যাকাউন্ট</small></button>
+</nav>
 </body></html>
