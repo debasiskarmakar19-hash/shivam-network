@@ -30,7 +30,7 @@ Render Dashboard-এ secret value দেখানো বা chat-এ পাঠ�
 
 ## Customer order flow
 - Customer mobile OTP দিয়ে লগইন করে নাম ও পশ্চিমবঙ্গের ঠিকানা/PIN সেভ করে।
-- Android App-এ OTP যাচাইয়ের পর নাম, সম্পূর্ণ ঠিকানা ও PIN সেভ না করা পর্যন্ত শপিং অংশ লক থাকে।
+- Android App-এ OTP যাচাই হলে অ্যাপ খোলে; অর্ডার করার আগে নাম, সম্পূর্ণ ঠিকানা ও PIN সেভ করা বাধ্যতামূলক।
 - Website-এর public guest checkout আলাদা থাকে; Admin Panel-এর লগইন আলাদা ও সুরক্ষিত থাকে।
 - Android App ও Website-এর অর্ডার একই Firestore `orders` collection-এ যায়; `orderSource` দিয়ে APP/WEB চিহ্নিত হয়।
 - Admin Panel থেকে NEW → CONFIRMED → PROCESSING → SHIPPED → DELIVERED অথবা CANCELLED স্ট্যাটাস আপডেট করা যায়; Customer App-এর order history একই রেকর্ড পড়ে।
