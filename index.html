@@ -147,7 +147,7 @@ html:not(.app-mode) .account-panel,html:not(.app-mode) .flip-actions a[href="#ac
 </div></section>
 <div class="offer-ribbon local-delivery-offer"><strong>🚚 ফুলবাড়িয়া ও গড়বেতায় লোকাল ডেলিভারি</strong><span>আপনার এলাকায় ডেলিভারি চার্জ, সময় ও চলতি অফার অর্ডারের আগে WhatsApp-এ জেনে নিন।</span><a href="https://wa.me/916294701353?text=Shivam%20Network%20local%20delivery%20offer%20details" target="_blank" rel="noopener">লোকাল ডেলিভারি অফার জানুন</a></div>
 
-<main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><a href="#home">🏠 হোম</a><a href="#products" data-select-category="মোবাইল ফোন">📱 মোবাইল ফোন</a><a href="#products" data-select-category="মোবাইল অ্যাকসেসরিজ">🛍️ মোবাইল অ্যাকসেসরিজ</a><a href="#services">🛠️ মোবাইল রিপেয়ারিং</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#contact">📍 যোগাযোগ</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
+<main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><a href="#accountPanel" id="sidebarAccountLink">👤 আমার অ্যাকাউন্ট</a><a href="#home">🏠 হোম</a><a href="#products" data-select-category="মোবাইল ফোন">📱 মোবাইল ফোন</a><a href="#products" data-select-category="মোবাইল অ্যাকসেসরিজ">🛍️ মোবাইল অ্যাকসেসরিজ</a><a href="#services">🛠️ মোবাইল রিপেয়ারিং</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#contact">📍 যোগাযোগ</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
  <section class="trust"><div>🎧 মোবাইল অ্যাকসেসরিজ<span>সব ধরনের দৈনন্দিন অ্যাকসেসরিজ</span></div><div>🔌 চার্জার ও কেবল<span>চার্জার, ডেটা কেবল ও অ্যাডাপ্টার</span></div><div>🛠️ রিপেয়ারিং সার্ভিস<span>মোবাইল ও কম্পিউটার সার্ভিসিং</span></div></section>
   <section id="products">
   <div class="section-head"><div><h2>সব মোবাইল অ্যাকসেসরিজ</h2><p class="sub">All Accessories Available — পণ্য দেখুন, সার্চ করুন এবং কার্টে যোগ করুন</p></div></div>
@@ -414,8 +414,10 @@ const accountPanel=document.getElementById("accountPanel");
 let appProfileOpen=false;
 function lockAppGate(){if(!APP_MODE||!accountPanel)return;appProfileOpen=false;document.body.classList.add("app-mode","app-locked");accountPanel.classList.add("app-login-gate");accountPanel.hidden=false;}
 function releaseAppGate(){if(!APP_MODE||!accountPanel)return;document.body.classList.remove("app-locked");accountPanel.classList.remove("app-login-gate");accountPanel.hidden=!appProfileOpen;window.scrollTo({top:0,behavior:"instant"});}
+function openCustomerAccount(){if(!APP_MODE)return;if(!customerAuth?.currentUser){lockAppGate();return;}appProfileOpen=true;accountPanel.hidden=false;accountPanel.scrollIntoView({behavior:"smooth",block:"start"});}
 const appAccountLink=document.querySelector('.flip-actions a[href="#accountPanel"]');
-appAccountLink?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();if(!customerAuth?.currentUser){lockAppGate();return;}appProfileOpen=!appProfileOpen;accountPanel.hidden=!appProfileOpen;if(appProfileOpen)accountPanel.scrollIntoView({behavior:"smooth",block:"start"});else window.scrollTo({top:0,behavior:"smooth"});});
+appAccountLink?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();if(appProfileOpen){appProfileOpen=false;accountPanel.hidden=true;window.scrollTo({top:0,behavior:"smooth"});}else openCustomerAccount();});
+document.getElementById("sidebarAccountLink")?.addEventListener("click",e=>{if(!APP_MODE)return;e.preventDefault();setMenu(false);openCustomerAccount();});
 if(APP_MODE){const note=document.querySelector("#accountLogin > .note");if(note)note.textContent="ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন, অথবা নতুন অ্যাকাউন্ট খুলুন।";lockAppGate();}
 const sidebar=document.getElementById("siteSidebar");
 const menuToggle=document.getElementById("menuToggle");
@@ -444,11 +446,11 @@ if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.se
  <a class="app-nav-item" href="#products" data-app-nav="shop"><span aria-hidden="true">▦</span><small>শপ</small></a>
  <a class="app-nav-item app-cart-nav" href="#cartPanel" data-app-nav="cart"><span aria-hidden="true">🛒</span><small>কার্ট</small><b id="appCartCount">0</b></a>
  <a class="app-nav-item" href="#services" data-app-nav="services"><span aria-hidden="true">🛠️</span><small>সার্ভিস</small></a>
- <button class="app-nav-item" id="appAccountNav" type="button"><span aria-hidden="true">👤</span><small>অ্যাকাউন্ট</small></button>
+ <button class="app-nav-item" id="appAccountNav" type="button"><span aria-hidden="true">👤</span><small>আমার অ্যাকাউন্ট</small></button>
 </nav>
 <script>
 document.querySelectorAll(".app-nav-item[href]").forEach(a=>a.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));a.classList.add("active")}));
-document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");document.querySelector('.flip-actions a[href="#accountPanel"]')?.click()});
+document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");openCustomerAccount()});
 </script>
 <script src="/customer-auth.js"></script>
 </body></html>
