@@ -4,10 +4,20 @@
 const $=id=>document.getElementById(id);
 const status=msg=>{if($("otpStatus"))$("otpStatus").textContent=msg};
 const phoneE164=value=>{const d=String(value||"").replace(/\D/g,"");return d.length===10?"+91"+d:""};
-let verifier=null,flowConfirmation=null,resetEmail="";
-function clearVerifier(){if(verifier){verifier.clear();verifier=null}if($("authRecaptcha"))$("authRecaptcha").innerHTML=""}
+let verifier=null,flowConfirmation=null,resetEmail="",captchaBusy=false;
+function clearVerifier(){try{if(verifier)verifier.clear()}catch(e){console.warn("reCAPTCHA cleanup:",e)}verifier=null;flowConfirmation=null;const box=$("authRecaptcha");if(box)box.innerHTML=""}
 async function getVerifier(){
- if(!verifier){verifier=new firebase.auth.RecaptchaVerifier("authRecaptcha",{size:"normal"},customerAuth.app);await verifier.render()}
+ if(captchaBusy)throw Error("CAPTCHA প্রস্তুত হচ্ছে। কয়েক সেকেন্ড পরে আবার চেষ্টা করুন।");
+ if(!window.firebase||!firebase.auth||!customerAuth)throw Error("Firebase লগইন প্রস্তুত নয়। অ্যাপটি বন্ধ করে আবার খুলুন।");
+ const box=$("authRecaptcha");if(!box)throw Error("CAPTCHA অংশটি পাওয়া যায়নি। পেজটি আবার খুলুন।");
+ if(!verifier){
+  captchaBusy=true;
+  try{
+   verifier=new firebase.auth.RecaptchaVerifier("authRecaptcha",{size:"normal",callback:()=>status("CAPTCHA যাচাই হয়েছে। এখন OTP পাঠানো হচ্ছে…"),"expired-callback":()=>{flowConfirmation=null;status("CAPTCHA-এর সময় শেষ হয়েছে। আবার যাচাই করুন।")}},customerAuth.app);
+   await verifier.render();
+  }catch(err){clearVerifier();throw Error(err.message||"CAPTCHA লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।")}
+  finally{captchaBusy=false}
+ }
  return verifier;
 }
 function buildUI(){
@@ -61,7 +71,7 @@ function bind(){
   $("passwordResetPanel").hidden=!$("passwordResetPanel").hidden;
   status("SMS OTP-এর জন্য আগে যাচাই করা মোবাইল নম্বর দিন।");
  },true);
- $("sendPhoneVerificationOtp")?.addEventListener("click",async()=>{try{await sendLinkOtp()}catch(err){$("phoneOtpStatus").textContent=err.message||"OTP পাঠানো যায়নি।"}});
+ $("sendPhoneVerificationOtp")?.addEventListener("click",async()=>{try{await sendLinkOtp()}catch(err){clearVerifier();$("phoneOtpStatus").textContent=err.message||"OTP পাঠানো যায়নি।"}});
  $("confirmPhoneVerificationOtp")?.addEventListener("click",async()=>{
   try{
    if(!flowConfirmation)throw Error("আগে OTP পাঠান।");
@@ -70,7 +80,7 @@ function bind(){
    $("phoneOtpStatus").textContent="✓ মোবাইল নম্বর যাচাই সম্পন্ন হয়েছে। এই নম্বর Forgot Password-এ ব্যবহার করতে পারবেন।";
    $("profilePhoneNumber").value=(result.user.phoneNumber||"").replace(/^\+91/,"");
    flowConfirmation=null;clearVerifier();
-  }catch(err){$("phoneOtpStatus").textContent=err.message||"OTP যাচাই হয়নি।"}
+  }catch(err){clearVerifier();$("phoneOtpStatus").textContent=err.message||"OTP যাচাই হয়নি।"}
  });
  $("sendPasswordResetOtp")?.addEventListener("click",async()=>{
   const email=$("loginEmail").value.trim(),phone=phoneE164($("resetPhoneNumber").value.trim());
