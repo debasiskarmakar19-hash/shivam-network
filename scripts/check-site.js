@@ -27,13 +27,15 @@ assert.ok(!/রিচার্জ|বিল পে|bill payment|Recharge Zone|re
 assert.ok(serverJs.includes("const orderRequestLimit="), "Order rate limit is missing.");
 assert.ok(site.includes('id="guestCheckoutFields"'), "Public website guest checkout fields are missing.");
 assert.ok(site.includes("html:not(.app-mode) .account-panel"), "Customer account must be hidden on the public website.");
-assert.ok(!site.includes('id="loginPassword"') && !site.includes('id="setPasswordArea"'), "Customer login must use OTP only.");
+assert.ok(site.includes('id="loginEmail"') && site.includes('id="loginPassword"') && site.includes('id="emailRegister"'), "Android customer login must support Firebase email/password registration and login.");
 assert.ok(serverJs.includes('orderSource:user?"ANDROID_APP":"PUBLIC_WEBSITE"'), "Orders must record their source.");
 assert.ok(serverJs.includes("const quantities=new Map()"), "Duplicate cart items are not normalized before stock reservation.");
 assert.ok(serverJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Backend processing order status is missing.");
 assert.ok(adminJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Admin processing order status is missing.");
 assert.ok(adminJs.includes('PROCESSING:"প্রসেসিং"'), "Admin processing status label is missing.");
 assert.ok(site.includes('PROCESSING:"প্রসেসিং"'), "Customer order processing status label is missing.");
-assert.ok(site.includes("customerAuth?.onAuthStateChanged"), "Android app must restore an existing OTP session.");
+assert.ok(site.includes("customerAuth?.onAuthStateChanged"), "Android app must restore an existing Firebase email/password session.");
+assert.ok(site.includes("createUserWithEmailAndPassword") && site.includes("signInWithEmailAndPassword"), "Android customer login must support email/password registration and sign-in.");
+assert.ok(serverJs.includes("phone=txt(q.body.phone,10)"), "Customer profile must save a contact phone number for orders.");
 assert.ok(serverJs.includes('if(status==="CANCELLED"&&["SHIPPED","DELIVERED"].includes(order.status))'), "Shipped or delivered orders must not be cancelled as stock could be restored incorrectly.");
 console.log("Shivam Network checks passed: storefront sync, DOM references, JavaScript syntax, policy, local delivery, service options and order validation.");
