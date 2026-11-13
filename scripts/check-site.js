@@ -30,4 +30,7 @@ assert.ok(site.includes("html:not(.app-mode) .account-panel"), "Customer account
 assert.ok(!site.includes('id="loginPassword"') && !site.includes('id="setPasswordArea"'), "Customer login must use OTP only.");
 assert.ok(serverJs.includes('orderSource:user?"ANDROID_APP":"PUBLIC_WEBSITE"'), "Orders must record their source.");
 assert.ok(serverJs.includes("const quantities=new Map()"), "Duplicate cart items are not normalized before stock reservation.");
+assert.ok(serverJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Backend processing order status is missing.");
+assert.ok(adminJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Admin processing order status is missing.");
+assert.ok(adminJs.includes('PROCESSING:"প্রসেসিং"'), "Admin processing status label is missing.");
 console.log("Shivam Network checks passed: storefront sync, DOM references, JavaScript syntax, policy, local delivery, service options and order validation.");
