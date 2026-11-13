@@ -33,4 +33,7 @@ assert.ok(serverJs.includes("const quantities=new Map()"), "Duplicate cart items
 assert.ok(serverJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Backend processing order status is missing.");
 assert.ok(adminJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED","CANCELLED"]'), "Admin processing order status is missing.");
 assert.ok(adminJs.includes('PROCESSING:"প্রসেসিং"'), "Admin processing status label is missing.");
+assert.ok(site.includes('PROCESSING:"প্রসেসিং"'), "Customer order processing status label is missing.");
+assert.ok(site.includes("customerAuth?.onAuthStateChanged"), "Android app must restore an existing OTP session.");
+assert.ok(serverJs.includes('if(status==="CANCELLED"&&["SHIPPED","DELIVERED"].includes(order.status))'), "Shipped or delivered orders must not be cancelled as stock could be restored incorrectly.");
 console.log("Shivam Network checks passed: storefront sync, DOM references, JavaScript syntax, policy, local delivery, service options and order validation.");
