@@ -7,7 +7,7 @@ const phoneE164=value=>{const d=String(value||"").replace(/\D/g,"");return d.len
 let verifier=null,flowConfirmation=null,resetEmail="";
 function clearVerifier(){if(verifier){verifier.clear();verifier=null}if($("authRecaptcha"))$("authRecaptcha").innerHTML=""}
 async function getVerifier(){
- if(!verifier){verifier=new firebase.auth.RecaptchaVerifier("authRecaptcha",{size:"normal"},customerAuth);await verifier.render()}
+ if(!verifier){verifier=new firebase.auth.RecaptchaVerifier("authRecaptcha",{size:"normal"},customerAuth.app);await verifier.render()}
  return verifier;
 }
 function buildUI(){
