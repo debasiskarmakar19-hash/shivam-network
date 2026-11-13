@@ -30,27 +30,42 @@ jobs:
 
       - name: Build installable APK
         working-directory: android
-        run: gradle assembleDebug
+        run: gradle --no-daemon clean assembleDebug
 
-      - name: Rename APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk ShivamNetwork.apk
+      - name: Verify APK package, contents and signature
+        run: |
+          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          test "$(stat -c%s "$APK")" -gt 10000
+          unzip -t "$APK"
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app'"
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose "$APK"
+          unzip -l "$APK" | grep -E 'classes.dex|AndroidManifest.xml'
+          mkdir -p release
+          cp "$APK" release/ShivamNetwork.apk
+          sha256sum release/ShivamNetwork.apk > release/SHA256SUMS.txt
+          ls -lh release/
 
       - name: Upload APK for direct download
         uses: actions/upload-artifact@v4
         with:
-          name: ShivamNetwork-APK
-          path: ShivamNetwork.apk
+          name: ShivamNetwork-APK-v1.0.1
+          path: release/*
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish APK download
+      - name: Publish verified APK download
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: Shivam Network Android App v1.0.0
+          tag_name: v1.0.1
+          name: Shivam Network Android App v1.0.1
           body: |
-            Shivam Network Android app.
-            Install this APK on Android phones. It connects to the live Shivam Network website and admin backend.
-          files: ShivamNetwork.apk
+            Shivam Network Android app — verified debug-signed APK for Android installation and testing.
+            Direct APK: https://github.com/debasiskarmakar19-hash/shivam-network/releases/download/v1.0.1/ShivamNetwork.apk
+            SHA-256 checksum is included as SHA256SUMS.txt.
+            This is a test/distribution APK, not a Google Play production-signed release.
+          files: |
+            release/ShivamNetwork.apk
+            release/SHA256SUMS.txt
           make_latest: true
           fail_on_unmatched_files: true
