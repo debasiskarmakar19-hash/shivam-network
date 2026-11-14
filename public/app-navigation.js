@@ -7,7 +7,7 @@
     navItems().forEach((item) => item.classList.remove("active"));
     document.getElementById(id)?.classList.add("active");
   };
-  const clearPageModes = () => document.body.classList.remove("app-page-category", "app-page-products", "app-page-orders", "app-account-detail");
+  const clearPageModes = () => document.body.classList.remove("app-page-category", "app-page-products", "app-page-orders", "app-page-cart", "app-account-detail");
   function ensureCategoryPage() {
     let page = document.getElementById("appCategoryPage");
     if (page) return page;
@@ -103,9 +103,13 @@
     document.querySelector('[data-app-nav="home"]')?.addEventListener("click", function (event) {
       event.preventDefault(); showHome();
     });
-    document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function () {
-      clearPageModes();
+    document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function (event) {
+      event.preventDefault();
       if (appProfileOpen) window.closeCustomerAccount();
+      clearPageModes();
+      document.body.classList.add("app-page-cart");
+      activate("appCartNav");
+      window.scrollTo(0, 0);
     });
     document.addEventListener("click", function (event) {
       if (event.target.closest("[data-account-tab]")) {
@@ -117,6 +121,72 @@
         activate("appAccountNav");
       }
     });
+
+    /* Flipkart/Meesho-style account menu: expand account activities inside the main left drawer. */
+    const accountLink = document.getElementById("sidebarAccountLink");
+    const accountMenu = document.getElementById("accountSubmenu");
+    const accountHome = document.getElementById("accountHomeList");
+    function renderAccountSubmenu() {
+      if (!accountMenu || !accountHome) return;
+      const entries = [...accountHome.querySelectorAll("button[data-account-tab], button.account-home-logout")];
+      accountMenu.innerHTML = entries.map((entry) => {
+        const tab = entry.dataset.accountTab || "";
+        const logout = entry.id === "accountLogoutHome" ? ' data-account-logout="true"' : "";
+        const label = entry.querySelector("span:nth-child(2)")?.innerText || entry.innerText;
+        const icon = entry.querySelector("span:first-child")?.innerText || "•";
+        return '<button type="button" class="account-submenu-item" data-account-tab="' + escapeHTML(tab) + '"' + logout + '><span class="account-submenu-icon">' + escapeHTML(icon) + '</span><span>' + escapeHTML(label.replace(/\s+/g, " ").trim()) + '</span><i>›</i></button>';
+      }).join("");
+    }
+    if (accountLink && accountMenu) {
+      const closeAccountSubmenu = () => {
+        accountMenu.hidden = true;
+        accountLink.setAttribute("aria-expanded", "false");
+        accountLink.classList.remove("expanded");
+      };
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("#sidebarAccountLink")) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (!customerAuth?.currentUser) {
+            closeAccountSubmenu();
+            setMenu(false);
+            window.openCustomerAccount?.();
+            return;
+          }
+          const opening = accountMenu.hidden;
+          if (opening) renderAccountSubmenu();
+          accountMenu.hidden = !opening;
+          accountLink.setAttribute("aria-expanded", String(opening));
+          accountLink.classList.toggle("expanded", opening);
+          return;
+        }
+        // A tap anywhere outside the account heading and its submenu collapses it.
+        if (!accountMenu.hidden && !event.target.closest("#accountSubmenu")) {
+          closeAccountSubmenu();
+        }
+      }, true);
+      accountMenu.addEventListener("click", (event) => {
+        const item = event.target.closest("[data-account-tab]");
+        if (!item) return;
+        event.preventDefault();
+        const tab = item.dataset.accountTab;
+        const isLogout = item.hasAttribute("data-account-logout");
+        closeAccountSubmenu();
+        setMenu(false);
+        window.openCustomerAccount?.();
+        if (isLogout) {
+          document.getElementById("accountLogoutHome")?.click();
+          return;
+        }
+        setTimeout(() => {
+          document.querySelector('#accountHomeList [data-account-tab="' + CSS.escape(tab) + '"]')?.click();
+        }, 40);
+      });
+      customerAuth?.onAuthStateChanged((user) => {
+        if (user && !accountMenu.hidden) renderAccountSubmenu();
+        if (!user) closeAccountSubmenu();
+      });
+    }
     customerAuth?.onAuthStateChanged((user) => {
       if (!user || !window.__appPendingAccountTab) return;
       const pending = window.__appPendingAccountTab;
