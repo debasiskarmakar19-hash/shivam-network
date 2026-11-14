@@ -21,7 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js and run storefront checks\n        uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n\n      - name: Install Node dependencies and test storefront\n        run: |\n          npm install\n          npm test\n\n      - name: Set up JDK 17
+      - name: Set up Node.js and run storefront checks
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies and test storefront
+        run: |
+          npm install
+          npm test
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
