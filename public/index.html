@@ -546,15 +546,15 @@ if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.se
 </script>
 
 <nav class="app-bottom-nav" aria-label="অ্যাপ নেভিগেশন">
- <a class="app-nav-item active" href="#home" data-app-nav="home"><span aria-hidden="true">⌂</span><small>হোম</small></a>
- <a class="app-nav-item" href="#products" data-app-nav="category"><span aria-hidden="true">▦</span><small>ক্যাটাগরি</small></a>
+ <a class="app-nav-item active" id="appHomeNav" href="#home" data-app-nav="home"><span aria-hidden="true">⌂</span><small>হোম</small></a>
+ <a class="app-nav-item" id="appCategoryNav" href="#products" data-app-nav="category"><span aria-hidden="true">▦</span><small>ক্যাটাগরি</small></a>
  <button class="app-nav-item" id="appOrdersNav" type="button"><span aria-hidden="true">📦</span><small>মাই অর্ডার</small></button>
  <a class="app-nav-item app-cart-nav" href="#cartPanel" data-app-nav="cart"><span aria-hidden="true">🛒</span><small>কার্ট</small><b id="appCartCount">0</b></a>
  <button class="app-nav-item" id="appAccountNav" type="button"><span aria-hidden="true">👤</span><small>অ্যাকাউন্ট</small></button>
 </nav>
 <script>
 document.querySelectorAll(".app-nav-item[href]").forEach(a=>a.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));a.classList.add("active")}));
-document.getElementById("appAccountNav")?.addEventListener("click",()=>{document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));document.getElementById("appAccountNav").classList.add("active");if(appProfileOpen){closeCustomerAccount();return;}openCustomerAccount()});
+document.getElementById("appAccountNav")?.addEventListener("click",()=>window.openAppAccountPage?.());
 document.getElementById("appOrdersNav")?.addEventListener("click",()=>window.openAppOrdersPage?.());
 </script>
 <script src="/customer-auth.js"></script>
