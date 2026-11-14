@@ -1,9 +1,10 @@
-name: Build Shivam Network Android APK
+name: Build Shivam Network Android Release APK
 
 on:
   push:
     paths:
       - 'android/**'
+      - '.github/workflows/build-android.yml'
   workflow_dispatch:
 
 permissions:
@@ -12,6 +13,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/shivam-network-release.jks
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,49 +40,64 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Prepare release signing key
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
+          test -s "$ANDROID_KEYSTORE_FILE"
+          chmod 600 "$ANDROID_KEYSTORE_FILE"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Build installable APK
+      - name: Build signed release APK
         working-directory: android
-        run: gradle --no-daemon clean assembleDebug
+        run: gradle --no-daemon clean assembleRelease
 
-      - name: Verify APK package, contents and signature
+      - name: Verify release APK package, contents and signature
+        shell: bash
         run: |
-          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          set -euo pipefail
+          APK=android/app/build/outputs/apk/release/app-release.apk
           test -s "$APK"
           test "$(stat -c%s "$APK")" -gt 10000
           unzip -t "$APK"
-          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app'"
-          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose "$APK"
+          BUILD_TOOLS="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          "$BUILD_TOOLS/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app' versionCode='7' versionName='1.0.6'"
+          "$BUILD_TOOLS/apksigner" verify --verbose "$APK"
           unzip -l "$APK" | grep -E 'classes.dex|AndroidManifest.xml'
           mkdir -p release
-          cp "$APK" release/ShivamNetwork.apk
-          sha256sum release/ShivamNetwork.apk > release/SHA256SUMS.txt
+          cp "$APK" release/ShivamNetwork-1.0.6-release.apk
+          sha256sum release/ShivamNetwork-1.0.6-release.apk > release/SHA256SUMS.txt
           ls -lh release/
 
-      - name: Upload APK for direct download
+      - name: Upload signed APK for direct download
         uses: actions/upload-artifact@v4
         with:
-          name: ShivamNetwork-APK-v1.0.5
+          name: ShivamNetwork-APK-v1.0.6-release
           path: release/*
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish verified APK download
+      - name: Publish signed APK download
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.5
-          name: Shivam Network Android App v1.0.5
+          tag_name: v1.0.6
+          name: Shivam Network Android App v1.0.6
           body: |
-            Shivam Network Android app — verified debug-signed APK for Android installation and testing.
-            Direct APK: https://github.com/debasiskarmakar19-hash/shivam-network/releases/download/v1.0.5/ShivamNetwork.apk
-            SHA-256 checksum is included as SHA256SUMS.txt.
-            This is a test/distribution APK, not a Google Play production-signed release.
+            Shivam Network Android app — release-signed APK.
+            Verify the APK using the SHA-256 checksum in SHA256SUMS.txt.
           files: |
-            release/ShivamNetwork.apk
+            release/ShivamNetwork-1.0.6-release.apk
             release/SHA256SUMS.txt
           make_latest: true
           fail_on_unmatched_files: true
