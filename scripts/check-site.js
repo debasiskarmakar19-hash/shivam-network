@@ -30,6 +30,9 @@ assert.ok(site.includes('id="shoppingPolicies"'), "Shopping policy section is mi
 assert.ok(site.includes("ফুলবাড়িয়া ও গড়বেতায় লোকাল ডেলিভারি"), "Local delivery offer is missing.");
 assert.ok(!/রিচার্জ|বিল পে|bill payment|Recharge Zone|rechargeHub|data-open-recharge/i.test(site), "Recharge or bill-payment UI remains in the storefront.");
 assert.ok(serverJs.includes("const orderRequestLimit="), "Order rate limit is missing.");
+assert.ok(serverJs.includes('app.get("/api/admin/session",requireFirebase,adminOnly'), "Admin session verification endpoint must require an authorized Admin UID.");
+assert.ok(adminJs.includes('fetch("/api/admin/session"'), "Admin dashboard must verify server-side Admin permission before showing the dashboard.");
+assert.ok(adminJs.includes('$("dashboard").classList.add("hidden")'), "Admin dashboard must remain hidden until server authorization succeeds.");
 assert.ok(site.includes('id="guestCheckoutFields"'), "Public website guest checkout fields are missing.");
 assert.ok(site.includes("html:not(.app-mode) .account-panel"), "Customer account must be hidden on the public website.");
 assert.ok(site.includes('id="loginEmail"') && site.includes('id="loginPassword"') && site.includes('id="emailRegister"'), "Android customer login must support Firebase email/password registration and login.");
