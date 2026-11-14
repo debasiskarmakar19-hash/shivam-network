@@ -135,7 +135,7 @@
     }
     if (accountLink && accountMenu) {
       document.addEventListener("click", (event) => {
-        if (!isApp() || !event.target.closest("#sidebarAccountLink")) return;
+        if (!event.target.closest("#sidebarAccountLink")) return;
         event.preventDefault();
         event.stopImmediatePropagation();
         if (!customerAuth?.currentUser) {
