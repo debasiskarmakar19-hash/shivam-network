@@ -144,18 +144,30 @@ public class MainActivity extends Activity {
         super.onSaveInstanceState(outState);
     }
 
+    private void continueBackNavigation() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (webView == null) {
             super.onBackPressed();
             return;
         }
-        // Let the web app close its drawer/account overlay before navigating back.
-        webView.evaluateJavascript("(function(){return window.__handleAppBack ? window.__handleAppBack() : false;})()", value -> {
-            if ("true".equals(value)) return;
-            if (webView != null && webView.canGoBack()) webView.goBack();
-            else MainActivity.super.onBackPressed();
-        });
+
+        // Ask the web app to close its current drawer/page before leaving it.
+        webView.evaluateJavascript(
+            "(function(){return window.__handleAppBack ? window.__handleAppBack() : false;})()",
+            value -> {
+                if (!"true".equals(value)) {
+                    continueBackNavigation();
+                }
+            }
+        );
     }
 
     @Override
