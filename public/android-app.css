@@ -339,3 +339,50 @@ html.app-mode #accountHomeList{display:none!important}
 html.app-mode #accountDetailBackButton{display:none!important}
 html.app-mode #accountLogoutHome{display:none!important}
 @media(prefers-reduced-motion:reduce){html.app-mode .customer-account-sidebar,html.app-mode .customer-account-drawer-backdrop{transition:none!important}}
+
+/* App-only navigation pages. Existing left three-dot menu remains unchanged. */
+html.app-mode .feature-catalog,html.app-mode .accessories-head{display:none!important}
+html.app-mode #appCategoryPage{display:none}
+html.app-mode body.app-page-category #appCategoryPage{display:block;position:fixed;inset:0 0 calc(66px + env(safe-area-inset-bottom));z-index:140;overflow-y:auto;background:#f3f5f9;padding:calc(12px + env(safe-area-inset-top)) 14px 20px}
+html.app-mode .app-category-head{display:flex;align-items:center;gap:13px;margin:0 auto 15px;max-width:760px;padding:8px 0 14px;border-bottom:1px solid #e1e7f0}
+html.app-mode .app-category-head>button{width:40px;height:40px;border:0;border-radius:11px;background:#e8f0ff;color:#205cb7;font-size:23px}
+html.app-mode .app-category-head b{display:block;font-size:21px;color:#1b2c48}
+html.app-mode .app-category-head small{display:block;margin-top:3px;color:#748198;font-size:12px}
+html.app-mode .app-category-search{display:flex;align-items:center;gap:9px;max-width:760px;margin:0 auto 13px;padding:0 13px;height:46px;border:1px solid #e0e7f1;border-radius:12px;background:#fff;color:#2874f0}
+html.app-mode .app-category-search>span{font-size:25px}
+html.app-mode .app-category-search input{width:100%;border:0;outline:0;background:transparent;font:inherit;font-size:14px}
+html.app-mode .app-category-list{display:grid;gap:9px;max-width:760px;margin:0 auto}
+html.app-mode .app-category-row{display:flex;align-items:center;gap:12px;width:100%;min-height:70px;padding:11px 13px;border:1px solid #e7ecf4;border-radius:13px;background:#fff;text-align:left;box-shadow:0 3px 10px #18345c0a}
+html.app-mode .app-category-icon{display:grid;place-items:center;flex:0 0 44px;height:44px;border-radius:12px;background:#eef4ff;font-size:23px}
+html.app-mode .app-category-copy{display:grid;gap:4px;flex:1}
+html.app-mode .app-category-copy b{font-size:14px;color:#263957}
+html.app-mode .app-category-copy small{font-size:11px;color:#75839a}
+html.app-mode .app-category-arrow{font-size:24px;color:#8b98aa}
+html.app-mode body.app-page-category .flip-category-strip,html.app-mode body.app-page-category .hero,html.app-mode body.app-page-category .site-layout,html.app-mode body.app-page-category .offer-ribbon{visibility:hidden}
+html.app-mode body.app-page-products .hero,html.app-mode body.app-page-products .flip-category-strip,html.app-mode body.app-page-products .offer-ribbon,html.app-mode body.app-page-products .trust,html.app-mode body.app-page-products .feature-catalog,html.app-mode body.app-page-products .accessories-head,html.app-mode body.app-page-products #services,html.app-mode body.app-page-products #contact,html.app-mode body.app-page-products .footer{display:none!important}
+html.app-mode body.app-page-products .site-layout{display:block!important;padding:0!important;margin:0!important}
+html.app-mode body.app-page-products .site-sidebar{display:none!important}
+html.app-mode body.app-page-products .site-content{display:block!important;padding:12px 10px 92px!important}
+html.app-mode body.app-page-products #products{display:block!important}
+html.app-mode body.app-page-products #products .section-head{margin:4px 2px 12px}
+html.app-mode body.app-page-products #products .section-head h2{font-size:19px}
+html.app-mode body.app-page-products #productGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+html.app-mode body.app-page-products #productPagination{padding:8px}
+html.app-mode body.app-page-orders .account-content-head{display:none!important}
+html.app-mode body.app-page-orders .customer-account-main-head{display:flex!important}
+html.app-mode .customer-account-sidebar{display:none!important}
+html.app-mode #accountHomeList[hidden]{display:none!important}
+html.app-mode #accountHomeList:not([hidden]){display:grid!important;gap:0;margin:8px 0 16px;padding:4px 0;border:1px solid #e4eaf3;border-radius:13px;background:#fff;overflow:hidden}
+html.app-mode #accountHomeList>button{display:flex!important;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 13px;border:0;border-bottom:1px solid #edf1f6;border-radius:0;background:#fff;color:#263957;text-align:left}
+html.app-mode #accountHomeList>button:last-child{border-bottom:0}
+html.app-mode #accountHomeList>button>span:first-child{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:#eef4ff;font-size:17px}
+html.app-mode #accountHomeList>button>span:nth-child(2){display:grid;gap:3px;flex:1}
+html.app-mode #accountHomeList>button b{font-size:13px}
+html.app-mode #accountHomeList>button small{font-size:10px;color:#7a879a}
+html.app-mode #accountHomeList>button i{font-size:21px;color:#8996a9;font-style:normal}
+html.app-mode #accountHomeList .account-home-logout{color:#b42332}
+html.app-mode #accountHomeList .account-home-logout>span:first-child{background:#fff0f0}
+html.app-mode body:not(.app-account-detail) .customer-account-main-head{display:none!important}
+html.app-mode body.app-account-detail .customer-account-main-head{display:flex!important}
+html.app-mode body.app-page-orders .customer-account-main-head{display:flex!important}
+html.app-mode body.app-page-orders #accountHomeList{display:none!important}
