@@ -389,3 +389,16 @@ html.app-mode body.app-page-orders #accountHomeList{display:none!important}
 
 html.app-mode body.app-account-detail .account-content-head{display:none!important}
 html.app-mode body.app-account-detail .customer-account-main-head{display:flex!important}
+
+
+/* Expandable My Account activity list inside the main left drawer (Android app). */
+html.app-mode .site-sidebar .sidebar-account-toggle{display:flex;align-items:center;justify-content:flex-start;gap:9px;width:100%;min-height:48px;padding:11px 12px;border:0;border-radius:10px;background:#eef4ff;color:#185dbb;text-align:left;font-size:14px;font-weight:850}
+html.app-mode .site-sidebar .sidebar-account-toggle .account-chevron{margin-left:auto;font-size:19px;transition:transform .18s ease}
+html.app-mode .site-sidebar .sidebar-account-toggle.expanded .account-chevron{transform:rotate(180deg)}
+html.app-mode .site-sidebar .account-submenu{display:grid;gap:2px;margin:5px 0 9px 10px;padding:5px 0 5px 9px;border-left:2px solid #d6e5fb}
+html.app-mode .site-sidebar .account-submenu[hidden]{display:none!important}
+html.app-mode .site-sidebar .account-submenu-item{display:flex;align-items:center;gap:9px;width:100%;min-height:43px;padding:8px 9px;border:0;border-radius:8px;background:transparent;color:#34445e;text-align:left;font-size:12px;font-weight:700}
+html.app-mode .site-sidebar .account-submenu-item:active,html.app-mode .site-sidebar .account-submenu-item:hover{background:#edf4ff;color:#155fc8}
+html.app-mode .site-sidebar .account-submenu-icon{display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border-radius:8px;background:#f0f4fa;font-size:14px}
+html.app-mode .site-sidebar .account-submenu-item>span:nth-child(2){flex:1;min-width:0}
+html.app-mode .site-sidebar .account-submenu-item i{font-size:19px;color:#8a98ad;font-style:normal}
