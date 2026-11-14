@@ -315,3 +315,26 @@ html.app-mode .app-nav-item.active:before{background:#1768d5;width:30px}
  html.app-mode .card img,html.app-mode .card .product-icon{height:118px!important;min-height:118px}
  html.app-mode .shop-nav.flip-category-strip a{min-width:68px;padding:7px}
 }
+
+
+/* App account: clean single-level list with one focused detail page per item. */
+html.app-mode #customerAccountSidebar,html.app-mode #customerAccountDrawerBackdrop,html.app-mode #openCustomerAccountDrawer{display:none!important}
+html.app-mode .customer-account-main{width:100%;max-width:680px;margin:0 auto}
+html.app-mode .customer-account-main-head{display:flex;align-items:center;gap:12px;min-height:48px;margin:0 0 14px;padding:4px 0 12px;border-bottom:1px solid #dfe6f1}
+html.app-mode .customer-account-main-head b{font-size:19px;color:#1b2e4c}
+html.app-mode #accountDetailBackButton:not([hidden]){display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 12px;border:0;border-radius:9px;background:#e8f0ff;color:#1e57b5;font-size:13px;font-weight:800}
+html.app-mode #accountHomeList[hidden],html.app-mode #accountDetailBackButton[hidden]{display:none!important}
+html.app-mode .account-home-list{display:flex;flex-direction:column;gap:0;margin:8px 0 18px;border:1px solid #e4eaf3;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 5px 18px #142b4d0a}
+html.app-mode .account-home-list button{display:flex;align-items:center;gap:13px;width:100%;min-height:66px;padding:11px 14px;border:0;border-bottom:1px solid #edf0f5;border-radius:0;background:#fff;color:#26364f;text-align:left;cursor:pointer}
+html.app-mode .account-home-list button:last-child{border-bottom:0}
+html.app-mode .account-home-list button:active{background:#f2f6ff}
+html.app-mode .account-home-list button>span:first-child{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:11px;background:#eff4ff;font-size:19px}
+html.app-mode .account-home-list button>span:nth-child(2){display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+html.app-mode .account-home-list button b{font-size:14px;font-weight:800;color:#233653}
+html.app-mode .account-home-list button small{font-size:11px;color:#7a879b;line-height:1.35}
+html.app-mode .account-home-list button>i{font-style:normal;font-size:24px;color:#9aa7ba}
+html.app-mode .account-home-list button.account-home-logout>span:first-child{background:#fff0f0;color:#b52d38}
+html.app-mode .account-home-list button.account-home-logout b{color:#b52d38}
+html.app-mode #customerProfileTab[hidden],html.app-mode #customerOrdersTab[hidden],html.app-mode #customerTrackingTab[hidden],html.app-mode #customerReturnsTab[hidden],html.app-mode #customerServicesTab[hidden],html.app-mode #customerWalletTab[hidden],html.app-mode #customerPaymentsTab[hidden],html.app-mode #customerPasswordTab[hidden],html.app-mode #customerSecurityTab[hidden],html.app-mode #customerHelpTab[hidden],html.app-mode #customerReferralTab[hidden],html.app-mode #customerBankTab[hidden],html.app-mode #customerShareTab[hidden],html.app-mode #customerFollowersTab[hidden],html.app-mode #customerSettingsTab[hidden],html.app-mode #customerRateTab[hidden],html.app-mode #customerNetworkTab[hidden],html.app-mode #customerLegalTab[hidden]{display:none!important}
+html.app-mode #customerLogout{display:none!important}
+html.app-mode #profileFirstName,html.app-mode #profileLastName{margin-bottom:12px}
