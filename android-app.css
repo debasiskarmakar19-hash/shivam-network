@@ -163,13 +163,32 @@ html.app-mode .account-panel>h2,html.app-mode .account-panel>#accountLogin,html.
 }
 html.app-mode .account-panel>h2{font-size:21px;color:#172b50;margin:0 auto 8px}
 html.app-mode .account-panel>.note{max-width:760px;margin:0 auto 14px}
+/* Customer account: functional left-side slide drawer, separate from storefront menu. */
+html.app-mode .account-head-actions{display:flex;gap:7px;align-items:center}
+html.app-mode .account-head-actions button{min-height:38px;padding:7px 10px;font-size:12px}
+html.app-mode .customer-account-layout{position:relative;min-height:65vh}
+html.app-mode .customer-account-main{min-width:0;width:100%}
+html.app-mode .customer-account-main-head{display:flex;align-items:center;gap:12px;margin:8px 0 14px;padding:10px 12px;background:#fff;border:1px solid #e1e8f3;border-radius:12px;box-shadow:0 4px 14px #1c3c700c}
+html.app-mode .customer-account-main-head button{border:0;border-radius:9px;padding:9px 12px;background:#eaf1ff;color:#1e55b7;font-size:13px;font-weight:800}
+html.app-mode .customer-account-main-head b{font-size:14px;color:#172b50}
+html.app-mode .customer-account-sidebar{position:fixed;top:0;bottom:0;left:0;width:min(290px,84vw);height:100dvh;z-index:172;display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom));background:#fff;box-shadow:12px 0 35px #10234b30;transform:translateX(-110%);transition:transform .23s ease;overflow-y:auto;overscroll-behavior:contain}
+html.app-mode .customer-account-layout.drawer-open .customer-account-sidebar{transform:translateX(0)}
+html.app-mode .customer-account-drawer-backdrop{display:none;position:fixed;inset:0;z-index:171;background:#07152b80}
+html.app-mode .customer-account-layout.drawer-open .customer-account-drawer-backdrop{display:block}
+html.app-mode .customer-account-sidebar-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 4px 14px;border-bottom:1px solid #e7edf6}
+html.app-mode .customer-account-sidebar-head div{display:grid;gap:5px}
+html.app-mode .customer-account-sidebar-head span{font-size:9px;letter-spacing:1px;font-weight:900;color:#6d7d98}
+html.app-mode .customer-account-sidebar-head b{font-size:16px;color:#172b50}
+html.app-mode .customer-account-sidebar-head button{width:34px;height:34px;min-height:34px;border:0;border-radius:9px;background:#edf2fa;color:#263957;font-size:23px;line-height:1}
 html.app-mode .customer-account-nav{
- display:grid!important;grid-template-columns:minmax(0,1fr);gap:0!important;
- margin:10px 0 17px!important;padding:5px 0!important;
- border:1px solid #dfe7f5!important;border-radius:13px!important;
- background:#ffffffd9;box-shadow:0 9px 24px #1c3c7010;
+ display:grid!important;grid-template-columns:minmax(0,1fr);gap:0!important;flex:1 0 auto;
+ margin:12px 0!important;padding:4px 0!important;border:1px solid #dfe7f5!important;
+ border-radius:13px!important;background:#ffffffd9;box-shadow:0 9px 24px #1c3c7010;
  counter-reset:account-item;overflow:hidden;
 }
+html.app-mode .customer-account-sidebar-foot{padding:10px 5px 4px;color:#75839a;font-size:10px;text-align:center}
+html.app-mode .customer-account-main-head{position:sticky;top:76px;z-index:20}
+
 html.app-mode .customer-account-nav button{
  display:flex!important;align-items:center;gap:10px;width:100%;min-height:39px!important;
  padding:7px 12px!important;text-align:left!important;
