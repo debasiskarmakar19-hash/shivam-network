@@ -402,3 +402,16 @@ html.app-mode .site-sidebar .account-submenu-item:active,html.app-mode .site-sid
 html.app-mode .site-sidebar .account-submenu-icon{display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border-radius:8px;background:#f0f4fa;font-size:14px}
 html.app-mode .site-sidebar .account-submenu-item>span:nth-child(2){flex:1;min-width:0}
 html.app-mode .site-sidebar .account-submenu-item i{font-size:19px;color:#8a98ad;font-style:normal}
+
+
+/* Keep the signed-in landing screen focused on account actions, not personal identifiers. */
+html.app-mode #accountHomeList{display:grid;gap:8px}
+html.app-mode #accountHomeList[hidden]{display:none!important}
+html.app-mode #customerProfileTab[hidden]{display:none!important}
+html.app-mode .account-contact-details{margin:0 0 16px;padding:12px 14px;border:1px solid #e5eaf2;border-radius:12px;background:#f8faff}
+html.app-mode .account-contact-details>summary{color:#2858a8;font-size:13px;font-weight:750;cursor:pointer;list-style:none}
+html.app-mode .account-contact-details>summary::-webkit-details-marker{display:none}
+html.app-mode .account-contact-details>summary:after{content:"＋";float:right;color:#5476a8}
+html.app-mode .account-contact-details[open]>summary:after{content:"−"}
+html.app-mode .account-contact-details[open]{padding-bottom:14px}
+html.app-mode .account-contact-details label{display:block;margin-top:12px}
