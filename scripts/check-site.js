@@ -42,6 +42,7 @@ assert.ok(site.includes('PROCESSING:"প্রসেসিং"'), "Customer orde
 assert.ok(site.includes("customerAuth?.onAuthStateChanged"), "Android app must restore an existing Firebase email/password session.");
 assert.ok(site.includes('<script src="/app-navigation.js"></script>'), "Dedicated Android app navigation must be loaded.");
 assert.ok(site.includes('data-account-tab="addresses"'), "Customer account address book shortcut is missing.");
+assert.ok(site.includes('data-account-tab="activity"') && site.includes('id="customerActivityTab"'), "Customer activity page is missing.");
 assert.ok(read("public/app-navigation.js").includes("function showCategories"), "Android category page navigation is missing.");
 assert.ok(site.includes('id="appOrdersNav"') && site.includes('data-app-nav="category"'), "Android bottom navigation must include Home, Category, My Orders, Cart and Account.");
 for (const tab of ["help","referral","bank","payments","share","followers","settings","rate","network","legal","orders"]) assert.ok(site.includes('data-account-tab="'+tab+'"'), "Customer account tab is missing: "+tab);
