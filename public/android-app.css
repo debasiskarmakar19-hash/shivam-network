@@ -201,3 +201,66 @@ html.app-mode .account-panel .btn{box-shadow:0 4px 10px #1c3c7014}
 html.app-mode .app-bottom-nav{z-index:50}
 
 html.app-mode .flip-actions a[href="#accountPanel"]{display:none!important}
+
+/* Sidebar-native customer account navigation: compact icons, no numbered list, no separate screen. */
+html.app-mode .site-sidebar .sidebar-account-toggle{
+ display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;
+ min-height:44px;padding:11px 10px;border:0;border-radius:9px;background:#eef4ff;
+ color:#1e4fa8;font:inherit;font-size:14px;font-weight:800;text-align:left;cursor:pointer;
+}
+html.app-mode .site-sidebar .sidebar-account-toggle:hover,
+html.app-mode .site-sidebar .sidebar-account-toggle[aria-expanded="true"]{background:#e3edff;color:#1748a4}
+html.app-mode .account-chevron{font-size:17px;transition:transform .18s}
+html.app-mode .sidebar-account-toggle[aria-expanded="true"] .account-chevron{transform:rotate(180deg)}
+html.app-mode .account-submenu[hidden]{display:none!important}
+html.app-mode .account-submenu{
+ display:grid;gap:3px;margin:5px 0 9px 10px;padding:5px 0 5px 9px;
+ border-left:2px solid #c9d9f6;
+}
+html.app-mode .site-sidebar .account-submenu button{
+ display:flex;align-items:center;gap:9px;width:100%;min-height:36px;padding:7px 9px;
+ border:0;border-radius:7px;background:transparent;color:#465875;
+ font:inherit;font-size:12px;font-weight:650;text-align:left;cursor:pointer;
+}
+html.app-mode .site-sidebar .account-submenu button:hover,
+html.app-mode .site-sidebar .account-submenu button.active{background:#eaf1ff;color:#1c55b5}
+html.app-mode .account-submenu button>span{min-width:0;line-height:1.35}
+html.app-mode .account-submenu .account-logout-nav{color:#b42332}
+html.app-mode .account-panel[hidden]{display:none!important}
+html.app-mode .site-content.account-view-active> :not(#accountPanel){display:none!important}
+html.app-mode .account-panel{
+ display:block;width:100%;max-width:none;margin:0;padding:18px;
+ border:1px solid #e2eaf7;border-radius:14px;
+ background:linear-gradient(145deg,#fff 0%,#f6f9ff 100%);
+ box-shadow:0 5px 20px #18345c0d;
+}
+html.app-mode .account-content-head{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+ padding-bottom:13px;margin-bottom:15px;border-bottom:1px solid #e5ebf5;
+}
+html.app-mode .account-content-head>div>span{font-size:10px;letter-spacing:1px;color:#6480a9;font-weight:850}
+html.app-mode .account-content-head h2{margin:5px 0 0;color:#172b50;font-size:21px}
+html.app-mode .account-content-hint{font-size:11px;color:#78869d}
+html.app-mode .account-panel>#accountLogin,
+html.app-mode .account-panel>#profileArea{display:block;width:100%;max-width:none;margin:0}
+html.app-mode .account-panel #profileArea{padding-top:0}
+html.app-mode .account-panel #customerProfileTab,
+html.app-mode .account-panel #customerOrdersTab,
+html.app-mode .account-panel #customerTrackingTab,
+html.app-mode .account-panel #customerReturnsTab,
+html.app-mode .account-panel #customerServicesTab,
+html.app-mode .account-panel #customerWalletTab,
+html.app-mode .account-panel #customerPaymentsTab,
+html.app-mode .account-panel #customerPasswordTab,
+html.app-mode .account-panel #customerSecurityTab,
+html.app-mode .account-panel #customerHelpTab{min-width:0}
+html.app-mode .account-panel .field{max-width:100%}
+html.app-mode .account-panel .btn{min-height:42px}
+html.app-mode .account-panel .customer-order-card{margin:10px 0}
+@media(max-width:850px){
+ html.app-mode .account-panel{padding:14px 12px;border-radius:10px}
+ html.app-mode .account-content-head h2{font-size:19px}
+ html.app-mode .account-content-hint{display:none}
+ html.app-mode .account-submenu{margin-left:7px;padding-left:7px}
+ html.app-mode .site-sidebar .account-submenu button{min-height:35px;font-size:11px}
+}
