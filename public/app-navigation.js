@@ -38,7 +38,7 @@
   }
   function showCategories() {
     if (!isApp()) return;
-    if (window.appProfileOpen) window.closeCustomerAccount();
+    if (appProfileOpen) window.closeCustomerAccount();
     clearPageModes();
     document.body.classList.add("app-page-category");
     activate("appCategoryNav");
@@ -62,7 +62,7 @@
   function showHome() {
     if (!isApp()) return;
     clearPageModes();
-    if (window.appProfileOpen) window.closeCustomerAccount();
+    if (appProfileOpen) window.closeCustomerAccount();
     category = "all";
     const search = document.getElementById("search");
     if (search) search.value = "";
@@ -87,7 +87,7 @@
   function openAccount() {
     if (!isApp()) return;
     clearPageModes();
-    if (window.appProfileOpen) {
+    if (appProfileOpen) {
       window.closeCustomerAccount();
       activate("appHomeNav");
       return;
@@ -107,7 +107,7 @@
     document.getElementById("appAccountNav")?.addEventListener("click", openAccount);
     document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function () {
       clearPageModes();
-      if (window.appProfileOpen) window.closeCustomerAccount();
+      if (appProfileOpen) window.closeCustomerAccount();
     });
     document.addEventListener("click", function (event) {
       if (event.target.closest("[data-account-tab]")) {
@@ -124,7 +124,7 @@
       const pending = window.__appPendingAccountTab;
       window.__appPendingAccountTab = "";
       setTimeout(() => {
-        if (pending === "orders" && window.appProfileOpen) {
+        if (pending === "orders" && appProfileOpen) {
           document.querySelector('[data-account-tab="orders"]')?.click();
           document.body.classList.add("app-page-orders", "app-account-detail");
           activate("appOrdersNav");
