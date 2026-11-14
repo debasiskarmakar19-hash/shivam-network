@@ -138,29 +138,43 @@
       }).join("");
     }
     if (accountLink && accountMenu) {
+      const closeAccountSubmenu = () => {
+        accountMenu.hidden = true;
+        accountLink.setAttribute("aria-expanded", "false");
+        accountLink.classList.remove("expanded");
+      };
       document.addEventListener("click", (event) => {
-        if (!event.target.closest("#sidebarAccountLink")) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        if (!customerAuth?.currentUser) {
-          setMenu(false);
-          window.openCustomerAccount?.();
+        if (event.target.closest("#sidebarAccountLink")) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (!customerAuth?.currentUser) {
+            closeAccountSubmenu();
+            setMenu(false);
+            window.openCustomerAccount?.();
+            return;
+          }
+          const opening = accountMenu.hidden;
+          if (opening) renderAccountSubmenu();
+          accountMenu.hidden = !opening;
+          accountLink.setAttribute("aria-expanded", String(opening));
+          accountLink.classList.toggle("expanded", opening);
           return;
         }
-        const opening = accountMenu.hidden;
-        if (opening) renderAccountSubmenu();
-        accountMenu.hidden = !opening;
-        accountLink.setAttribute("aria-expanded", String(opening));
-        accountLink.classList.toggle("expanded", opening);
+        // A tap anywhere outside the account heading and its submenu collapses it.
+        if (!accountMenu.hidden && !event.target.closest("#accountSubmenu")) {
+          closeAccountSubmenu();
+        }
       }, true);
       accountMenu.addEventListener("click", (event) => {
         const item = event.target.closest("[data-account-tab]");
         if (!item) return;
         event.preventDefault();
         const tab = item.dataset.accountTab;
+        const isLogout = item.hasAttribute("data-account-logout");
+        closeAccountSubmenu();
         setMenu(false);
         window.openCustomerAccount?.();
-        if (item.hasAttribute("data-account-logout")) {
+        if (isLogout) {
           document.getElementById("accountLogoutHome")?.click();
           return;
         }
@@ -170,11 +184,7 @@
       });
       customerAuth?.onAuthStateChanged((user) => {
         if (user && !accountMenu.hidden) renderAccountSubmenu();
-        if (!user) {
-          accountMenu.hidden = true;
-          accountLink.setAttribute("aria-expanded", "false");
-          accountLink.classList.remove("expanded");
-        }
+        if (!user) closeAccountSubmenu();
       });
     }
     customerAuth?.onAuthStateChanged((user) => {
