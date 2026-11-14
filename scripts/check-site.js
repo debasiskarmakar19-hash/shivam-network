@@ -21,7 +21,8 @@ const adminIds = new Set([...adminHtml.matchAll(/\bid=["']([^"']+)["']/g)].map((
 for (const match of adminJs.matchAll(/\$\(["']([^"']+)["']\)/g)) assert.ok(adminIds.has(match[1]), "Missing admin DOM id: " + match[1]);
 for (const match of site.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) if (!/\bsrc\s*=/.test(match[1])) new vm.Script(match[2], { filename: "index.html inline script" });
 new vm.Script(adminJs, { filename: "public/admin.js" });
-new vm.Script(read("public/customer-auth.js"), { filename: "public/customer-auth.js" });\nnew vm.Script(read("public/app-navigation.js"), { filename: "public/app-navigation.js" });
+new vm.Script(read("public/customer-auth.js"), { filename: "public/customer-auth.js" });
+new vm.Script(read("public/app-navigation.js"), { filename: "public/app-navigation.js" });
 new vm.Script(serverJs, { filename: "server.js" });
 JSON.parse(read("manifest.webmanifest"));
 assert.ok(site.includes('value="COMPUTER_SERVICE"'), "Computer service request option is missing.");
