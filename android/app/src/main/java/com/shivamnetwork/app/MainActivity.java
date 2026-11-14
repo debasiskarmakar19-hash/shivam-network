@@ -146,8 +146,16 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack();
-        else super.onBackPressed();
+        if (webView == null) {
+            super.onBackPressed();
+            return;
+        }
+        // Let the web app close its drawer/account overlay before navigating back.
+        webView.evaluateJavascript("(function(){return window.__handleAppBack ? window.__handleAppBack() : false;})()", value -> {
+            if ("true".equals(value)) return;
+            if (webView != null && webView.canGoBack()) webView.goBack();
+            else MainActivity.super.onBackPressed();
+        });
     }
 
     @Override
