@@ -199,3 +199,5 @@ html.app-mode .account-panel .panel,html.app-mode .account-panel .customer-order
 html.app-mode .account-panel .field{border:1px solid #d9e3f2;background:#fff}
 html.app-mode .account-panel .btn{box-shadow:0 4px 10px #1c3c7014}
 html.app-mode .app-bottom-nav{z-index:50}
+
+html.app-mode .flip-actions a[href="#accountPanel"]{display:none!important}
