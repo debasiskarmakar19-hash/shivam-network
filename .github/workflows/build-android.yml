@@ -4,11 +4,6 @@ on:
   push:
     paths:
       - 'android/**'
-      - 'public/**'
-      - 'index.html'
-      - 'scripts/**'
-      - 'package.json'
-      - '.github/workflows/build-android.yml'
   workflow_dispatch:
 
 permissions:
