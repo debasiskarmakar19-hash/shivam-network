@@ -415,3 +415,37 @@ html.app-mode .account-contact-details>summary:after{content:"＋";float:right;c
 html.app-mode .account-contact-details[open]>summary:after{content:"−"}
 html.app-mode .account-contact-details[open]{padding-bottom:14px}
 html.app-mode .account-contact-details label{display:block;margin-top:12px}
+
+
+/* Functional bottom-tab views: keep the five-tab bar and show one destination at a time. */
+html.app-mode body.app-page-category .app-category-list{
+ grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+html.app-mode body.app-page-category .app-category-row{
+ min-width:0;min-height:116px;padding:14px 10px;flex-direction:column;
+ align-items:flex-start;justify-content:center;gap:8px;border-radius:14px;
+ box-shadow:0 3px 12px #18345c0b;
+}
+html.app-mode body.app-page-category .app-category-icon{flex:0 0 42px;width:42px;height:42px}
+html.app-mode body.app-page-category .app-category-copy{width:100%;gap:3px}
+html.app-mode body.app-page-category .app-category-copy b{font-size:13px;line-height:1.35}
+html.app-mode body.app-page-category .app-category-copy small{font-size:10px}
+html.app-mode body.app-page-category .app-category-arrow{display:none}
+html.app-mode body.app-page-cart .hero,
+html.app-mode body.app-page-cart .offer-ribbon,
+html.app-mode body.app-page-cart .flip-category-strip,
+html.app-mode body.app-page-cart .site-layout,
+html.app-mode body.app-page-cart #services,
+html.app-mode body.app-page-cart #contact,
+html.app-mode body.app-page-cart .footer,
+html.app-mode body.app-page-cart .feature-catalog,
+html.app-mode body.app-page-cart .accessories-head,
+html.app-mode body.app-page-cart .trust{display:none!important}
+html.app-mode body.app-page-cart .wrap{display:block!important;padding:12px 10px 100px!important}
+html.app-mode body.app-page-cart .wrap>:not(.section-head):not(.columns){display:none!important}
+html.app-mode body.app-page-cart .wrap>.section-head{display:flex!important;margin:6px 2px 12px!important}
+html.app-mode body.app-page-cart .wrap>.columns{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;margin:0!important}
+html.app-mode body.app-page-cart #cartPanel{display:block!important;grid-column:1/-1}
+html.app-mode body.app-page-cart #checkoutPanel[hidden]{display:none!important}
+html.app-mode body.app-page-cart #checkoutPanel:not([hidden]){display:block!important;grid-column:1/-1}
+html.app-mode body.app-page-cart #cartPanel{scroll-margin-top:10px;scroll-margin-bottom:90px}
