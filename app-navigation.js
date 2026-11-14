@@ -7,7 +7,7 @@
     navItems().forEach((item) => item.classList.remove("active"));
     document.getElementById(id)?.classList.add("active");
   };
-  const clearPageModes = () => document.body.classList.remove("app-page-category", "app-page-products", "app-page-orders", "app-account-detail");
+  const clearPageModes = () => document.body.classList.remove("app-page-category", "app-page-products", "app-page-orders", "app-page-cart", "app-account-detail");
   function ensureCategoryPage() {
     let page = document.getElementById("appCategoryPage");
     if (page) return page;
@@ -103,9 +103,13 @@
     document.querySelector('[data-app-nav="home"]')?.addEventListener("click", function (event) {
       event.preventDefault(); showHome();
     });
-    document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function () {
-      clearPageModes();
+    document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function (event) {
+      event.preventDefault();
       if (appProfileOpen) window.closeCustomerAccount();
+      clearPageModes();
+      document.body.classList.add("app-page-cart");
+      activate("appCartNav");
+      window.scrollTo(0, 0);
     });
     document.addEventListener("click", function (event) {
       if (event.target.closest("[data-account-tab]")) {
