@@ -155,7 +155,7 @@ html:not(.app-mode) .account-panel,html:not(.app-mode) .flip-actions a[href="#ac
  </section>
  <div class="section-head accessories-head"><div><h2>Mobile Accessories</h2><p class="sub">All Accessories Available — চার্জার, কেবল, হেডফোন, কভার, টেম্পার্ড গ্লাস ও আরও অনেক কিছু</p></div></div>
  <section class="feature-catalog" aria-label="মোবাইল অ্যাকসেসরিজ ক্যাটাগরি"><a href="#products" data-select-category="চার্জার"><span>🔌</span><b>চার্জার</b><small>ফাস্ট চার্জার ও অ্যাডাপ্টার</small></a><a href="#products" data-select-category="ডেটা কেবল"><span>🔗</span><b>ডেটা কেবল</b><small>USB ও Type-C কেবল</small></a><a href="#products" data-select-category="হেডফোন ও ইয়ারফোন"><span>🎧</span><b>হেডফোন ও ইয়ারফোন</b><small>তারযুক্ত অডিও</small></a><a href="#products" data-select-category="TWS ইয়ারবাডস"><span>🎵</span><b>TWS ইয়ারবাডস</b><small>ওয়্যারলেস অডিও</small></a><a href="#products" data-select-category="ব্লুটুথ স্পিকার"><span>🔊</span><b>ব্লুটুথ স্পিকার</b><small>পোর্টেবল স্পিকার</small></a><a href="#products" data-select-category="মোবাইল কভার"><span>📱</span><b>মোবাইল কভার</b><small>বিভিন্ন ডিজাইনের কভার</small></a><a href="#products" data-select-category="টেম্পার্ড গ্লাস"><span>🛡️</span><b>টেম্পার্ড গ্লাস</b><small>স্ক্রিন প্রটেকশন</small></a><a href="#products" data-select-category="পাওয়ার ব্যাংক"><span>🔋</span><b>পাওয়ার ব্যাংক</b><small>পোর্টেবল চার্জিং</small></a></section>
- <section class="panel account-panel" id="accountPanel" hidden><div class="account-content-head"><div><span>SHIVAM NETWORK · CUSTOMER</span><h2>👤 আমার অ্যাকাউন্ট</h2></div><span class="account-content-hint">আপনার অ্যাকাউন্টের তথ্য ও পরিষেবা</span></div><p class="note">এই Customer Account-এর প্রোফাইল, অর্ডার, Wallet ও পেমেন্টের রেকর্ড আলাদা থাকবে। ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন অথবা নতুন অ্যাকাউন্ট খুলুন।</p><div id="accountLogin">
+ <section class="panel account-panel" id="accountPanel" hidden><div class="account-content-head"><div><span>SHIVAM NETWORK · CUSTOMER</span><h2>👤 আমার অ্যাকাউন্ট</h2></div><button type="button" id="accountBackButton" class="btn ghost">← ফিরে যান</button><span class="account-content-hint">আপনার অ্যাকাউন্টের তথ্য ও পরিষেবা</span></div><p class="note">এই Customer Account-এর প্রোফাইল, অর্ডার, Wallet ও পেমেন্টের রেকর্ড আলাদা থাকবে। ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন অথবা নতুন অ্যাকাউন্ট খুলুন।</p><div id="accountLogin">
 <label for="loginEmail">ইমেইল আইডি</label><input class="field" id="loginEmail" type="email" autocomplete="email" maxlength="254" placeholder="আপনার ইমেইল আইডি">
 <label for="loginPassword">পাসওয়ার্ড</label><input class="field" id="loginPassword" type="password" autocomplete="current-password" minlength="6" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড">
 <div class="hero-actions"><button class="btn blue" id="emailLogin" type="button">লগইন করুন</button><button class="btn" id="emailRegister" type="button">নতুন অ্যাকাউন্ট খুলুন</button></div>
@@ -438,6 +438,7 @@ document.getElementById("shareStoreButton")?.addEventListener("click",async()=>{
 
 /* Customer account opens inside the existing storefront beside its left sidebar. */
 const accountPanel=document.getElementById("accountPanel");
+document.getElementById("accountBackButton")?.addEventListener("click",closeCustomerAccount);
 const accountSubmenu=document.getElementById("accountSubmenu");
 let appProfileOpen=false;
 function syncAccountScreen(){
@@ -446,16 +447,24 @@ function syncAccountScreen(){
  document.querySelector(".site-content")?.classList.toggle("account-view-active",appProfileOpen);
  accountSubmenu.hidden=true;
  document.getElementById("sidebarAccountLink")?.setAttribute("aria-expanded",String(appProfileOpen));
- document.body.classList.remove("account-screen-open","app-locked");
- accountPanel.classList.remove("account-open","app-login-gate");
+ document.body.classList.toggle("account-screen-open",appProfileOpen);
+ accountPanel.classList.toggle("account-open",appProfileOpen);
 }
 function lockAppGate(){
  if(!APP_MODE||!accountPanel)return;
- if(appProfileOpen){document.getElementById("accountLogin").hidden=false;document.getElementById("profileArea").hidden=true;}
+ appProfileOpen=true;
+ document.getElementById("accountLogin").hidden=false;
+ document.getElementById("profileArea").hidden=true;
+ document.body.classList.add("app-locked");
+ accountPanel.classList.add("app-login-gate");
  syncAccountScreen();
 }
 function releaseAppGate(){
  if(!APP_MODE||!accountPanel)return;
+ const wasLocked=document.body.classList.contains("app-locked");
+ document.body.classList.remove("app-locked");
+ accountPanel.classList.remove("app-login-gate");
+ if(wasLocked)appProfileOpen=false;
  if(appProfileOpen){
   const signedIn=!!customerAuth?.currentUser;
   document.getElementById("accountLogin").hidden=signedIn;
@@ -466,10 +475,13 @@ function releaseAppGate(){
 function openCustomerAccount(){
  if(!APP_MODE||!accountPanel)return;
  appProfileOpen=true;
- releaseAppGate();
+ const signedIn=!!customerAuth?.currentUser;
+ document.getElementById("accountLogin").hidden=signedIn;
+ document.getElementById("profileArea").hidden=!signedIn;
+ syncAccountScreen();
 }
 function closeCustomerAccount(){
- if(!APP_MODE||!accountPanel)return;
+ if(!APP_MODE||!accountPanel||!customerAuth?.currentUser)return;
  appProfileOpen=false;
  syncAccountScreen();
  document.querySelectorAll(".app-nav-item").forEach(x=>x.classList.remove("active"));
