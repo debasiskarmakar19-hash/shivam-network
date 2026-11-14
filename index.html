@@ -470,10 +470,11 @@ document.getElementById("shareStoreButton")?.addEventListener("click",async()=>{
 /* Customer account opens inside the existing storefront beside its left sidebar. */
 const accountPanel=document.getElementById("accountPanel");
 document.getElementById("accountBackButton")?.addEventListener("click",closeCustomerAccount);
-function openCustomerAccountDrawer(){document.getElementById("customerAccountLayout")?.classList.add("drawer-open");}
-function closeCustomerAccountDrawer(){document.getElementById("customerAccountLayout")?.classList.remove("drawer-open");}
+function openCustomerAccountDrawer(){document.getElementById("customerAccountLayout")?.classList.add("drawer-open");document.getElementById("openCustomerAccountDrawerTop")?.setAttribute("aria-expanded","true");}
+function closeCustomerAccountDrawer(){document.getElementById("customerAccountLayout")?.classList.remove("drawer-open");document.getElementById("openCustomerAccountDrawerTop")?.setAttribute("aria-expanded","false");}
+function toggleCustomerAccountDrawer(){if(document.getElementById("customerAccountLayout")?.classList.contains("drawer-open"))closeCustomerAccountDrawer();else openCustomerAccountDrawer();}
 
-document.getElementById("openCustomerAccountDrawerTop")?.addEventListener("click",openCustomerAccountDrawer);
+document.getElementById("openCustomerAccountDrawerTop")?.addEventListener("click",toggleCustomerAccountDrawer);
 document.getElementById("accountHomeNav")?.addEventListener("click",()=>{closeCustomerAccountDrawer();closeCustomerAccount();});
 document.getElementById("closeCustomerAccountDrawer")?.addEventListener("click",closeCustomerAccountDrawer);
 document.getElementById("customerAccountDrawerBackdrop")?.addEventListener("click",closeCustomerAccountDrawer);
