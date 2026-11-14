@@ -132,3 +132,72 @@ html.app-mode #cartPanel,html.app-mode #services,html.app-mode #accountPanel{scr
  html.app-mode .app-nav-item small{font-size:9px}
  html.app-mode .app-nav-item>span{font-size:18px}
 }
+
+
+/* Dedicated, compact customer account screen */
+html.app-mode .account-panel[hidden]{display:none!important}
+html.app-mode .account-panel.account-open{
+ position:fixed!important;inset:0!important;z-index:160!important;
+ display:block!important;visibility:visible!important;
+ width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;
+ overflow-y:auto!important;overscroll-behavior:contain;
+ margin:0!important;padding:calc(12px + env(safe-area-inset-top)) 15px calc(24px + env(safe-area-inset-bottom))!important;
+ border:0!important;border-radius:0!important;
+ background:radial-gradient(circle at 100% 0%,#dce9ff 0,transparent 34%),linear-gradient(150deg,#f8fbff 0%,#edf3ff 58%,#fff 100%)!important;
+ box-shadow:none!important;
+}
+html.app-mode body.account-screen-open{overflow:hidden}
+html.app-mode .account-screen-head{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ max-width:760px;margin:0 auto 15px;padding:5px 0 12px;
+ border-bottom:1px solid #d8e2f3;
+}
+html.app-mode .account-screen-head button{
+ border:0;border-radius:10px;padding:9px 13px;color:#fff;
+ background:linear-gradient(135deg,#1d3c78,#2874f0);
+ box-shadow:0 5px 12px #1c4da833;font-size:13px;font-weight:800;
+}
+html.app-mode .account-screen-head span{font-size:9px;letter-spacing:1.1px;color:#637492;font-weight:850}
+html.app-mode .account-panel>h2,html.app-mode .account-panel>#accountLogin,html.app-mode .account-panel>#profileArea{
+ display:block;width:min(100%,760px);margin-left:auto;margin-right:auto;
+}
+html.app-mode .account-panel>h2{font-size:21px;color:#172b50;margin:0 auto 8px}
+html.app-mode .account-panel>.note{max-width:760px;margin:0 auto 14px}
+html.app-mode .customer-account-nav{
+ display:grid!important;grid-template-columns:minmax(0,1fr);gap:0!important;
+ margin:10px 0 17px!important;padding:5px 0!important;
+ border:1px solid #dfe7f5!important;border-radius:13px!important;
+ background:#ffffffd9;box-shadow:0 9px 24px #1c3c7010;
+ counter-reset:account-item;overflow:hidden;
+}
+html.app-mode .customer-account-nav button{
+ display:flex!important;align-items:center;gap:10px;width:100%;min-height:39px!important;
+ padding:7px 12px!important;text-align:left!important;
+ border:0!important;border-bottom:1px solid #edf1f8!important;border-radius:0!important;
+ background:transparent!important;color:#263957!important;
+ font-size:12px!important;font-weight:750!important;
+ box-shadow:none!important;counter-increment:account-item;
+ transition:background .16s ease,transform .16s ease,color .16s ease;
+}
+html.app-mode .customer-account-nav button:last-child{border-bottom:0!important}
+html.app-mode .customer-account-nav button:before{
+ content:counter(account-item,decimal-leading-zero);
+ display:inline-grid;place-items:center;flex:0 0 25px;height:24px;
+ border-radius:7px;background:linear-gradient(145deg,#e9f0ff,#dce7ff);
+ color:#2455b5;font-size:10px;font-weight:900;
+}
+html.app-mode .customer-account-nav button.active{
+ background:linear-gradient(90deg,#eaf1ff,#fff)!important;color:#1f55bd!important;
+ box-shadow:inset 3px 0 #2874f0!important;
+}
+html.app-mode .customer-account-nav button:active{transform:translateX(2px)}
+html.app-mode .customer-account-nav .account-logout-nav{color:#a52c36!important}
+html.app-mode .customer-account-nav .account-logout-nav:before{background:#ffeaeb;color:#b52d38}
+html.app-mode .account-panel .panel,html.app-mode .account-panel .customer-order-card{
+ border-radius:11px;box-shadow:0 5px 18px #1c3c7010;
+}
+html.app-mode .account-panel .field{border:1px solid #d9e3f2;background:#fff}
+html.app-mode .account-panel .btn{box-shadow:0 4px 10px #1c3c7014}
+html.app-mode .app-bottom-nav{z-index:50}
+
+html.app-mode .flip-actions a[href="#accountPanel"]{display:none!important}
