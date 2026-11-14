@@ -2,6 +2,13 @@ plugins {
     id 'com.android.application'
 }
 
+// Release signing values are supplied by GitHub Actions secrets.
+// Local debug builds remain usable without storing signing credentials in the repository.
+def releaseKeystorePath = System.getenv('ANDROID_KEYSTORE_FILE')
+def releaseKeystorePassword = System.getenv('ANDROID_KEYSTORE_PASSWORD')
+def releaseKeyAlias = System.getenv('ANDROID_KEY_ALIAS')
+def releaseKeyPassword = System.getenv('ANDROID_KEY_PASSWORD')
+
 android {
     namespace 'com.shivamnetwork.app'
     compileSdk 35
@@ -10,7 +17,27 @@ android {
         applicationId 'com.shivamnetwork.app'
         minSdk 23
         targetSdk 35
-        versionCode 6
-        versionName '1.0.5'
+        versionCode 7
+        versionName '1.0.6'
+    }
+
+    signingConfigs {
+        release {
+            if (releaseKeystorePath) {
+                storeFile file(releaseKeystorePath)
+                storePassword releaseKeystorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (releaseKeystorePath) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
+        }
     }
 }
