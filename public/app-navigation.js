@@ -103,8 +103,6 @@
     document.querySelector('[data-app-nav="home"]')?.addEventListener("click", function (event) {
       event.preventDefault(); showHome();
     });
-    document.getElementById("appOrdersNav")?.addEventListener("click", openOrders);
-    document.getElementById("appAccountNav")?.addEventListener("click", openAccount);
     document.querySelector('[data-app-nav="cart"]')?.addEventListener("click", function () {
       clearPageModes();
       if (appProfileOpen) window.closeCustomerAccount();
@@ -133,4 +131,5 @@
     });
   });
   window.openAppOrdersPage = openOrders;
+  window.openAppAccountPage = openAccount;
 })();
