@@ -1,10 +1,12 @@
 package com.shivamnetwork.app;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -24,7 +26,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        // Match the app-mode storefront with Android system bars.
+        getWindow().setStatusBarColor(Color.rgb(23, 104, 213));
+        getWindow().setNavigationBarColor(Color.WHITE);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         webView = new WebView(this);
+        webView.setBackgroundColor(Color.rgb(241, 243, 246));
+        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         setContentView(webView);
 
         WebSettings settings = webView.getSettings();
