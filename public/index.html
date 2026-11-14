@@ -455,6 +455,7 @@ function openCustomerAccountDrawer(){document.getElementById("customerAccountLay
 function closeCustomerAccountDrawer(){document.getElementById("customerAccountLayout")?.classList.remove("drawer-open");}
 document.getElementById("openCustomerAccountDrawer")?.addEventListener("click",openCustomerAccountDrawer);
 document.getElementById("openCustomerAccountDrawerTop")?.addEventListener("click",openCustomerAccountDrawer);
+document.getElementById("accountHomeNav")?.addEventListener("click",()=>{closeCustomerAccountDrawer();closeCustomerAccount();});
 document.getElementById("closeCustomerAccountDrawer")?.addEventListener("click",closeCustomerAccountDrawer);
 document.getElementById("customerAccountDrawerBackdrop")?.addEventListener("click",closeCustomerAccountDrawer);
 const accountSubmenu=document.getElementById("accountSubmenu");
