@@ -386,3 +386,6 @@ html.app-mode body:not(.app-account-detail) .customer-account-main-head{display:
 html.app-mode body.app-account-detail .customer-account-main-head{display:flex!important}
 html.app-mode body.app-page-orders .customer-account-main-head{display:flex!important}
 html.app-mode body.app-page-orders #accountHomeList{display:none!important}
+
+html.app-mode body.app-account-detail .account-content-head{display:none!important}
+html.app-mode body.app-account-detail .customer-account-main-head{display:flex!important}
