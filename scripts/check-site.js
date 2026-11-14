@@ -36,6 +36,10 @@ assert.ok(adminJs.includes('["NEW","CONFIRMED","PROCESSING","SHIPPED","DELIVERED
 assert.ok(adminJs.includes('PROCESSING:"প্রসেসিং"'), "Admin processing status label is missing.");
 assert.ok(site.includes('PROCESSING:"প্রসেসিং"'), "Customer order processing status label is missing.");
 assert.ok(site.includes("customerAuth?.onAuthStateChanged"), "Android app must restore an existing Firebase email/password session.");
+assert.ok(site.includes('id="appOrdersNav"') && site.includes('data-app-nav="category"'), "Android bottom navigation must include Home, Category, My Orders, Cart and Account.");
+for (const tab of ["help","referral","bank","payments","share","followers","settings","rate","network","legal","orders"]) assert.ok(site.includes('data-account-tab="'+tab+'"'), "Customer account tab is missing: "+tab);
+for (const field of ["profileGender","profileCity","profileState","profilePin","bankDetailsForm","customerFollowersCount"]) assert.ok(site.includes('id="'+field+'"'), "Customer profile/account field is missing: "+field);
+assert.ok(serverJs.includes('app.put("/api/customer/payment-details"') && serverJs.includes('app.get("/api/customer/followers"') && serverJs.includes('app.post("/api/customer/followers"'), "Customer payment details or follower APIs are missing.");
 assert.ok(site.includes("createUserWithEmailAndPassword") && site.includes("signInWithEmailAndPassword"), "Android customer login must support email/password registration and sign-in.");
 assert.ok(serverJs.includes("phone=txt(q.body.phone,10)"), "Customer profile must save a contact phone number for orders.");
 assert.ok(serverJs.includes('if(status==="CANCELLED"&&["SHIPPED","DELIVERED"].includes(order.status))'), "Shipped or delivered orders must not be cancelled as stock could be restored incorrectly.");
