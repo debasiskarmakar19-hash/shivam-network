@@ -127,13 +127,6 @@ html.app-mode .flip-header{top:0;transition:top .22s ease;will-change:top}
 html.app-mode body.app-scroll-hidden .flip-header{top:-135px}
 @media(prefers-reduced-motion:reduce){html.app-mode .flip-header{transition:none}}
 
-
-.demo-pill{display:inline-block;background:#fff0c2;color:#805000;border:1px solid #f0d28b;border-radius:999px;padding:7px 12px;font-size:11px;font-weight:900;letter-spacing:.5px}
-.demo-panel{max-width:760px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px;box-shadow:0 2px 10px #0000000a}
-.demo-notice{display:grid;gap:5px;background:#fff8e7;border:1px solid #f1d59a;border-left:4px solid #f59e0b;border-radius:6px;padding:12px;margin-bottom:16px;color:#66430b;font-size:13px;line-height:1.6}
-.demo-panel label{display:block;font-size:13px;font-weight:750;margin-top:10px;color:#26334c}
-.demo-result{margin:14px 0 0;padding:12px;border-radius:7px;background:#f2f6ff;color:#244a9a;font-size:13px;line-height:1.7}
-@media(max-width:560px){.demo-panel{padding:14px}.demo-pill{margin-top:4px}}
 </style>
 </head>
 <body>
@@ -160,27 +153,6 @@ html.app-mode body.app-scroll-hidden .flip-header{top:-135px}
 </div></section>
 <div class="offer-ribbon local-delivery-offer"><strong>🚚 ফুলবাড়িয়া ও গড়বেতায় লোকাল ডেলিভারি</strong><span>আপনার এলাকায় ডেলিভারি চার্জ, সময় ও চলতি অফার অর্ডারের আগে WhatsApp-এ জেনে নিন।</span><a href="https://wa.me/916294701353?text=Shivam%20Network%20local%20delivery%20offer%20details" target="_blank" rel="noopener">লোকাল ডেলিভারি অফার জানুন</a></div>
 <nav class="shop-nav flip-category-strip"><a href="#products">🏷️ শপিং</a><a href="#products">📱 মোবাইল অ্যাকসেসরিজ</a><a href="#products">🎧 হেডফোন ও অডিও</a><a href="#products">🔌 চার্জার ও কেবল</a><a href="#services">🛠️ সার্ভিসিং</a><a href="#contact">📍 দোকানের ঠিকানা</a></nav>
-<section class="wrap" id="rechargeDemo" aria-labelledby="rechargeDemoTitle">
- <div class="section-head"><div><h2 id="rechargeDemoTitle">📲 রিচার্জ ও বিল পেমেন্ট</h2><p class="sub">প্রিভিউ / DEMO — এখনো কোনো আসল লেনদেন চালু নেই</p></div><span class="demo-pill">DEMO ONLY</span></div>
- <div class="demo-panel">
-  <div class="demo-notice" role="note"><strong>⚠️ পরীক্ষামূলক স্ক্রিন</strong><span>এখানে কোনো টাকা নেওয়া হবে না, রিচার্জ বা বিল জমা হবে না। শুধু ফর্ম ও স্ক্রিনের কাজ পরীক্ষা করা যাবে।</span></div>
-  <form id="rechargeDemoForm" novalidate>
-   <label for="demoServiceType">পরিষেবার ধরন</label>
-   <select class="field" id="demoServiceType"><option value="RECHARGE">মোবাইল রিচার্জ</option><option value="BILL">বিদ্যুৎ / গ্যাস / জল বিল</option></select>
-   <div id="demoRechargeFields">
-    <label for="demoOperator">মোবাইল অপারেটর</label><select class="field" id="demoOperator"><option value="">অপারেটর বেছে নিন</option><option>Jio</option><option>Airtel</option><option>Vi</option><option>BSNL</option></select>
-    <label for="demoMobile">মোবাইল নম্বর</label><input class="field" id="demoMobile" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="১০ সংখ্যার মোবাইল নম্বর">
-   </div>
-   <div id="demoBillFields" hidden>
-    <label for="demoBiller">বিলের ধরন</label><select class="field" id="demoBiller"><option value="">বিলের ধরন বেছে নিন</option><option>বিদ্যুৎ</option><option>গ্যাস</option><option>জল</option><option>ব্রডব্যান্ড</option><option>অন্যান্য</option></select>
-    <label for="demoConsumer">Consumer / Account নম্বর</label><input class="field" id="demoConsumer" autocomplete="off" maxlength="40" placeholder="ডেমো নম্বর লিখুন">
-   </div>
-   <label for="demoAmount">পরিমাণ (₹)</label><input class="field" id="demoAmount" type="number" min="1" max="50000" step="1" inputmode="numeric" placeholder="যেমন 199">
-   <button class="btn blue" type="submit">ডেমো ফর্ম পরীক্ষা করুন</button>
-   <p class="demo-result" id="demoResult" aria-live="polite">এটি কোনো পেমেন্ট বা রিচার্জের অনুরোধ পাঠায় না।</p>
-  </form>
- </div>
-</section>
 <main class="wrap"><div class="site-layout"><aside class="site-sidebar" id="siteSidebar"><div class="sidebar-head"><strong>☰ প্রধান মেনু</strong><button type="button" id="closeMenu" aria-label="মেনু বন্ধ করুন">✕</button></div><nav class="site-main-nav" aria-label="প্রধান মেনু"><button type="button" class="sidebar-account-toggle" id="sidebarAccountLink" aria-expanded="false" aria-controls="accountSubmenu">👤 আমার অ্যাকাউন্ট <span class="account-chevron" aria-hidden="true">⌄</span></button><nav id="accountSubmenu" class="account-submenu" aria-label="আমার অ্যাকাউন্টের অপশন" hidden></nav><a href="#home">🏠 হোম</a><a href="#products" data-select-category="মোবাইল ফোন">📱 মোবাইল ফোন</a><a href="#products" data-select-category="মোবাইল অ্যাকসেসরিজ">🛍️ মোবাইল অ্যাকসেসরিজ</a><a href="#services">🛠️ মোবাইল রিপেয়ারিং</a><a href="#orderForm">🧾 অর্ডার / কার্ট</a><a href="#contact">📍 যোগাযোগ</a></nav><h3 class="side-cat-title">🗂️ পণ্যের ক্যাটাগরি</h3><nav id="filters" class="site-category-nav" aria-label="পণ্যের ক্যাটাগরি"><button class="active" data-cat="all">সব পণ্য <span class="cat-count" id="allCount">0</span></button></nav></aside><div class="site-content">
  <section class="trust"><div>🎧 মোবাইল অ্যাকসেসরিজ<span>সব ধরনের দৈনন্দিন অ্যাকসেসরিজ</span></div><div>🔌 চার্জার ও কেবল<span>চার্জার, ডেটা কেবল ও অ্যাডাপ্টার</span></div><div>🛠️ রিপেয়ারিং সার্ভিস<span>মোবাইল ও কম্পিউটার সার্ভিসিং</span></div></section>
   <section id="products">
@@ -609,27 +581,6 @@ window.addEventListener("appinstalled",()=>{installButton.hidden=true;installPro
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(error=>console.warn("App offline setup failed",error)));}
 </script>
 
-
-<script>
-(function(){
- const form=document.getElementById("rechargeDemoForm");
- if(!form)return;
- const type=document.getElementById("demoServiceType"),recharge=document.getElementById("demoRechargeFields"),bill=document.getElementById("demoBillFields"),result=document.getElementById("demoResult");
- function update(){const isBill=type.value==="BILL";recharge.hidden=isBill;bill.hidden=!isBill;result.textContent="এটি কোনো পেমেন্ট বা রিচার্জের অনুরোধ পাঠায় না।";}
- type.addEventListener("change",update);
- form.addEventListener("submit",function(event){
-  event.preventDefault();
-  const amount=Number(document.getElementById("demoAmount").value);
-  if(!Number.isFinite(amount)||amount<1||amount>50000){result.textContent="ডেমো পরীক্ষার জন্য ₹১ থেকে ₹৫০,০০০-এর মধ্যে পরিমাণ লিখুন।";return;}
-  if(type.value==="RECHARGE"){
-   const mobile=document.getElementById("demoMobile").value.trim();
-   if(!document.getElementById("demoOperator").value||!/^[6-9][0-9]{9}$/.test(mobile)){result.textContent="ডেমো পরীক্ষার জন্য অপারেটর ও সঠিক ১০ সংখ্যার মোবাইল নম্বর লিখুন।";return;}
-  }else if(!document.getElementById("demoBiller").value||!document.getElementById("demoConsumer").value.trim()){result.textContent="ডেমো পরীক্ষার জন্য বিলের ধরন ও Consumer নম্বর লিখুন।";return;}
-  result.textContent="DEMO সফল: ফর্মের ইনপুট যাচাই হয়েছে। কোনো রিচার্জ হয়নি, কোনো বিল জমা হয়নি এবং কোনো টাকা কাটা হয়নি।";
- });
- update();
-})();
-</script>
 <nav class="app-bottom-nav" aria-label="অ্যাপ নেভিগেশন">
  <a class="app-nav-item active" id="appHomeNav" href="#home" data-app-nav="home"><span aria-hidden="true">⌂</span><small>হোম</small></a>
  <a class="app-nav-item" id="appCategoryNav" href="#products" data-app-nav="category"><span aria-hidden="true">▦</span><small>ক্যাটাগরি</small></a>
