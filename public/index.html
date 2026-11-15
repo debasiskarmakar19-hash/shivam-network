@@ -121,6 +121,12 @@ html:not(.app-mode) .account-panel,html:not(.app-mode) .flip-actions a[href="#ac
 
 /* Compact saved-address list and collapsible address editor */
 .saved-address-section{margin:12px 0 14px;padding:12px;background:#f8faff;border:1px solid #e5eaf3;border-radius:10px}.saved-address-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.saved-address-heading b{font-size:14px}.saved-address-add{padding:7px 10px;font-size:12px}.saved-address-list{display:grid;gap:6px}.saved-address-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:9px 10px;border:1px solid #e4e9f2;border-radius:8px;background:#fff;color:#26334c;cursor:pointer}.saved-address-item.selected{border-color:#2874f0;background:#f2f7ff}.saved-address-radio{color:#2874f0;font-size:16px}.saved-address-copy{min-width:0;flex:1;display:grid;gap:2px}.saved-address-copy b{font-size:12px}.saved-address-copy small{font-size:11px;line-height:1.4;color:#66738a;overflow-wrap:anywhere}.saved-address-edit{font-size:11px;color:#2874f0;font-weight:700}.address-editor{border:1px solid #e5eaf3;border-radius:10px;padding:10px 12px;margin:10px 0}.address-editor summary{cursor:pointer;color:#2874f0;font-weight:750;font-size:13px}.address-editor[open] summary{margin-bottom:12px}.address-editor .field{margin-bottom:9px}
+
+/* App header auto-hides while scrolling down and returns on upward scroll. */
+html.app-mode .flip-header{top:0;transition:top .22s ease;will-change:top}
+html.app-mode body.app-scroll-hidden .flip-header{top:-135px}
+@media(prefers-reduced-motion:reduce){html.app-mode .flip-header{transition:none}}
+
 </style>
 </head>
 <body>
@@ -589,4 +595,30 @@ document.getElementById("appOrdersNav")?.addEventListener("click",()=>window.ope
 </script>
 <script src="/customer-auth.js"></script>
 <script src="/app-navigation.js"></script>
+<script>
+/* Native-style collapsing top bar for Android app mode. */
+(function(){
+  if(!document.documentElement.classList.contains("app-mode")) return;
+  let lastY=Math.max(0,window.scrollY||0), queued=false;
+  function updateHeader(){
+    const y=Math.max(0,window.scrollY||0);
+    const blocked=document.body.classList.contains("menu-open")||
+      document.body.classList.contains("account-screen-open")||
+      document.body.classList.contains("app-page-category");
+    if(blocked||y<24||y<lastY-5){
+      document.body.classList.remove("app-scroll-hidden");
+    }else if(y>lastY+5){
+      document.body.classList.add("app-scroll-hidden");
+    }
+    lastY=y;queued=false;
+  }
+  window.addEventListener("scroll",function(){
+    if(!queued){queued=true;window.requestAnimationFrame(updateHeader);}
+  },{passive:true});
+  window.addEventListener("resize",updateHeader,{passive:true});
+  document.addEventListener("visibilitychange",function(){
+    if(!document.hidden){lastY=Math.max(0,window.scrollY||0);document.body.classList.remove("app-scroll-hidden");}
+  });
+})();
+</script>
 </body></html>
