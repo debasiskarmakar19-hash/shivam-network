@@ -1,4 +1,4 @@
-name: Build Shivam Network Android Release APK
+name: Build Shivam Network Android APK and AAB
 
 on:
   push:
@@ -44,6 +44,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Install Android SDK 36
+        uses: android-actions/setup-android@v3
+      - name: Install Android 36 platform and build tools
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
       - name: Prepare release signing key
         shell: bash
         run: |
@@ -61,47 +66,56 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.11.1'
 
-      - name: Build signed release APK
+      - name: Build signed release APK and AAB
         working-directory: android
-        run: gradle --no-daemon clean assembleRelease
+        run: gradle --no-daemon clean assembleRelease bundleRelease
 
-      - name: Verify release APK package, contents and signature
+      - name: Verify APK and AAB packages and signatures
         shell: bash
         run: |
           set -euo pipefail
           APK=android/app/build/outputs/apk/release/app-release.apk
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
           test -s "$APK"
+          test -s "$AAB"
           test "$(stat -c%s "$APK")" -gt 10000
+          test "$(stat -c%s "$AAB")" -gt 10000
           unzip -t "$APK"
-          BUILD_TOOLS="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
-          "$BUILD_TOOLS/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app' versionCode='7' versionName='1.0.6'"
+          unzip -t "$AAB"
+          BUILD_TOOLS="$ANDROID_HOME/build-tools/36.0.0"
+          "$BUILD_TOOLS/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app' versionCode='8' versionName='1.0.7'"
           "$BUILD_TOOLS/apksigner" verify --verbose "$APK"
+          jarsigner -verify "$AAB"
           unzip -l "$APK" | grep -E 'classes.dex|AndroidManifest.xml'
+          unzip -l "$AAB" | grep -E 'BundleConfig.pb|base/manifest/AndroidManifest.xml'
           mkdir -p release
-          cp "$APK" release/ShivamNetwork-1.0.6-release.apk
-          sha256sum release/ShivamNetwork-1.0.6-release.apk > release/SHA256SUMS.txt
+          cp "$APK" release/ShivamNetwork-1.0.7-release.apk
+          cp "$AAB" release/ShivamNetwork-1.0.7-release.aab
+          sha256sum release/ShivamNetwork-1.0.7-release.apk release/ShivamNetwork-1.0.7-release.aab > release/SHA256SUMS.txt
           ls -lh release/
 
-      - name: Upload signed APK for direct download
+      - name: Upload signed APK and AAB for direct download
         uses: actions/upload-artifact@v4
         with:
-          name: ShivamNetwork-APK-v1.0.6-release
+          name: ShivamNetwork-APK-AAB-v1.0.7-release
           path: release/*
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish signed APK download
+      - name: Publish signed APK and AAB downloads
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.6
-          name: Shivam Network Android App v1.0.6
+          tag_name: v1.0.7
+          name: Shivam Network Android App v1.0.7
           body: |
-            Shivam Network Android app — release-signed APK.
-            Verify the APK using the SHA-256 checksum in SHA256SUMS.txt.
+            Shivam Network Android release v1.0.7.
+            Includes a signed APK for direct installation and a signed AAB for Google Play submission.
+            Verify both files using SHA256SUMS.txt.
           files: |
-            release/ShivamNetwork-1.0.6-release.apk
+            release/ShivamNetwork-1.0.7-release.apk
+            release/ShivamNetwork-1.0.7-release.aab
             release/SHA256SUMS.txt
           make_latest: true
           fail_on_unmatched_files: true
