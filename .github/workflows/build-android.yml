@@ -87,21 +87,21 @@ jobs:
           unzip -t "$APK"
           unzip -t "$AAB"
           BUILD_TOOLS="$ANDROID_HOME/build-tools/36.0.0"
-          "$BUILD_TOOLS/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app' versionCode='8' versionName='1.0.7'"
+          "$BUILD_TOOLS/aapt" dump badging "$APK" | grep -F "package: name='com.shivamnetwork.app' versionCode='8' versionName='1.0.8'"
           "$BUILD_TOOLS/apksigner" verify --verbose "$APK"
           jarsigner -verify "$AAB"
           unzip -l "$APK" | grep -E 'classes.dex|AndroidManifest.xml'
           unzip -l "$AAB" | grep -E 'BundleConfig.pb|base/manifest/AndroidManifest.xml'
           mkdir -p release
-          cp "$APK" release/ShivamNetwork-1.0.7-release.apk
-          cp "$AAB" release/ShivamNetwork-1.0.7-release.aab
-          sha256sum release/ShivamNetwork-1.0.7-release.apk release/ShivamNetwork-1.0.7-release.aab > release/SHA256SUMS.txt
+          cp "$APK" release/ShivamNetwork-1.0.8-release.apk
+          cp "$AAB" release/ShivamNetwork-1.0.8-release.aab
+          sha256sum release/ShivamNetwork-1.0.8-release.apk release/ShivamNetwork-1.0.8-release.aab > release/SHA256SUMS.txt
           ls -lh release/
 
       - name: Upload signed APK and AAB for direct download
         uses: actions/upload-artifact@v4
         with:
-          name: ShivamNetwork-APK-AAB-v1.0.7-release
+          name: ShivamNetwork-APK-AAB-v1.0.8-release
           path: release/*
           if-no-files-found: error
           retention-days: 30
@@ -109,15 +109,15 @@ jobs:
       - name: Publish signed APK and AAB downloads
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.7
-          name: Shivam Network Android App v1.0.7
+          tag_name: v1.0.8
+          name: Shivam Network Android App v1.0.8
           body: |
-            Shivam Network Android release v1.0.7.
+            Shivam Network Android release v1.0.8.
             Includes a signed APK for direct installation and a signed AAB for Google Play submission.
             Verify both files using SHA256SUMS.txt.
           files: |
-            release/ShivamNetwork-1.0.7-release.apk
-            release/ShivamNetwork-1.0.7-release.aab
+            release/ShivamNetwork-1.0.8-release.apk
+            release/ShivamNetwork-1.0.8-release.aab
             release/SHA256SUMS.txt
           make_latest: true
           fail_on_unmatched_files: true
